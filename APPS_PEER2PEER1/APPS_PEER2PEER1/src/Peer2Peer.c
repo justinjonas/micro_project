@@ -90,7 +90,6 @@ static AppState_t appState = APP_STATE_INITIAL;
 static SYS_Timer_t appTimer;
 static NWK_DataReq_t appDataReq;
 static bool appDataReqBusy = false;
-static bool appRecDataNew = false;
 static uint8_t appDataReqBuffer[APP_BUFFER_SIZE];
 static uint8_t appUartBuffer[APP_BUFFER_SIZE];
 static uint8_t appUartBufferPtr = 0;
@@ -150,7 +149,8 @@ static void appSendData(void)
 *****************************************************************************/
 static void appTimerHandler(SYS_Timer_t *timer)
 {
-	appSendData();
+	//appSendData();
+	//SYS_TimerStart(&appTimer);
 	(void)timer;
 }
 
@@ -161,8 +161,7 @@ static bool appDataInd(NWK_DataInd_t *ind)
 	for (uint8_t i = 0; i < ind->size; i++) {
 		rx_data[i] = ind->data[i];
 	}
-	appRecDataNew = true;
-	//LED_Toggle(LED0);
+	printf("%s",rx_data);
 	return true;
 }
 
@@ -191,23 +190,9 @@ static void appInit(void)
 *****************************************************************************/
 static void APP_TaskHandler(void)
 {
-	switch (appState) {
-	case APP_STATE_INITIAL:
-	{
-		appInit();
-		appState = APP_STATE_IDLE;
-	}
-	break;
-
-	case APP_STATE_IDLE:
-		break;
-
-	default:
-		break;
-	}
 	const char* tx_data = "this rocks";
 
-	//if(!appDataReqBusy & appRecDataNew){
+	if(!appDataReqBusy){
 		for (uint16_t i = 0; i < sizeof("this rocks"); i++) {
 			if (appUartBufferPtr == sizeof(appUartBuffer)) {
 				appSendData();
@@ -217,19 +202,46 @@ static void APP_TaskHandler(void)
 				appUartBuffer[appUartBufferPtr++] = tx_data[i];
 			}
 		}
-	//}
-	delay_ms(200);
-	//LED_Toggle(LED0);
-	if(appRecDataNew){
-		printf("%s",rx_data);
-		appRecDataNew = false;
+		appSendData();
 	}
-	SYS_TimerStop(&appTimer);
-	SYS_TimerStart(&appTimer);
+
 }
 
-/*************************************************************************//**
-*****************************************************************************/
+/** Configures the External Interrupt Controller to detect changes in the board
+ *  button state.
+ */
+static void configure_extint(void)
+{
+	struct extint_chan_conf eint_chan_conf;
+	extint_chan_get_config_defaults(&eint_chan_conf);
+
+	eint_chan_conf.gpio_pin           = BUTTON_0_EIC_PIN;
+	eint_chan_conf.gpio_pin_mux       = BUTTON_0_EIC_MUX;
+	eint_chan_conf.detection_criteria = EXTINT_DETECT_BOTH;
+	eint_chan_conf.filter_input_signal = true;
+	extint_chan_set_config(BUTTON_0_EIC_LINE, &eint_chan_conf);
+}
+
+/** Callback function for the EXTINT driver, called when an external interrupt
+ *  detection occurs.
+ */
+static void extint_callback(void)
+{
+	APP_TaskHandler();
+}
+
+/** Configures and registers the External Interrupt callback function with the
+ *  driver.
+ */
+static void configure_eic_callback(void)
+{
+	extint_register_callback(extint_callback,
+			BUTTON_0_EIC_LINE,
+			EXTINT_CALLBACK_TYPE_DETECT);
+	extint_chan_enable_callback(BUTTON_0_EIC_LINE,
+			EXTINT_CALLBACK_TYPE_DETECT);
+}
+
 int main(void)
 {
 	irq_initialize_vectors();
@@ -242,13 +254,22 @@ int main(void)
 	#endif
 	SYS_Init();
 	configure_console();
+	
+	configure_extint();
+	configure_eic_callback();
+	
+	/*Enable system interrupt*/
+	system_interrupt_enable_global();
+	
 	printf("we made it");
-	sio2host_init();
+	//sio2host_init();
 	cpu_irq_enable();
 	LED_On(LED0);
 	
+	appInit();
+	
 	while (1) {
 		SYS_TaskHandler();
-		APP_TaskHandler();
+		//APP_TaskHandler();
 	}
 }

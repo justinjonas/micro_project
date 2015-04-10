@@ -81,13 +81,14 @@ typedef enum AppState_t {
 
 /*- Prototypes -------------------------------------------------------------*/
 static void appSendData(void);
+static void appInit(void);
+static void APP_TaskHandler(void);
 
 /*- Variables --------------------------------------------------------------*/
 static AppState_t appState = APP_STATE_INITIAL;
 static SYS_Timer_t appTimer;
 static NWK_DataReq_t appDataReq;
 static bool appDataReqBusy = false;
-static bool appRecDataReady = false;
 static uint8_t appDataReqBuffer[APP_BUFFER_SIZE];
 static uint8_t appUartBuffer[APP_BUFFER_SIZE];
 static uint8_t appUartBufferPtr = 0;
@@ -137,58 +138,12 @@ static void appTimerHandler(SYS_Timer_t *timer)
 
 /*************************************************************************//**
 *****************************************************************************/
-static bool appDataInd(NWK_DataInd_t *ind)
-{
-	for (uint8_t i = 0; i < ind->size; i++) {
-		rx_data[i] = ind->data[i];
-	}
-	appRecDataReady = true;
-	//LED_Toggle(LED0);
-	return true;
-}
-
-/*************************************************************************//**
-*****************************************************************************/
-static void appInit(void)
-{
-	NWK_SetAddr(APP_ADDR);
-	NWK_SetPanId(APP_PANID);
-	PHY_SetChannel(APP_CHANNEL);
-#ifdef PHY_AT86RF212
-	PHY_SetBand(APP_BAND);
-	PHY_SetModulation(APP_MODULATION);
-#endif
-	PHY_SetRxState(true);
-	PHY_SetTxPower(0x23);
-	NWK_SetSecurityKey((uint8_t *)APP_SECURITY_KEY);
-	NWK_OpenEndpoint(APP_ENDPOINT, appDataInd);
-
-	appTimer.interval = APP_FLUSH_TIMER_INTERVAL;
-	appTimer.mode = SYS_TIMER_INTERVAL_MODE;
-	appTimer.handler = appTimerHandler;
-}
-
-/*************************************************************************//**
-*****************************************************************************/
 static void APP_TaskHandler(void)
 {
-	switch (appState) {
-	case APP_STATE_INITIAL:
-	{
-		appInit();
-		appState = APP_STATE_IDLE;
-	}
-	break;
 
-	case APP_STATE_IDLE:
-		break;
-
-	default:
-		break;
-	}
 	const char* tx_data = "You Rock";
 	
-	//if(!appDataReqBusy & appRecDataReady){
+	if(!appDataReqBusy){
 		if(!strcmp((const char*)rx_data, "this rocks"))
 			LED_Toggle(LED0);
 		for (uint16_t i = 0; i < sizeof("You Rock"); i++) {
@@ -200,16 +155,47 @@ static void APP_TaskHandler(void)
 				appUartBuffer[appUartBufferPtr++] = tx_data[i];
 			}
 		}
-	//}
-	delay_ms(200);
+		appSendData();
+	}
+	//delay_ms(200);
 	
 		
-		SYS_TimerStop(&appTimer);
-		SYS_TimerStart(&appTimer);
+	//SYS_TimerStop(&appTimer);
+	//SYS_TimerStart(&appTimer);
 }
 
 /*************************************************************************//**
 *****************************************************************************/
+static bool appDataInd(NWK_DataInd_t *ind)
+{
+	for (uint8_t i = 0; i < ind->size; i++) {
+		rx_data[i] = ind->data[i];
+	}
+	APP_TaskHandler();
+	return true;
+}
+
+/*************************************************************************//**
+*****************************************************************************/
+static void appInit(void)
+{
+	NWK_SetAddr(APP_ADDR);
+	NWK_SetPanId(APP_PANID);
+	PHY_SetChannel(APP_CHANNEL);
+	#ifdef PHY_AT86RF212
+	PHY_SetBand(APP_BAND);
+	PHY_SetModulation(APP_MODULATION);
+	#endif
+	PHY_SetRxState(true);
+	PHY_SetTxPower(0x23);
+	NWK_SetSecurityKey((uint8_t *)APP_SECURITY_KEY);
+	NWK_OpenEndpoint(APP_ENDPOINT, appDataInd);
+
+	appTimer.interval = APP_FLUSH_TIMER_INTERVAL;
+	appTimer.mode = SYS_TIMER_INTERVAL_MODE;
+	appTimer.handler = appTimerHandler;
+}
+
 int main(void)
 {
 	irq_initialize_vectors();
@@ -221,11 +207,12 @@ int main(void)
 	board_init();
 	#endif
 	SYS_Init();
-	sio2host_init();
+	//sio2host_init();
 	cpu_irq_enable();
 	LED_On(LED0);
+	appInit();
 	while (1) {
 		SYS_TaskHandler();
-		APP_TaskHandler();
+		//APP_TaskHandler();
 	}
 }
