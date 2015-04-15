@@ -1,10 +1,13 @@
 #include <asf.h>
 #include "demotasks.h"
+//#include "trcUser.h"
 
 
 int main (void)
 {
 	system_init();
+	//vTraceInitTraceData();
+	//vTraceStart();
 	//gfx_mono_init();
 
 	// Initialize the demo..

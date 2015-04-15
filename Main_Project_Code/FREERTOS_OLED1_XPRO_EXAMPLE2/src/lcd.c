@@ -25,3 +25,12 @@ void configure_console(void)
 	stdio_serial_init(&cdc_uart_module, USART_HOST, &usart_conf);
 	usart_enable(&cdc_uart_module);
 }
+
+void update_display(char* mode_name, char* mode_type)
+{
+	//set cursor to start
+	//putchar(254);
+	//putchar(128);
+	printf("Mode:");
+	printf(mode_type);
+}
