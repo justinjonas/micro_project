@@ -4,7 +4,11 @@
  * Created: 4/15/2015 11:18:21 AM
  *  Author: Justin Jonas
  */ 
-
+#include "config.h"
+#include "Wireless.h"
+#include "asf.h"
+#include "nwk.h"
+#include "phy.h"
 
 void wireless_init(void)
 {
@@ -25,12 +29,12 @@ void wireless_init(void)
 // TODO: Change the endpoint, destination addr, and the data payload to send
 void send_packet(struct wireless_packet packet)
 {
-	if (appDataReqBusy || 0 == appUartBufferPtr) {
-		return;
-	}
+	//if (appDataReqBusy || 0 == appUartBufferPtr) {
+		//return;
+	//}
 	NWK_DataReq_t appDataReq;
 	
-	memcpy(appDataReqBuffer, appUartBuffer, appUartBufferPtr);
+	//memcpy(appDataReqBuffer, appUartBuffer, appUartBufferPtr);
 
 	appDataReq.dstAddr = packet.dst_addr;
 	appDataReq.dstEndpoint = packet.dst_addr;
@@ -38,11 +42,11 @@ void send_packet(struct wireless_packet packet)
 	appDataReq.options = NWK_OPT_ENABLE_SECURITY;
 	appDataReq.data = &packet.data;
 	appDataReq.size = sizeof(packet.data);
-	appDataReq.confirm = appDataConf;
+	//appDataReq.confirm = appDataConf;
 	NWK_DataReq(&appDataReq);
 
-	appUartBufferPtr = 0;
-	appDataReqBusy = true;
+	//appUartBufferPtr = 0;
+	//appDataReqBusy = true;
 }
 
 
@@ -50,8 +54,8 @@ void send_packet(struct wireless_packet packet)
 bool receive_packet(NWK_DataInd_t *ind)
 {
 	for (uint8_t i = 0; i < ind->size; i++) {
-		rx_data[i] = ind->data[i];
+		//rx_data[i] = ind->data[i];
 	}
-	printf("%s",rx_data);
+	
 	return true;
 }
