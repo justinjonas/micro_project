@@ -1,6 +1,7 @@
 #include <asf.h>
 #include <conf_demo.h>
 #include "demotasks.h"
+#include "lcd.h"
 
 //Some defines for our tasks
 
@@ -94,7 +95,8 @@ void tasks_init(void)
 
 static void lcd_task(void *params)
 {
-	//printf("goobers");
+	configure_console();
+	printf("goobers");
 	vTaskDelay(LCD_TASK_DELAY);
 }
 

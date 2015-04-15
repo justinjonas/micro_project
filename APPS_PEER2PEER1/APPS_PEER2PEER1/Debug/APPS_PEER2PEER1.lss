@@ -29,9 +29,9 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
  12 .debug_line   00018ec7  00000000  00000000  00075a8b  2**0
                   CONTENTS, READONLY, DEBUGGING
- 13 .debug_str    00085aa3  00000000  00000000  0008e952  2**0
+ 13 .debug_str    00085a98  00000000  00000000  0008e952  2**0
                   CONTENTS, READONLY, DEBUGGING
- 14 .debug_frame  0000225c  00000000  00000000  001143f8  2**2
+ 14 .debug_frame  0000225c  00000000  00000000  001143ec  2**2
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -8756,17 +8756,17 @@ extern caddr_t _sbrk(int incr)
 	unsigned char *prev_heap;
 
 	if (heap == NULL) {
-    2000:	4b06      	ldr	r3, [pc, #24]	; (201c <STACK_SIZE+0x1c>)
+    2000:	4b06      	ldr	r3, [pc, #24]	; (201c <_sbrk+0x1c>)
     2002:	681b      	ldr	r3, [r3, #0]
     2004:	2b00      	cmp	r3, #0
     2006:	d102      	bne.n	200e <_sbrk+0xe>
 		heap = (unsigned char *)&_end;
-    2008:	4a05      	ldr	r2, [pc, #20]	; (2020 <STACK_SIZE+0x20>)
-    200a:	4b04      	ldr	r3, [pc, #16]	; (201c <STACK_SIZE+0x1c>)
+    2008:	4a05      	ldr	r2, [pc, #20]	; (2020 <_sbrk+0x20>)
+    200a:	4b04      	ldr	r3, [pc, #16]	; (201c <_sbrk+0x1c>)
     200c:	601a      	str	r2, [r3, #0]
 	}
 	prev_heap = heap;
-    200e:	4a03      	ldr	r2, [pc, #12]	; (201c <STACK_SIZE+0x1c>)
+    200e:	4a03      	ldr	r2, [pc, #12]	; (201c <_sbrk+0x1c>)
     2010:	6813      	ldr	r3, [r2, #0]
 
 	heap += incr;
@@ -15263,12 +15263,6 @@ __attribute__( ( always_inline ) ) __STATIC_INLINE void __disable_irq(void)
 {
   __ASM volatile ("cpsid i");
     3b44:	b672      	cpsid	i
-    This function ensures the apparent order of the explicit memory operations before
-    and after the instruction, without ensuring their completion.
- */
-__attribute__( ( always_inline ) ) __STATIC_INLINE void __DMB(void)
-{
-  __ASM volatile ("dmb");
     3b46:	f3bf 8f5f 	dmb	sy
 	cpu_irq_disable();
     3b4a:	2200      	movs	r2, #0
@@ -18293,84 +18287,44 @@ void trx_aes_wrrd(uint8_t addr, uint8_t *idata, uint8_t length)
     44e0:	00000319 	.word	0x00000319
 
 000044e4 <appDataConf>:
-/*************************************************************************//**
-*****************************************************************************/
-
-static void appDataConf(NWK_DataReq_t *req)
-{
-	if (NWK_SUCCESS_STATUS == req->status){
     44e4:	7f03      	ldrb	r3, [r0, #28]
     44e6:	2b00      	cmp	r3, #0
     44e8:	d106      	bne.n	44f8 <appDataConf+0x14>
-{
-	PortGroup *const port_base = port_get_group_from_gpio_pin(gpio_pin);
-	uint32_t pin_mask  = (1UL << (gpio_pin % 32));
-
-	/* Toggle pin output level */
-	port_base->OUTTGL.reg = pin_mask;
     44ea:	2280      	movs	r2, #128	; 0x80
     44ec:	0312      	lsls	r2, r2, #12
     44ee:	4b03      	ldr	r3, [pc, #12]	; (44fc <appDataConf+0x18>)
     44f0:	61da      	str	r2, [r3, #28]
-		LED_Toggle(LED0);
-		appDataReqBusy = false;
     44f2:	2200      	movs	r2, #0
     44f4:	4b02      	ldr	r3, [pc, #8]	; (4500 <appDataConf+0x1c>)
     44f6:	701a      	strb	r2, [r3, #0]
-	}
-}
     44f8:	4770      	bx	lr
     44fa:	46c0      	nop			; (mov r8, r8)
     44fc:	41004400 	.word	0x41004400
     4500:	200007cc 	.word	0x200007cc
 
 00004504 <appTimerHandler>:
-static void appTimerHandler(SYS_Timer_t *timer)
-{
-	//appSendData();
-	//SYS_TimerStart(&appTimer);
-	(void)timer;
-}
     4504:	4770      	bx	lr
     4506:	46c0      	nop			; (mov r8, r8)
 
 00004508 <appDataInd>:
-
-/*************************************************************************//**
-*****************************************************************************/
-static bool appDataInd(NWK_DataInd_t *ind)
-{
     4508:	b510      	push	{r4, lr}
-	for (uint8_t i = 0; i < ind->size; i++) {
     450a:	7b03      	ldrb	r3, [r0, #12]
     450c:	2b00      	cmp	r3, #0
     450e:	d009      	beq.n	4524 <appDataInd+0x1c>
     4510:	2300      	movs	r3, #0
-		rx_data[i] = ind->data[i];
     4512:	4907      	ldr	r1, [pc, #28]	; (4530 <appDataInd+0x28>)
     4514:	6884      	ldr	r4, [r0, #8]
     4516:	5ce2      	ldrb	r2, [r4, r3]
     4518:	54ca      	strb	r2, [r1, r3]
-
-/*************************************************************************//**
-*****************************************************************************/
-static bool appDataInd(NWK_DataInd_t *ind)
-{
-	for (uint8_t i = 0; i < ind->size; i++) {
     451a:	3301      	adds	r3, #1
     451c:	b2db      	uxtb	r3, r3
     451e:	7b02      	ldrb	r2, [r0, #12]
     4520:	429a      	cmp	r2, r3
     4522:	d8f7      	bhi.n	4514 <appDataInd+0xc>
-		rx_data[i] = ind->data[i];
-	}
-	printf("%s",rx_data);
     4524:	4803      	ldr	r0, [pc, #12]	; (4534 <appDataInd+0x2c>)
     4526:	4902      	ldr	r1, [pc, #8]	; (4530 <appDataInd+0x28>)
     4528:	4b03      	ldr	r3, [pc, #12]	; (4538 <appDataInd+0x30>)
     452a:	4798      	blx	r3
-	return true;
-}
     452c:	2001      	movs	r0, #1
     452e:	bd10      	pop	{r4, pc}
     4530:	20000748 	.word	0x20000748
@@ -18378,22 +18332,13 @@ static bool appDataInd(NWK_DataInd_t *ind)
     4538:	00004aa1 	.word	0x00004aa1
 
 0000453c <usart_serial_getchar>:
- * \param[out]    c       Destination for the read character.
- */
-static inline void usart_serial_getchar(
-		struct usart_module *const module,
-		uint8_t *c)
-{
     453c:	b570      	push	{r4, r5, r6, lr}
     453e:	b082      	sub	sp, #8
     4540:	1c05      	adds	r5, r0, #0
     4542:	1c0e      	adds	r6, r1, #0
-	uint16_t temp = 0;
     4544:	2200      	movs	r2, #0
     4546:	466b      	mov	r3, sp
     4548:	80da      	strh	r2, [r3, #6]
-
-	while(STATUS_OK != usart_read_wait(module, &temp));
     454a:	4c06      	ldr	r4, [pc, #24]	; (4564 <usart_serial_getchar+0x28>)
     454c:	1c28      	adds	r0, r5, #0
     454e:	4669      	mov	r1, sp
@@ -18401,49 +18346,29 @@ static inline void usart_serial_getchar(
     4552:	47a0      	blx	r4
     4554:	2800      	cmp	r0, #0
     4556:	d1f9      	bne.n	454c <usart_serial_getchar+0x10>
-
-	*c = temp;
     4558:	466b      	mov	r3, sp
     455a:	3306      	adds	r3, #6
     455c:	881b      	ldrh	r3, [r3, #0]
     455e:	7033      	strb	r3, [r6, #0]
-}
     4560:	b002      	add	sp, #8
     4562:	bd70      	pop	{r4, r5, r6, pc}
     4564:	00001089 	.word	0x00001089
 
 00004568 <usart_serial_putchar>:
- * \return Status code
- */
-static inline enum status_code usart_serial_putchar(
-		struct usart_module *const module,
-		uint8_t c)
-{
     4568:	b570      	push	{r4, r5, r6, lr}
     456a:	1c06      	adds	r6, r0, #0
     456c:	1c0d      	adds	r5, r1, #0
-	while(STATUS_OK !=usart_write_wait(module, c));
     456e:	4c03      	ldr	r4, [pc, #12]	; (457c <usart_serial_putchar+0x14>)
     4570:	1c30      	adds	r0, r6, #0
     4572:	1c29      	adds	r1, r5, #0
     4574:	47a0      	blx	r4
     4576:	2800      	cmp	r0, #0
     4578:	d1fa      	bne.n	4570 <usart_serial_putchar+0x8>
-
-	return STATUS_OK;
-}
     457a:	bd70      	pop	{r4, r5, r6, pc}
     457c:	0000105d 	.word	0x0000105d
 
 00004580 <appSendData>:
-	}
-}
-/*************************************************************************//**
-*****************************************************************************/
-static void appSendData(void)
-{
     4580:	b538      	push	{r3, r4, r5, lr}
-	if (appDataReqBusy || 0 == appUartBufferPtr) {
     4582:	4b11      	ldr	r3, [pc, #68]	; (45c8 <appSendData+0x48>)
     4584:	781b      	ldrb	r3, [r3, #0]
     4586:	2b00      	cmp	r3, #0
@@ -18452,48 +18377,31 @@ static void appSendData(void)
     458c:	781c      	ldrb	r4, [r3, #0]
     458e:	2c00      	cmp	r4, #0
     4590:	d018      	beq.n	45c4 <appSendData+0x44>
-		return;
-	}
-
-	memcpy(appDataReqBuffer, appUartBuffer, appUartBufferPtr);
     4592:	4d0f      	ldr	r5, [pc, #60]	; (45d0 <appSendData+0x50>)
     4594:	1c28      	adds	r0, r5, #0
     4596:	490f      	ldr	r1, [pc, #60]	; (45d4 <appSendData+0x54>)
     4598:	1c22      	adds	r2, r4, #0
     459a:	4b0f      	ldr	r3, [pc, #60]	; (45d8 <appSendData+0x58>)
     459c:	4798      	blx	r3
-
-	appDataReq.dstAddr = 1;
     459e:	480f      	ldr	r0, [pc, #60]	; (45dc <appSendData+0x5c>)
     45a0:	2301      	movs	r3, #1
     45a2:	8143      	strh	r3, [r0, #10]
-	appDataReq.dstEndpoint = APP_DST_ENDPOINT;
     45a4:	7303      	strb	r3, [r0, #12]
-	appDataReq.srcEndpoint = APP_ENDPOINT;
     45a6:	2302      	movs	r3, #2
     45a8:	7343      	strb	r3, [r0, #13]
-	appDataReq.options = NWK_OPT_ENABLE_SECURITY;
     45aa:	7383      	strb	r3, [r0, #14]
-	appDataReq.data = appDataReqBuffer;
     45ac:	6105      	str	r5, [r0, #16]
-	appDataReq.size = appUartBufferPtr;
     45ae:	7504      	strb	r4, [r0, #20]
-	appDataReq.confirm = appDataConf;
     45b0:	4b0b      	ldr	r3, [pc, #44]	; (45e0 <appSendData+0x60>)
     45b2:	6183      	str	r3, [r0, #24]
-	NWK_DataReq(&appDataReq);
     45b4:	4b0b      	ldr	r3, [pc, #44]	; (45e4 <appSendData+0x64>)
     45b6:	4798      	blx	r3
-
-	appUartBufferPtr = 0;
     45b8:	2200      	movs	r2, #0
     45ba:	4b04      	ldr	r3, [pc, #16]	; (45cc <appSendData+0x4c>)
     45bc:	701a      	strb	r2, [r3, #0]
-	appDataReqBusy = true;
     45be:	4b02      	ldr	r3, [pc, #8]	; (45c8 <appSendData+0x48>)
     45c0:	2201      	movs	r2, #1
     45c2:	701a      	strb	r2, [r3, #0]
-}
     45c4:	bd38      	pop	{r3, r4, r5, pc}
     45c6:	46c0      	nop			; (mov r8, r8)
     45c8:	200007cc 	.word	0x200007cc
@@ -18506,23 +18414,10 @@ static void appSendData(void)
     45e4:	0000213d 	.word	0x0000213d
 
 000045e8 <extint_callback>:
-
-/** Callback function for the EXTINT driver, called when an external interrupt
- *  detection occurs.
- */
-static void extint_callback(void)
-{
     45e8:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
-	delay_ms(120);
     45ea:	2078      	movs	r0, #120	; 0x78
     45ec:	4b13      	ldr	r3, [pc, #76]	; (463c <extint_callback+0x54>)
     45ee:	4798      	blx	r3
-*****************************************************************************/
-static void APP_TaskHandler(void)
-{
-	const char* tx_data = "this rocks";
-
-	if(!appDataReqBusy){
     45f0:	4b13      	ldr	r3, [pc, #76]	; (4640 <extint_callback+0x58>)
     45f2:	781b      	ldrb	r3, [r3, #0]
     45f4:	2b00      	cmp	r3, #0
@@ -18530,33 +18425,16 @@ static void APP_TaskHandler(void)
     45f8:	4c12      	ldr	r4, [pc, #72]	; (4644 <extint_callback+0x5c>)
     45fa:	1c27      	adds	r7, r4, #0
     45fc:	370b      	adds	r7, #11
-		for (uint16_t i = 0; i < sizeof("this rocks"); i++) {
-			if (appUartBufferPtr == sizeof(appUartBuffer)) {
     45fe:	4e12      	ldr	r6, [pc, #72]	; (4648 <extint_callback+0x60>)
-				appSendData();
-			}
-
-			if (appUartBufferPtr < sizeof(appUartBuffer)) {
     4600:	1c35      	adds	r5, r6, #0
-{
-	const char* tx_data = "this rocks";
-
-	if(!appDataReqBusy){
-		for (uint16_t i = 0; i < sizeof("this rocks"); i++) {
-			if (appUartBufferPtr == sizeof(appUartBuffer)) {
     4602:	7833      	ldrb	r3, [r6, #0]
     4604:	2b69      	cmp	r3, #105	; 0x69
     4606:	d101      	bne.n	460c <extint_callback+0x24>
-				appSendData();
     4608:	4b10      	ldr	r3, [pc, #64]	; (464c <extint_callback+0x64>)
     460a:	4798      	blx	r3
-			}
-
-			if (appUartBufferPtr < sizeof(appUartBuffer)) {
     460c:	782b      	ldrb	r3, [r5, #0]
     460e:	2b68      	cmp	r3, #104	; 0x68
     4610:	d805      	bhi.n	461e <extint_callback+0x36>
-				appUartBuffer[appUartBufferPtr++] = tx_data[i];
     4612:	1c59      	adds	r1, r3, #1
     4614:	4a0c      	ldr	r2, [pc, #48]	; (4648 <extint_callback+0x60>)
     4616:	7011      	strb	r1, [r2, #0]
@@ -18564,41 +18442,19 @@ static void APP_TaskHandler(void)
     461a:	4a0d      	ldr	r2, [pc, #52]	; (4650 <extint_callback+0x68>)
     461c:	54d1      	strb	r1, [r2, r3]
     461e:	3401      	adds	r4, #1
-static void APP_TaskHandler(void)
-{
-	const char* tx_data = "this rocks";
-
-	if(!appDataReqBusy){
-		for (uint16_t i = 0; i < sizeof("this rocks"); i++) {
     4620:	42bc      	cmp	r4, r7
     4622:	d1ee      	bne.n	4602 <extint_callback+0x1a>
-
-			if (appUartBufferPtr < sizeof(appUartBuffer)) {
-				appUartBuffer[appUartBufferPtr++] = tx_data[i];
-			}
-		}
-		appSendData();
     4624:	4b09      	ldr	r3, [pc, #36]	; (464c <extint_callback+0x64>)
     4626:	4798      	blx	r3
- */
-static void extint_callback(void)
-{
-	delay_ms(120);
-	APP_TaskHandler();
-	printf("It totally works right now!");
     4628:	480a      	ldr	r0, [pc, #40]	; (4654 <extint_callback+0x6c>)
     462a:	4c0b      	ldr	r4, [pc, #44]	; (4658 <extint_callback+0x70>)
     462c:	47a0      	blx	r4
-	delay_ms(500);
     462e:	20fa      	movs	r0, #250	; 0xfa
     4630:	0040      	lsls	r0, r0, #1
     4632:	4b02      	ldr	r3, [pc, #8]	; (463c <extint_callback+0x54>)
     4634:	4798      	blx	r3
-	uint8_t clear=0;
-	printf("                                   ");
     4636:	4809      	ldr	r0, [pc, #36]	; (465c <extint_callback+0x74>)
     4638:	47a0      	blx	r4
-}
     463a:	bdf8      	pop	{r3, r4, r5, r6, r7, pc}
     463c:	0000017d 	.word	0x0000017d
     4640:	200007cc 	.word	0x200007cc
@@ -18611,361 +18467,170 @@ static void extint_callback(void)
     465c:	00005b04 	.word	0x00005b04
 
 00004660 <main>:
-	extint_chan_enable_callback(BUTTON_0_EIC_LINE,
-			EXTINT_CALLBACK_TYPE_DETECT);
-}
-
-int main(void)
-{
     4660:	b5f0      	push	{r4, r5, r6, r7, lr}
     4662:	b091      	sub	sp, #68	; 0x44
-	irq_initialize_vectors();
-	#if SAMD || SAMR21
-	system_init();
     4664:	4b53      	ldr	r3, [pc, #332]	; (47b4 <main+0x154>)
     4666:	4798      	blx	r3
-	delay_init();
     4668:	4b53      	ldr	r3, [pc, #332]	; (47b8 <main+0x158>)
     466a:	4798      	blx	r3
-	#else
-	sysclk_init();
-	board_init();
-	#endif
-	SYS_Init();
     466c:	4b53      	ldr	r3, [pc, #332]	; (47bc <main+0x15c>)
     466e:	4798      	blx	r3
-{
-	/* Sanity check arguments */
-	Assert(config);
-
-	/* Set default config in the config struct */
-	config->data_order       = USART_DATAORDER_LSB;
     4670:	2380      	movs	r3, #128	; 0x80
     4672:	05db      	lsls	r3, r3, #23
     4674:	9300      	str	r3, [sp, #0]
-	config->transfer_mode    = USART_TRANSFER_ASYNCHRONOUSLY;
     4676:	2300      	movs	r3, #0
     4678:	9301      	str	r3, [sp, #4]
-	config->parity           = USART_PARITY_NONE;
     467a:	22ff      	movs	r2, #255	; 0xff
     467c:	4668      	mov	r0, sp
     467e:	8102      	strh	r2, [r0, #8]
-	config->stopbits         = USART_STOPBITS_1;
     4680:	2200      	movs	r2, #0
     4682:	7283      	strb	r3, [r0, #10]
-	config->character_size   = USART_CHARACTER_SIZE_8BIT;
     4684:	72c3      	strb	r3, [r0, #11]
-	config->baudrate         = 9600;
     4686:	2196      	movs	r1, #150	; 0x96
     4688:	0189      	lsls	r1, r1, #6
     468a:	9108      	str	r1, [sp, #32]
-	config->receiver_enable  = true;
     468c:	2601      	movs	r6, #1
     468e:	2124      	movs	r1, #36	; 0x24
     4690:	5446      	strb	r6, [r0, r1]
-	config->transmitter_enable = true;
     4692:	2125      	movs	r1, #37	; 0x25
     4694:	5446      	strb	r6, [r0, r1]
-	config->clock_polarity_inverted = false;
     4696:	2126      	movs	r1, #38	; 0x26
     4698:	5443      	strb	r3, [r0, r1]
-	config->use_external_clock = false;
     469a:	2127      	movs	r1, #39	; 0x27
     469c:	5443      	strb	r3, [r0, r1]
-	config->ext_clock_freq   = 0;
     469e:	930a      	str	r3, [sp, #40]	; 0x28
-	config->mux_setting      = USART_RX_1_TX_2_XCK_3;
-	config->run_in_standby   = false;
     46a0:	212c      	movs	r1, #44	; 0x2c
     46a2:	5443      	strb	r3, [r0, r1]
-	config->generator_source = GCLK_GENERATOR_0;
     46a4:	212d      	movs	r1, #45	; 0x2d
     46a6:	5443      	strb	r3, [r0, r1]
-	config->pinmux_pad0      = PINMUX_DEFAULT;
-	config->pinmux_pad1      = PINMUX_DEFAULT;
-	config->pinmux_pad2      = PINMUX_DEFAULT;
-	config->pinmux_pad3      = PINMUX_DEFAULT;
-#ifdef FEATURE_USART_OVER_SAMPLE
-	config->sample_adjustment     = USART_SAMPLE_ADJUSTMENT_7_8_9;
     46a8:	9305      	str	r3, [sp, #20]
-	config->sample_rate           = USART_SAMPLE_RATE_16X_ARITHMETIC;
     46aa:	8203      	strh	r3, [r0, #16]
-#endif
-#ifdef FEATURE_USART_LIN_SLAVE
-	config->lin_slave_enable      = false;
     46ac:	76c3      	strb	r3, [r0, #27]
-#endif
-#ifdef FEATURE_USART_IMMEDIATE_BUFFER_OVERFLOW_NOTIFICATION
-	config->immediate_buffer_overflow_notification      = false;
     46ae:	7602      	strb	r2, [r0, #24]
-#endif
-#ifdef FEATURE_USART_START_FRAME_DECTION
-	config->start_frame_detection_enable                = false;
     46b0:	7702      	strb	r2, [r0, #28]
-#endif
-#ifdef FEATURE_USART_IRDA
-	config->encoding_format_enable                      = false;
     46b2:	7642      	strb	r2, [r0, #25]
-	config->receive_pulse_length                        = 19;
     46b4:	2313      	movs	r3, #19
     46b6:	7683      	strb	r3, [r0, #26]
-#endif
-#ifdef FEATURE_USART_COLLISION_DECTION
-	config->collision_detection_enable                  = false;
     46b8:	7742      	strb	r2, [r0, #29]
-static void configure_console(void)
-{
-	struct usart_config usart_conf;
-
-	usart_get_config_defaults(&usart_conf);
-	usart_conf.mux_setting = HOST_SERCOM_MUX_SETTING;
     46ba:	2380      	movs	r3, #128	; 0x80
     46bc:	035b      	lsls	r3, r3, #13
     46be:	9303      	str	r3, [sp, #12]
-	usart_conf.pinmux_pad0 = HOST_SERCOM_PINMUX_PAD0;
     46c0:	4b3f      	ldr	r3, [pc, #252]	; (47c0 <main+0x160>)
     46c2:	930c      	str	r3, [sp, #48]	; 0x30
-	usart_conf.pinmux_pad1 = HOST_SERCOM_PINMUX_PAD1;
     46c4:	4b3f      	ldr	r3, [pc, #252]	; (47c4 <main+0x164>)
     46c6:	930d      	str	r3, [sp, #52]	; 0x34
-	usart_conf.pinmux_pad2 = HOST_SERCOM_PINMUX_PAD2;
     46c8:	2301      	movs	r3, #1
     46ca:	425b      	negs	r3, r3
     46cc:	930e      	str	r3, [sp, #56]	; 0x38
-	usart_conf.pinmux_pad3 = HOST_SERCOM_PINMUX_PAD3;
     46ce:	930f      	str	r3, [sp, #60]	; 0x3c
-static inline void stdio_serial_init(
-		struct usart_module *const module,
-		usart_inst_t const hw,
-		const struct usart_config *const config)
-{
-	stdio_base = (void *)module;
     46d0:	4c3d      	ldr	r4, [pc, #244]	; (47c8 <main+0x168>)
     46d2:	4b3e      	ldr	r3, [pc, #248]	; (47cc <main+0x16c>)
     46d4:	601c      	str	r4, [r3, #0]
-	ptr_put = (int (*)(void volatile*,char))&usart_serial_putchar;
     46d6:	4a3e      	ldr	r2, [pc, #248]	; (47d0 <main+0x170>)
     46d8:	4b3e      	ldr	r3, [pc, #248]	; (47d4 <main+0x174>)
     46da:	601a      	str	r2, [r3, #0]
-	ptr_get = (void (*)(void volatile*,char*))&usart_serial_getchar;
     46dc:	4a3e      	ldr	r2, [pc, #248]	; (47d8 <main+0x178>)
     46de:	4b3f      	ldr	r3, [pc, #252]	; (47dc <main+0x17c>)
     46e0:	601a      	str	r2, [r3, #0]
-static inline bool usart_serial_init(
-		struct usart_module *const module,
-		usart_inst_t const hw,
-		const struct usart_config *const config)
-{
-	if (usart_init(module, hw, config) == STATUS_OK) {
     46e2:	1c20      	adds	r0, r4, #0
     46e4:	493e      	ldr	r1, [pc, #248]	; (47e0 <main+0x180>)
     46e6:	466a      	mov	r2, sp
     46e8:	4b3e      	ldr	r3, [pc, #248]	; (47e4 <main+0x184>)
     46ea:	4798      	blx	r3
-
-	usart_serial_init(module, hw, config);
-# if defined(__GNUC__)
-	// Specify that stdout and stdin should not be buffered.
-	setbuf(stdout, NULL);
     46ec:	4f3e      	ldr	r7, [pc, #248]	; (47e8 <main+0x188>)
     46ee:	683b      	ldr	r3, [r7, #0]
     46f0:	6898      	ldr	r0, [r3, #8]
     46f2:	2100      	movs	r1, #0
     46f4:	4d3d      	ldr	r5, [pc, #244]	; (47ec <main+0x18c>)
     46f6:	47a8      	blx	r5
-	setbuf(stdin, NULL);
     46f8:	683b      	ldr	r3, [r7, #0]
     46fa:	6858      	ldr	r0, [r3, #4]
     46fc:	2100      	movs	r1, #0
     46fe:	47a8      	blx	r5
-	/* Sanity check arguments */
-	Assert(module);
-	Assert(module->hw);
-
-	/* Get a pointer to the hardware module instance */
-	SercomUsart *const usart_hw = &(module->hw->USART);
     4700:	6825      	ldr	r5, [r4, #0]
-
-#if USART_CALLBACK_MODE == true
-	/* Enable Global interrupt for module */
-	system_interrupt_enable(_sercom_get_interrupt_vector(module->hw));
     4702:	1c28      	adds	r0, r5, #0
     4704:	4b3a      	ldr	r3, [pc, #232]	; (47f0 <main+0x190>)
     4706:	4798      	blx	r3
- * \param[in] vector Interrupt vector to enable
- */
-static inline void system_interrupt_enable(
-		const enum system_interrupt_vector vector)
-{
-	NVIC->ISER[0] = (uint32_t)(1 << ((uint32_t)vector & 0x0000001f));
     4708:	231f      	movs	r3, #31
     470a:	4018      	ands	r0, r3
     470c:	4086      	lsls	r6, r0
     470e:	4b39      	ldr	r3, [pc, #228]	; (47f4 <main+0x194>)
     4710:	601e      	str	r6, [r3, #0]
-{
-	/* Sanity check arguments */
-	Assert(module);
-	Assert(module->hw);
-
-	SercomUsart *const usart_hw = &(module->hw->USART);
     4712:	6823      	ldr	r3, [r4, #0]
-
-#ifdef FEATURE_USART_SYNC_SCHEME_V2
-	return (usart_hw->SYNCBUSY.reg);
     4714:	69da      	ldr	r2, [r3, #28]
-		const struct usart_module *const module)
-{
-	/* Sanity check. */
-	Assert(module);
-
-	while (usart_is_syncing(module)) {
     4716:	2a00      	cmp	r2, #0
     4718:	d1fc      	bne.n	4714 <main+0xb4>
-
-	/* Wait until synchronization is complete */
-	_usart_wait_for_sync(module);
-
-	/* Enable USART module */
-	usart_hw->CTRLA.reg |= SERCOM_USART_CTRLA_ENABLE;
     471a:	682a      	ldr	r2, [r5, #0]
     471c:	2302      	movs	r3, #2
     471e:	4313      	orrs	r3, r2
     4720:	602b      	str	r3, [r5, #0]
- *  button state.
- */
-static void configure_extint(void)
-{
-	struct extint_chan_conf eint_chan_conf;
-	extint_chan_get_config_defaults(&eint_chan_conf);
     4722:	4668      	mov	r0, sp
     4724:	4b34      	ldr	r3, [pc, #208]	; (47f8 <main+0x198>)
     4726:	4798      	blx	r3
-
-	eint_chan_conf.gpio_pin           = BUTTON_0_EIC_PIN;
     4728:	231c      	movs	r3, #28
     472a:	9300      	str	r3, [sp, #0]
-	eint_chan_conf.gpio_pin_mux       = BUTTON_0_EIC_MUX;
     472c:	2500      	movs	r5, #0
     472e:	9501      	str	r5, [sp, #4]
-	eint_chan_conf.detection_criteria = EXTINT_DETECT_BOTH;
     4730:	2303      	movs	r3, #3
     4732:	466a      	mov	r2, sp
     4734:	72d3      	strb	r3, [r2, #11]
-	eint_chan_conf.filter_input_signal = true;
     4736:	2401      	movs	r4, #1
     4738:	7294      	strb	r4, [r2, #10]
-	extint_chan_set_config(BUTTON_0_EIC_LINE, &eint_chan_conf);
     473a:	2008      	movs	r0, #8
     473c:	4669      	mov	r1, sp
     473e:	4b2f      	ldr	r3, [pc, #188]	; (47fc <main+0x19c>)
     4740:	4798      	blx	r3
-/** Configures and registers the External Interrupt callback function with the
- *  driver.
- */
-static void configure_eic_callback(void)
-{
-	extint_register_callback(extint_callback,
     4742:	482f      	ldr	r0, [pc, #188]	; (4800 <main+0x1a0>)
     4744:	2108      	movs	r1, #8
     4746:	2200      	movs	r2, #0
     4748:	4b2e      	ldr	r3, [pc, #184]	; (4804 <main+0x1a4>)
     474a:	4798      	blx	r3
-			BUTTON_0_EIC_LINE,
-			EXTINT_CALLBACK_TYPE_DETECT);
-	extint_chan_enable_callback(BUTTON_0_EIC_LINE,
     474c:	2008      	movs	r0, #8
     474e:	2100      	movs	r1, #0
     4750:	4b2d      	ldr	r3, [pc, #180]	; (4808 <main+0x1a8>)
     4752:	4798      	blx	r3
- *
- * Enables global interrupts in the device to fire any enabled interrupt handlers.
- */
-static inline void system_interrupt_enable_global(void)
-{
-	cpu_irq_enable();
     4754:	4e2d      	ldr	r6, [pc, #180]	; (480c <main+0x1ac>)
     4756:	7034      	strb	r4, [r6, #0]
     4758:	f3bf 8f5f 	dmb	sy
     475c:	b662      	cpsie	i
-	configure_eic_callback();
-	
-	/*Enable system interrupt*/
-	system_interrupt_enable_global();
-	
-	printf("we made it");
     475e:	482c      	ldr	r0, [pc, #176]	; (4810 <main+0x1b0>)
     4760:	4b2c      	ldr	r3, [pc, #176]	; (4814 <main+0x1b4>)
     4762:	4798      	blx	r3
-	//sio2host_init();
-	cpu_irq_enable();
     4764:	7034      	strb	r4, [r6, #0]
     4766:	f3bf 8f5f 	dmb	sy
     476a:	b662      	cpsie	i
-
-	/* Set the pin to high or low atomically based on the requested level */
-	if (level) {
-		port_base->OUTSET.reg = pin_mask;
-	} else {
-		port_base->OUTCLR.reg = pin_mask;
     476c:	2280      	movs	r2, #128	; 0x80
     476e:	0312      	lsls	r2, r2, #12
     4770:	4b29      	ldr	r3, [pc, #164]	; (4818 <main+0x1b8>)
     4772:	615a      	str	r2, [r3, #20]
-
-/*************************************************************************//**
-*****************************************************************************/
-static void appInit(void)
-{
-	NWK_SetAddr(APP_ADDR);
     4774:	2002      	movs	r0, #2
     4776:	4b29      	ldr	r3, [pc, #164]	; (481c <main+0x1bc>)
     4778:	4798      	blx	r3
-	NWK_SetPanId(APP_PANID);
     477a:	4829      	ldr	r0, [pc, #164]	; (4820 <main+0x1c0>)
     477c:	4b29      	ldr	r3, [pc, #164]	; (4824 <main+0x1c4>)
     477e:	4798      	blx	r3
-	PHY_SetChannel(APP_CHANNEL);
     4780:	200f      	movs	r0, #15
     4782:	4b29      	ldr	r3, [pc, #164]	; (4828 <main+0x1c8>)
     4784:	4798      	blx	r3
-#ifdef PHY_AT86RF212
-	PHY_SetBand(APP_BAND);
-	PHY_SetModulation(APP_MODULATION);
-#endif
-	PHY_SetRxState(true);
     4786:	2001      	movs	r0, #1
     4788:	4b28      	ldr	r3, [pc, #160]	; (482c <main+0x1cc>)
     478a:	4798      	blx	r3
-	PHY_SetTxPower(0x23);
     478c:	2023      	movs	r0, #35	; 0x23
     478e:	4b28      	ldr	r3, [pc, #160]	; (4830 <main+0x1d0>)
     4790:	4798      	blx	r3
-	NWK_SetSecurityKey((uint8_t *)APP_SECURITY_KEY);
     4792:	4828      	ldr	r0, [pc, #160]	; (4834 <main+0x1d4>)
     4794:	4b28      	ldr	r3, [pc, #160]	; (4838 <main+0x1d8>)
     4796:	4798      	blx	r3
-	NWK_OpenEndpoint(APP_ENDPOINT, appDataInd);
     4798:	2002      	movs	r0, #2
     479a:	4928      	ldr	r1, [pc, #160]	; (483c <main+0x1dc>)
     479c:	4b28      	ldr	r3, [pc, #160]	; (4840 <main+0x1e0>)
     479e:	4798      	blx	r3
-
-	appTimer.interval = APP_FLUSH_TIMER_INTERVAL;
     47a0:	4b28      	ldr	r3, [pc, #160]	; (4844 <main+0x1e4>)
     47a2:	2214      	movs	r2, #20
     47a4:	609a      	str	r2, [r3, #8]
-	appTimer.mode = SYS_TIMER_INTERVAL_MODE;
     47a6:	731d      	strb	r5, [r3, #12]
-	appTimer.handler = appTimerHandler;
     47a8:	4a27      	ldr	r2, [pc, #156]	; (4848 <main+0x1e8>)
     47aa:	611a      	str	r2, [r3, #16]
-	LED_On(LED0);
-	
-	appInit();
-	
-	while (1) {
-		SYS_TaskHandler();
     47ac:	4c27      	ldr	r4, [pc, #156]	; (484c <main+0x1ec>)
     47ae:	47a0      	blx	r4
     47b0:	e7fd      	b.n	47ae <main+0x14e>

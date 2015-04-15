@@ -2875,7 +2875,7 @@ Discarded input sections
  .debug_macro   0x00000000      0x3df src/ASF/sam0/drivers/system/interrupt/system_interrupt.o
  .debug_macro   0x00000000       0x2e src/ASF/sam0/drivers/system/interrupt/system_interrupt.o
  .debug_line    0x00000000      0x924 src/ASF/sam0/drivers/system/interrupt/system_interrupt.o
- .debug_str     0x00000000    0x76953 src/ASF/sam0/drivers/system/interrupt/system_interrupt.o
+ .debug_str     0x00000000    0x76948 src/ASF/sam0/drivers/system/interrupt/system_interrupt.o
  .comment       0x00000000       0x5c src/ASF/sam0/drivers/system/interrupt/system_interrupt.o
  .ARM.attributes
                 0x00000000       0x32 src/ASF/sam0/drivers/system/interrupt/system_interrupt.o
@@ -3950,7 +3950,7 @@ Discarded input sections
  .debug_macro   0x00000000     0x174b src/ASF/sam0/utils/cmsis/samr21/source/system_samr21.o
  .debug_macro   0x00000000       0x58 src/ASF/sam0/utils/cmsis/samr21/source/system_samr21.o
  .debug_line    0x00000000      0x603 src/ASF/sam0/utils/cmsis/samr21/source/system_samr21.o
- .debug_str     0x00000000    0x63efe src/ASF/sam0/utils/cmsis/samr21/source/system_samr21.o
+ .debug_str     0x00000000    0x63ef3 src/ASF/sam0/utils/cmsis/samr21/source/system_samr21.o
  .comment       0x00000000       0x5c src/ASF/sam0/utils/cmsis/samr21/source/system_samr21.o
  .ARM.attributes
                 0x00000000       0x32 src/ASF/sam0/utils/cmsis/samr21/source/system_samr21.o
@@ -4655,7 +4655,7 @@ Discarded input sections
  .debug_macro   0x00000000       0x6c src/ASF/thirdparty/wireless/addons/sio2host/uart/sio2host.o
  .debug_macro   0x00000000       0x40 src/ASF/thirdparty/wireless/addons/sio2host/uart/sio2host.o
  .debug_line    0x00000000      0xf8c src/ASF/thirdparty/wireless/addons/sio2host/uart/sio2host.o
- .debug_str     0x00000000    0x7c701 src/ASF/thirdparty/wireless/addons/sio2host/uart/sio2host.o
+ .debug_str     0x00000000    0x7c6f9 src/ASF/thirdparty/wireless/addons/sio2host/uart/sio2host.o
  .comment       0x00000000       0x5c src/ASF/thirdparty/wireless/addons/sio2host/uart/sio2host.o
  .ARM.attributes
                 0x00000000       0x32 src/ASF/thirdparty/wireless/addons/sio2host/uart/sio2host.o
@@ -5345,7 +5345,7 @@ Discarded input sections
  .debug_macro   0x00000000       0x70 src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/src/nwkGroup.o
  .debug_macro   0x00000000       0x16 src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/src/nwkGroup.o
  .debug_line    0x00000000      0x417 src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/src/nwkGroup.o
- .debug_str     0x00000000     0x575e src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/src/nwkGroup.o
+ .debug_str     0x00000000     0x5753 src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/src/nwkGroup.o
  .comment       0x00000000       0x5c src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/src/nwkGroup.o
  .ARM.attributes
                 0x00000000       0x32 src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/src/nwkGroup.o
@@ -5767,7 +5767,7 @@ Discarded input sections
  .debug_macro   0x00000000       0x1c src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/src/nwkRouteDiscovery.o
  .debug_macro   0x00000000       0x1c src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/src/nwkRouteDiscovery.o
  .debug_line    0x00000000      0x96c src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/src/nwkRouteDiscovery.o
- .debug_str     0x00000000    0x763e9 src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/src/nwkRouteDiscovery.o
+ .debug_str     0x00000000    0x763de src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/src/nwkRouteDiscovery.o
  .comment       0x00000000       0x5c src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/src/nwkRouteDiscovery.o
  .ARM.attributes
                 0x00000000       0x32 src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/src/nwkRouteDiscovery.o
@@ -9877,80 +9877,80 @@ OUTPUT(APPS_PEER2PEER1.elf elf32-littlearm)
  .debug_line    0x00017b38     0x10d2 src/Peer2Peer.o
  .debug_line    0x00018c0a      0x2bd ../src/ASF/thirdparty/wireless/services/common_hw_timer/sam0/lib\libsam0_lib_hw_timer.a(common_hw_timer.o)
 
-.debug_str      0x00000000    0x85aa3
- .debug_str     0x00000000    0x75e63 src/ASF/common2/services/delay/sam0/systick_counter.o
-                              0x761fc (size before relaxing)
- .debug_str     0x00075e63       0x94 src/ASF/common/utils/interrupt/interrupt_sam_nvic.o
-                              0x7605d (size before relaxing)
- .debug_str     0x00075ef7     0x2f5a src/ASF/sam0/boards/samr21_xplained_pro/board_init.o
-                              0x78f9a (size before relaxing)
- .debug_str     0x00078e51      0x774 src/ASF/sam0/drivers/extint/extint_callback.o
-                              0x7687a (size before relaxing)
- .debug_str     0x000795c5      0xc23 src/ASF/sam0/drivers/extint/extint_sam_d_r/extint.o
-                              0x77780 (size before relaxing)
- .debug_str     0x0007a1e8       0x53 src/ASF/sam0/drivers/port/port.o
-                              0x7643c (size before relaxing)
- .debug_str     0x0007a23b      0xeb2 src/ASF/sam0/drivers/sercom/sercom.o
-                              0x776ca (size before relaxing)
- .debug_str     0x0007b0ed      0x1c7 src/ASF/sam0/drivers/sercom/sercom_interrupt.o
-                              0x77505 (size before relaxing)
- .debug_str     0x0007b2b4     0x1971 src/ASF/sam0/drivers/sercom/spi/spi.o
-                              0x791e5 (size before relaxing)
- .debug_str     0x0007cc25      0x8c9 src/ASF/sam0/drivers/sercom/usart/usart.o
-                              0x7837f (size before relaxing)
- .debug_str     0x0007d4ee      0x1da src/ASF/sam0/drivers/sercom/usart/usart_interrupt.o
-                              0x776c9 (size before relaxing)
- .debug_str     0x0007d6c8     0x2821 src/ASF/sam0/drivers/system/clock/clock_samd21_r21/clock.o
-                              0x79247 (size before relaxing)
- .debug_str     0x0007fee9      0x27a src/ASF/sam0/drivers/system/clock/clock_samd21_r21/gclk.o
-                              0x76ca0 (size before relaxing)
- .debug_str     0x00080163      0x130 src/ASF/sam0/drivers/system/pinmux/pinmux.o
-                              0x76454 (size before relaxing)
- .debug_str     0x00080293       0x47 src/ASF/sam0/drivers/system/system.o
-                              0x760e2 (size before relaxing)
- .debug_str     0x000802da      0x6c5 src/ASF/sam0/drivers/tc/tc_interrupt.o
-                              0x76db4 (size before relaxing)
- .debug_str     0x0008099f      0x52c src/ASF/sam0/drivers/tc/tc_sam_d_r/tc.o
-                              0x77609 (size before relaxing)
- .debug_str     0x00080ecb      0x3a9 src/ASF/sam0/utils/cmsis/samr21/source/gcc/startup_samr21.o
-                              0x643e2 (size before relaxing)
- .debug_str     0x00081274       0x3d src/ASF/sam0/utils/stdio/read.o
-                              0x7600a (size before relaxing)
- .debug_str     0x000812b1       0x2c src/ASF/sam0/utils/stdio/write.o
-                              0x7600c (size before relaxing)
- .debug_str     0x000812dd      0x742 src/ASF/sam0/utils/syscalls/gcc/syscalls.o
-                               0x4e8a (size before relaxing)
- .debug_str     0x00081a1f      0x52c src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/src/nwk.o
-                              0x77473 (size before relaxing)
- .debug_str     0x00081f4b      0x367 src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/src/nwkDataReq.o
-                              0x776ae (size before relaxing)
- .debug_str     0x000822b2       0xb5 src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/src/nwkFrame.o
-                              0x7756e (size before relaxing)
- .debug_str     0x00082367      0x270 src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/src/nwkRoute.o
-                              0x76876 (size before relaxing)
- .debug_str     0x000825d7      0x414 src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/src/nwkRx.o
-                              0x77947 (size before relaxing)
- .debug_str     0x000829eb      0x20c src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/src/nwkSecurity.o
-                              0x77652 (size before relaxing)
- .debug_str     0x00082bf7      0x29d src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/src/nwkTx.o
-                              0x778d7 (size before relaxing)
- .debug_str     0x00082e94     0x1496 src/ASF/thirdparty/wireless/avr2130_lwmesh/source/phy/at86rf233/src/phy.o
-                              0x7a33f (size before relaxing)
- .debug_str     0x0008432a      0x44a src/ASF/thirdparty/wireless/avr2130_lwmesh/source/sys/src/sys.o
-                              0x7aff0 (size before relaxing)
- .debug_str     0x00084774       0x59 src/ASF/thirdparty/wireless/avr2130_lwmesh/source/sys/src/sysEncrypt.o
-                               0x571f (size before relaxing)
- .debug_str     0x000847cd      0x153 src/ASF/thirdparty/wireless/avr2130_lwmesh/source/sys/src/sysTimer.o
-                              0x76218 (size before relaxing)
- .debug_str     0x00084920      0x278 src/ASF/thirdparty/wireless/services/common_hw_timer/sam0/hw_timer.o
-                              0x775df (size before relaxing)
- .debug_str     0x00084b98      0x193 src/ASF/thirdparty/wireless/services/sal/at86rf2xx/src/sal.o
-                              0x7a14e (size before relaxing)
- .debug_str     0x00084d2b      0x1de src/ASF/thirdparty/wireless/services/trx_access/trx_access.o
-                              0x7ca3a (size before relaxing)
- .debug_str     0x00084f09      0x48c src/Peer2Peer.o
+.debug_str      0x00000000    0x85a98
+ .debug_str     0x00000000    0x75e58 src/ASF/common2/services/delay/sam0/systick_counter.o
+                              0x761f1 (size before relaxing)
+ .debug_str     0x00075e58       0x94 src/ASF/common/utils/interrupt/interrupt_sam_nvic.o
+                              0x76052 (size before relaxing)
+ .debug_str     0x00075eec     0x2f5a src/ASF/sam0/boards/samr21_xplained_pro/board_init.o
+                              0x78f8f (size before relaxing)
+ .debug_str     0x00078e46      0x774 src/ASF/sam0/drivers/extint/extint_callback.o
+                              0x7686f (size before relaxing)
+ .debug_str     0x000795ba      0xc23 src/ASF/sam0/drivers/extint/extint_sam_d_r/extint.o
+                              0x77775 (size before relaxing)
+ .debug_str     0x0007a1dd       0x53 src/ASF/sam0/drivers/port/port.o
+                              0x76431 (size before relaxing)
+ .debug_str     0x0007a230      0xeb2 src/ASF/sam0/drivers/sercom/sercom.o
+                              0x776bf (size before relaxing)
+ .debug_str     0x0007b0e2      0x1c7 src/ASF/sam0/drivers/sercom/sercom_interrupt.o
+                              0x774fa (size before relaxing)
+ .debug_str     0x0007b2a9     0x1971 src/ASF/sam0/drivers/sercom/spi/spi.o
+                              0x791da (size before relaxing)
+ .debug_str     0x0007cc1a      0x8c9 src/ASF/sam0/drivers/sercom/usart/usart.o
+                              0x78374 (size before relaxing)
+ .debug_str     0x0007d4e3      0x1da src/ASF/sam0/drivers/sercom/usart/usart_interrupt.o
+                              0x776be (size before relaxing)
+ .debug_str     0x0007d6bd     0x2821 src/ASF/sam0/drivers/system/clock/clock_samd21_r21/clock.o
+                              0x7923c (size before relaxing)
+ .debug_str     0x0007fede      0x27a src/ASF/sam0/drivers/system/clock/clock_samd21_r21/gclk.o
+                              0x76c95 (size before relaxing)
+ .debug_str     0x00080158      0x130 src/ASF/sam0/drivers/system/pinmux/pinmux.o
+                              0x76449 (size before relaxing)
+ .debug_str     0x00080288       0x47 src/ASF/sam0/drivers/system/system.o
+                              0x760d7 (size before relaxing)
+ .debug_str     0x000802cf      0x6c5 src/ASF/sam0/drivers/tc/tc_interrupt.o
+                              0x76da9 (size before relaxing)
+ .debug_str     0x00080994      0x52c src/ASF/sam0/drivers/tc/tc_sam_d_r/tc.o
+                              0x775fe (size before relaxing)
+ .debug_str     0x00080ec0      0x3a9 src/ASF/sam0/utils/cmsis/samr21/source/gcc/startup_samr21.o
+                              0x643d7 (size before relaxing)
+ .debug_str     0x00081269       0x3d src/ASF/sam0/utils/stdio/read.o
+                              0x75fff (size before relaxing)
+ .debug_str     0x000812a6       0x2c src/ASF/sam0/utils/stdio/write.o
+                              0x76001 (size before relaxing)
+ .debug_str     0x000812d2      0x742 src/ASF/sam0/utils/syscalls/gcc/syscalls.o
+                               0x4e7f (size before relaxing)
+ .debug_str     0x00081a14      0x52c src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/src/nwk.o
+                              0x77468 (size before relaxing)
+ .debug_str     0x00081f40      0x367 src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/src/nwkDataReq.o
+                              0x776a3 (size before relaxing)
+ .debug_str     0x000822a7       0xb5 src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/src/nwkFrame.o
+                              0x77563 (size before relaxing)
+ .debug_str     0x0008235c      0x270 src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/src/nwkRoute.o
+                              0x7686b (size before relaxing)
+ .debug_str     0x000825cc      0x414 src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/src/nwkRx.o
+                              0x7793c (size before relaxing)
+ .debug_str     0x000829e0      0x20c src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/src/nwkSecurity.o
+                              0x77647 (size before relaxing)
+ .debug_str     0x00082bec      0x29d src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/src/nwkTx.o
+                              0x778cc (size before relaxing)
+ .debug_str     0x00082e89     0x1496 src/ASF/thirdparty/wireless/avr2130_lwmesh/source/phy/at86rf233/src/phy.o
+                              0x7a334 (size before relaxing)
+ .debug_str     0x0008431f      0x3f6 src/ASF/thirdparty/wireless/avr2130_lwmesh/source/sys/src/sys.o
+                              0x7afe8 (size before relaxing)
+ .debug_str     0x00084715       0x59 src/ASF/thirdparty/wireless/avr2130_lwmesh/source/sys/src/sysEncrypt.o
+                               0x5714 (size before relaxing)
+ .debug_str     0x0008476e      0x153 src/ASF/thirdparty/wireless/avr2130_lwmesh/source/sys/src/sysTimer.o
+                              0x7620d (size before relaxing)
+ .debug_str     0x000848c1      0x278 src/ASF/thirdparty/wireless/services/common_hw_timer/sam0/hw_timer.o
+                              0x775d4 (size before relaxing)
+ .debug_str     0x00084b39      0x193 src/ASF/thirdparty/wireless/services/sal/at86rf2xx/src/sal.o
+                              0x7a143 (size before relaxing)
+ .debug_str     0x00084ccc      0x1de src/ASF/thirdparty/wireless/services/trx_access/trx_access.o
+                              0x7ca32 (size before relaxing)
+ .debug_str     0x00084eaa      0x4e0 src/Peer2Peer.o
                               0x7d041 (size before relaxing)
- .debug_str     0x00085395      0x70e ../src/ASF/thirdparty/wireless/services/common_hw_timer/sam0/lib\libsam0_lib_hw_timer.a(common_hw_timer.o)
+ .debug_str     0x0008538a      0x70e ../src/ASF/thirdparty/wireless/services/common_hw_timer/sam0/lib\libsam0_lib_hw_timer.a(common_hw_timer.o)
                                0x2c21 (size before relaxing)
 
 .debug_frame    0x00000000     0x225c
