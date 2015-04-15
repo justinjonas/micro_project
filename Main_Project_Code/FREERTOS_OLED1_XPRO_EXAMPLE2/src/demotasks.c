@@ -94,6 +94,7 @@ void tasks_init(void)
 
 static void lcd_task(void *params)
 {
+	//printf("goobers");
 	vTaskDelay(LCD_TASK_DELAY);
 }
 

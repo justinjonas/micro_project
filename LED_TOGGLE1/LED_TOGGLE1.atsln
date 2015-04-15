@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Atmel Studio Solution File, Format Version 11.00
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "LED_TOGGLE1", "LED_TOGGLE1\LED_TOGGLE1.cproj", "{AA274A01-A1DC-4C9A-87E3-14FF5E901A66}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|ARM = Debug|ARM
+		Release|ARM = Release|ARM
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AA274A01-A1DC-4C9A-87E3-14FF5E901A66}.Debug|ARM.ActiveCfg = Debug|ARM
+		{AA274A01-A1DC-4C9A-87E3-14FF5E901A66}.Debug|ARM.Build.0 = Debug|ARM
+		{AA274A01-A1DC-4C9A-87E3-14FF5E901A66}.Release|ARM.ActiveCfg = Release|ARM
+		{AA274A01-A1DC-4C9A-87E3-14FF5E901A66}.Release|ARM.Build.0 = Release|ARM
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

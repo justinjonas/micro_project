@@ -67,7 +67,7 @@
  * @{
  */
 
-void demotasks_init(void);
+void tasks_init(void);
 
 /** @} */
 
