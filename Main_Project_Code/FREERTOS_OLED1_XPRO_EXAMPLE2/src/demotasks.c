@@ -32,6 +32,11 @@ static xSemaphoreHandle wireless_mutex;
 //! The event group used.
 static EventGroupHandle_t event_group = NULL;
 
+//display data
+char mode_type[4] = "cool";
+char selected_room[2] = "1";
+char target_temp[2] = "70";
+char selected_room_temp[2] = "NA";
 
 //name the tasks
 static void lcd_task(void *params);
@@ -47,6 +52,8 @@ void tasks_init(void)
 	//mutexes
 	lcd_mutex  = xSemaphoreCreateMutex();
 	wireless_mutex = xSemaphoreCreateMutex();
+	
+	configure_console();
 	
 	event_group = xEventGroupCreate();
 
@@ -95,8 +102,19 @@ void tasks_init(void)
 
 static void lcd_task(void *params)
 {
-	configure_console();
-	printf("goobers");
+	putchar(254);
+	putchar(128);
+	
+	printf("Mode:");
+	printf(mode_type);
+	printf("  ");
+	printf("Rm:");
+	printf(selected_room);
+	printf("Target:");
+	printf(target_temp);
+	printf("  ");
+	printf(selected_room_temp);
+	
 	vTaskDelay(LCD_TASK_DELAY);
 }
 

@@ -8,5 +8,6 @@
 #define LCD_H
 
 void configure_console(void);
+void update_display(char* mode_name, char* mode_type);
 
 #endif
