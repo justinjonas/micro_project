@@ -8,6 +8,15 @@
 
 #ifndef WIRELESS_H_
 #define WIRELESS_H_
+#include "stdint.h"
+#include "stdbool.h"
+#include "config.h"
+#include "asf.h"
+#include "nwkRx.h"
+#include "Wireless.h"
+#include "asf.h"
+#include "nwk.h"
+#include "phy.h"
 
 typedef struct wireless_packet
 {

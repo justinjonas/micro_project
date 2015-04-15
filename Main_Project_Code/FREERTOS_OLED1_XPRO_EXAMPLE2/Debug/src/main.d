@@ -1,21 +1,11 @@
-src/ASF/thirdparty/wireless/avr2130_lwmesh/source/sys/src/sys.d \
- src/ASF/thirdparty/wireless/avr2130_lwmesh/source/sys/src/sys.o: \
- ../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/sys/src/sys.c \
- ../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/sys/inc/sysConfig.h \
- ../src/config/config.h \
- ../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/phy/at86rf231/inc/phy.h \
+src/main.d src/main.o: ../src/main.c ../src/asf.h \
+ ../src/ASF/sam0/drivers/ac/ac.h ../src/ASF/sam0/utils/compiler.h \
+ c:\program\ files\ (x86)\atmel\atmel\ toolchain\arm\ gcc\native\4.8.1443\arm-gnu-toolchain\lib\gcc\arm-none-eabi\4.8.4\include\stddef.h \
+ ../src/ASF/common/utils/parts.h ../src/ASF/sam0/utils/status_codes.h \
  c:\program\ files\ (x86)\atmel\atmel\ toolchain\arm\ gcc\native\4.8.1443\arm-gnu-toolchain\lib\gcc\arm-none-eabi\4.8.4\include\stdint.h \
  c:\program\ files\ (x86)\atmel\atmel\ toolchain\arm\ gcc\native\4.8.1443\arm-gnu-toolchain\arm-none-eabi\include\stdint.h \
  c:\program\ files\ (x86)\atmel\atmel\ toolchain\arm\ gcc\native\4.8.1443\arm-gnu-toolchain\arm-none-eabi\include\machine\_default_types.h \
  c:\program\ files\ (x86)\atmel\atmel\ toolchain\arm\ gcc\native\4.8.1443\arm-gnu-toolchain\arm-none-eabi\include\sys\features.h \
- c:\program\ files\ (x86)\atmel\atmel\ toolchain\arm\ gcc\native\4.8.1443\arm-gnu-toolchain\lib\gcc\arm-none-eabi\4.8.4\include\stdbool.h \
- ../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/inc/nwk.h \
- ../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/inc/nwkRoute.h \
- ../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/inc/nwkRx.h \
- ../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/inc/nwkFrame.h \
- ../src/ASF/sam0/utils/compiler.h \
- c:\program\ files\ (x86)\atmel\atmel\ toolchain\arm\ gcc\native\4.8.1443\arm-gnu-toolchain\lib\gcc\arm-none-eabi\4.8.4\include\stddef.h \
- ../src/ASF/common/utils/parts.h ../src/ASF/sam0/utils/status_codes.h \
  ../src/ASF/sam0/utils/preprocessor/preprocessor.h \
  ../src/ASF/sam0/utils/preprocessor/tpaste.h \
  ../src/ASF/sam0/utils/preprocessor/stringz.h \
@@ -23,6 +13,7 @@ src/ASF/thirdparty/wireless/avr2130_lwmesh/source/sys/src/sys.d \
  ../src/ASF/sam0/utils/preprocessor/preprocessor.h \
  ../src/ASF/sam0/utils/preprocessor/mrecursion.h \
  ../src/ASF/sam0/utils/header_files/io.h \
+ c:\program\ files\ (x86)\atmel\atmel\ toolchain\arm\ gcc\native\4.8.1443\arm-gnu-toolchain\lib\gcc\arm-none-eabi\4.8.4\include\stdbool.h \
  ../src/ASF/sam0/utils/cmsis/samr21/include/samr21.h \
  ../src/ASF/sam0/utils/cmsis/samr21/include/samr21g18a.h \
  ../src/ASF/thirdparty/CMSIS/Include/core_cm0plus.h \
@@ -102,16 +93,6 @@ src/ASF/thirdparty/wireless/avr2130_lwmesh/source/sys/src/sys.d \
  c:\program\ files\ (x86)\atmel\atmel\ toolchain\arm\ gcc\native\4.8.1443\arm-gnu-toolchain\arm-none-eabi\include\alloca.h \
  ../src/ASF/common/utils/interrupt.h \
  ../src/ASF/common/utils/interrupt/interrupt_sam_nvic.h \
- ../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/inc/nwkGroup.h \
- ../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/inc/nwkSecurity.h \
- ../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/inc/nwkDataReq.h \
- ../src/ASF/thirdparty/wireless/services/sal/inc/sal.h \
- ../src/ASF/thirdparty/wireless/services/sal/inc/sal_types.h \
- ../src/ASF/thirdparty/wireless/services/sal/inc/sal_generic.h \
- ../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/sys/inc/sys.h \
- ../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/sys/inc/sysConfig.h \
- ../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/sys/inc/sysTimer.h \
- ../src/asf.h ../src/ASF/sam0/drivers/ac/ac.h \
  ../src/ASF/sam0/drivers/system/clock/clock.h \
  ../src/ASF/sam0/drivers/system/clock/gclk.h \
  ../src/ASF/sam0/drivers/system/clock/clock_samd21_r21/clock_feature.h \
@@ -183,31 +164,12 @@ src/ASF/thirdparty/wireless/avr2130_lwmesh/source/sys/src/sys.d \
  ../src/ASF/sam0/drivers/tc/tc_interrupt.h \
  ../src/ASF/sam0/drivers/tc/tc.h \
  ../src/ASF/thirdparty/freertos/demo/oled1_xpro_example/cdc.h \
- ../src/ASF/thirdparty/freertos/demo/oled1_xpro_example/oled1.h
+ ../src/ASF/thirdparty/freertos/demo/oled1_xpro_example/oled1.h \
+ ../src/demotasks.h
 
-../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/sys/inc/sysConfig.h:
+../src/asf.h:
 
-../src/config/config.h:
-
-../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/phy/at86rf231/inc/phy.h:
-
-c:\program\ files\ (x86)\atmel\atmel\ toolchain\arm\ gcc\native\4.8.1443\arm-gnu-toolchain\lib\gcc\arm-none-eabi\4.8.4\include\stdint.h:
-
-c:\program\ files\ (x86)\atmel\atmel\ toolchain\arm\ gcc\native\4.8.1443\arm-gnu-toolchain\arm-none-eabi\include\stdint.h:
-
-c:\program\ files\ (x86)\atmel\atmel\ toolchain\arm\ gcc\native\4.8.1443\arm-gnu-toolchain\arm-none-eabi\include\machine\_default_types.h:
-
-c:\program\ files\ (x86)\atmel\atmel\ toolchain\arm\ gcc\native\4.8.1443\arm-gnu-toolchain\arm-none-eabi\include\sys\features.h:
-
-c:\program\ files\ (x86)\atmel\atmel\ toolchain\arm\ gcc\native\4.8.1443\arm-gnu-toolchain\lib\gcc\arm-none-eabi\4.8.4\include\stdbool.h:
-
-../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/inc/nwk.h:
-
-../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/inc/nwkRoute.h:
-
-../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/inc/nwkRx.h:
-
-../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/inc/nwkFrame.h:
+../src/ASF/sam0/drivers/ac/ac.h:
 
 ../src/ASF/sam0/utils/compiler.h:
 
@@ -216,6 +178,14 @@ c:\program\ files\ (x86)\atmel\atmel\ toolchain\arm\ gcc\native\4.8.1443\arm-gnu
 ../src/ASF/common/utils/parts.h:
 
 ../src/ASF/sam0/utils/status_codes.h:
+
+c:\program\ files\ (x86)\atmel\atmel\ toolchain\arm\ gcc\native\4.8.1443\arm-gnu-toolchain\lib\gcc\arm-none-eabi\4.8.4\include\stdint.h:
+
+c:\program\ files\ (x86)\atmel\atmel\ toolchain\arm\ gcc\native\4.8.1443\arm-gnu-toolchain\arm-none-eabi\include\stdint.h:
+
+c:\program\ files\ (x86)\atmel\atmel\ toolchain\arm\ gcc\native\4.8.1443\arm-gnu-toolchain\arm-none-eabi\include\machine\_default_types.h:
+
+c:\program\ files\ (x86)\atmel\atmel\ toolchain\arm\ gcc\native\4.8.1443\arm-gnu-toolchain\arm-none-eabi\include\sys\features.h:
 
 ../src/ASF/sam0/utils/preprocessor/preprocessor.h:
 
@@ -230,6 +200,8 @@ c:\program\ files\ (x86)\atmel\atmel\ toolchain\arm\ gcc\native\4.8.1443\arm-gnu
 ../src/ASF/sam0/utils/preprocessor/mrecursion.h:
 
 ../src/ASF/sam0/utils/header_files/io.h:
+
+c:\program\ files\ (x86)\atmel\atmel\ toolchain\arm\ gcc\native\4.8.1443\arm-gnu-toolchain\lib\gcc\arm-none-eabi\4.8.4\include\stdbool.h:
 
 ../src/ASF/sam0/utils/cmsis/samr21/include/samr21.h:
 
@@ -389,28 +361,6 @@ c:\program\ files\ (x86)\atmel\atmel\ toolchain\arm\ gcc\native\4.8.1443\arm-gnu
 
 ../src/ASF/common/utils/interrupt/interrupt_sam_nvic.h:
 
-../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/inc/nwkGroup.h:
-
-../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/inc/nwkSecurity.h:
-
-../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/inc/nwkDataReq.h:
-
-../src/ASF/thirdparty/wireless/services/sal/inc/sal.h:
-
-../src/ASF/thirdparty/wireless/services/sal/inc/sal_types.h:
-
-../src/ASF/thirdparty/wireless/services/sal/inc/sal_generic.h:
-
-../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/sys/inc/sys.h:
-
-../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/sys/inc/sysConfig.h:
-
-../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/sys/inc/sysTimer.h:
-
-../src/asf.h:
-
-../src/ASF/sam0/drivers/ac/ac.h:
-
 ../src/ASF/sam0/drivers/system/clock/clock.h:
 
 ../src/ASF/sam0/drivers/system/clock/gclk.h:
@@ -556,3 +506,5 @@ c:\program\ files\ (x86)\atmel\atmel\ toolchain\arm\ gcc\native\4.8.1443\arm-gnu
 ../src/ASF/thirdparty/freertos/demo/oled1_xpro_example/cdc.h:
 
 ../src/ASF/thirdparty/freertos/demo/oled1_xpro_example/oled1.h:
+
+../src/demotasks.h:
