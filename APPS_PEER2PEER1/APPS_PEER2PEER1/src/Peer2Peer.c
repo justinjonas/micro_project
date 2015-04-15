@@ -107,7 +107,7 @@ static void configure_console(void)
 	usart_conf.pinmux_pad1 = HOST_SERCOM_PINMUX_PAD1;
 	usart_conf.pinmux_pad2 = HOST_SERCOM_PINMUX_PAD2;
 	usart_conf.pinmux_pad3 = HOST_SERCOM_PINMUX_PAD3;
-	usart_conf.baudrate    = USART_HOST_BAUDRATE;
+	usart_conf.baudrate    = 9600;
 
 	stdio_serial_init(&cdc_uart_module, USART_HOST, &usart_conf);
 	usart_enable(&cdc_uart_module);
@@ -227,7 +227,12 @@ static void configure_extint(void)
  */
 static void extint_callback(void)
 {
+	delay_ms(120);
 	APP_TaskHandler();
+	printf("It totally works right now!");
+	delay_ms(500);
+	uint8_t clear=0;
+	printf("                                   ");
 }
 
 /** Configures and registers the External Interrupt callback function with the
