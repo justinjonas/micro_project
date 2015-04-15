@@ -5,10 +5,14 @@
  *  Author: Justin Jonas
  */ 
 #include "config.h"
-#include "Wireless.h"
+#include "wireless.h"
 #include "asf.h"
 #include "nwk.h"
 #include "phy.h"
+
+extern uint8_t* TEMP_QUEUE;
+extern uint8_t* REGISTER_QUEUE;
+
 
 void wireless_init(void)
 {
@@ -29,33 +33,44 @@ void wireless_init(void)
 // TODO: Change the endpoint, destination addr, and the data payload to send
 void send_packet(struct wireless_packet packet)
 {
-	//if (appDataReqBusy || 0 == appUartBufferPtr) {
-		//return;
-	//}
 	NWK_DataReq_t appDataReq;
-	
-	//memcpy(appDataReqBuffer, appUartBuffer, appUartBufferPtr);
 
 	appDataReq.dstAddr = packet.dst_addr;
 	appDataReq.dstEndpoint = packet.dst_addr;
 	appDataReq.srcEndpoint = APP_ENDPOINT;
 	appDataReq.options = NWK_OPT_ENABLE_SECURITY;
-	appDataReq.data = &packet.data;
-	appDataReq.size = sizeof(packet.data);
-	//appDataReq.confirm = appDataConf;
+	appDataReq.data = packet.data;
+	appDataReq.size = packet.size;
+	appDataReq.confirm = send_packet_conf;
 	NWK_DataReq(&appDataReq);
 
-	//appUartBufferPtr = 0;
-	//appDataReqBusy = true;
 }
 
 
 //When a packet is received, parse the data into the correct queues
 bool receive_packet(NWK_DataInd_t *ind)
-{
-	for (uint8_t i = 0; i < ind->size; i++) {
-		//rx_data[i] = ind->data[i];
+{	
+	switch(ind->srcAddr)
+	{
+		case TEMP_ADDR:
+			memcpy(ind->data,TEMP_QUEUE, ind->size);
+			break;
+		case REGISTER_ADDR:
+			memcpy(ind->data,REGISTER_QUEUE, ind->size);
+			break;
+		default:
+			return false;
+			//break;
+			//Call a function to add a new temp sensor and register to the network		
 	}
-	
 	return true;
+}
+
+
+void send_packet_conf(NWK_DataReq_t *req)
+{
+	if (NWK_SUCCESS_STATUS == req->status){
+		LED_Toggle(LED0);
+		//release the semaphore ;
+	}
 }

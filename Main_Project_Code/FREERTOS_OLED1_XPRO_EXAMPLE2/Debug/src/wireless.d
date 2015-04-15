@@ -1,5 +1,5 @@
-Wireless.d Wireless.o: .././Wireless.c ../src/config/config.h \
- .././Wireless.h \
+src/wireless.d src/wireless.o: ../src/wireless.c ../src/config/config.h \
+ ../src/wireless.h \
  c:\program\ files\ (x86)\atmel\atmel\ toolchain\arm\ gcc\native\4.8.1443\arm-gnu-toolchain\lib\gcc\arm-none-eabi\4.8.4\include\stdint.h \
  c:\program\ files\ (x86)\atmel\atmel\ toolchain\arm\ gcc\native\4.8.1443\arm-gnu-toolchain\arm-none-eabi\include\stdint.h \
  c:\program\ files\ (x86)\atmel\atmel\ toolchain\arm\ gcc\native\4.8.1443\arm-gnu-toolchain\arm-none-eabi\include\machine\_default_types.h \
@@ -169,6 +169,7 @@ Wireless.d Wireless.o: .././Wireless.c ../src/config/config.h \
  ../src/ASF/thirdparty/freertos/demo/oled1_xpro_example/oled1.h \
  ../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/inc/nwkRx.h \
  ../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/inc/nwkFrame.h \
+ ../src/Wireless.h \
  ../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/inc/nwk.h \
  ../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/sys/inc/sysConfig.h \
  ../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/inc/nwkRoute.h \
@@ -180,7 +181,7 @@ Wireless.d Wireless.o: .././Wireless.c ../src/config/config.h \
 
 ../src/config/config.h:
 
-.././Wireless.h:
+../src/wireless.h:
 
 c:\program\ files\ (x86)\atmel\atmel\ toolchain\arm\ gcc\native\4.8.1443\arm-gnu-toolchain\lib\gcc\arm-none-eabi\4.8.4\include\stdint.h:
 
@@ -525,6 +526,8 @@ c:\program\ files\ (x86)\atmel\atmel\ toolchain\arm\ gcc\native\4.8.1443\arm-gnu
 ../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/inc/nwkRx.h:
 
 ../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/inc/nwkFrame.h:
+
+../src/Wireless.h:
 
 ../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/inc/nwk.h:
 

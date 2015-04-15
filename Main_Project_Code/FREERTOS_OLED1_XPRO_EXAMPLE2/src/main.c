@@ -1,6 +1,8 @@
 #include <asf.h>
 #include "demotasks.h"
 
+uint8_t* TEMP_QUEUE;
+uint8_t* REGISTER_QUEUE;
 
 int main (void)
 {

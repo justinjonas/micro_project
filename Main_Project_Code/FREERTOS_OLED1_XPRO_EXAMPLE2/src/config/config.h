@@ -77,10 +77,11 @@
 #define NWK_ENABLE_ROUTING
 #define NWK_ENABLE_SECURITY
 
+//All temperature sensors are even numbers and all registers associated with the temp sensors is +1 and odd.
 #define TEMP_ENDPOINT		  2
 #define TEMP_ADDR			  2
-#define REGISTER_ENDPOINT	  3
-#define REGISTER_ADDR		  3
+#define REGISTER_ENDPOINT	  TEMP_ENDPOINT+1
+#define REGISTER_ADDR		  TEMP_ADDR+1
 
 
 #endif /* _CONFIG_H_ */

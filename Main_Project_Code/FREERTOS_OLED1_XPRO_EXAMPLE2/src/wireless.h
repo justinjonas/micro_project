@@ -20,15 +20,24 @@
 
 typedef struct wireless_packet
 {
-	uint32_t data;
+	uint8_t* data;
+	uint8_t size;
 	uint8_t dst_addr;
 	uint8_t sender_addr;
 	};
 
+//Initialize the wireless settings
 void wireless_init(void);
-//We will need to sent the struct of the payload and know where to send it to
+
+//Sends data based on the struct passed in with packet
 void send_packet(struct wireless_packet packet);
+
+//Callback function when a packet is received
 bool receive_packet(NWK_DataInd_t *ind);
+
+//Callback function for a confirmed sent packet
+void send_packet_conf(NWK_DataReq_t *req);
+
 
 
 
