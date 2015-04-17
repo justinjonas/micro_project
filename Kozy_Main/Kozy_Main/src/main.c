@@ -1,5 +1,4 @@
 #include <asf.h>
-//#include "lcd.h"
 #include "wireless.h"
 #include "tasks.h"
 #include "sys.h"
@@ -21,6 +20,11 @@ int roomTemp = 70;
 int ventStatus = "X";
 
 static struct usart_module cdc_uart_module;
+
+//semaphores
+static xSemaphoreHandle wireless_mutex;
+static xSemaphoreHandle temp_queue_mutex;
+static xSemaphoreHandle new_sensor_queue_mutex;
 
 //tasks
 static void lcd_task(void *params);
@@ -52,7 +56,7 @@ int main (void)
 		(const char *)"test",
 		1024,
 		NULL,
-		2,
+		1,
 		NULL);
 	
 	vTaskStartScheduler();
@@ -74,23 +78,25 @@ static void lcd_task(void *params)
 		updateDisplay();
 
 		/* Block until xWakePeriod ticks since previous call */
-        vTaskDelayUntil(&xLastWakeTime, xWakePeriod);
+        //vTaskDelayUntil(&xLastWakeTime, xWakePeriod);
+		vTaskDelay(100);
 	}
 }
 
 static void test_task(void *params)
 {
-	uint16_t xLastWakeTime = xTaskGetTickCount();
 	//period
-	const uint16_t xWakePeriod = 5000;
+	const uint16_t xDelay = 1000;
+	
 	roomTemp = 0;
 
 	while(1)
 	{
 		roomTemp++;
+		roomTemp%=99;
 
-		/* Block until xWakePeriod ticks since previous call */
-        vTaskDelayUntil(&xLastWakeTime, xWakePeriod);
+		/* Block for xDelay ms */
+		vTaskDelay(xDelay);
 	}
 }
 
@@ -115,7 +121,7 @@ static void configure_console(void)
 void updateDisplay()
 {
 	//clear the display
-	printf("                                ");
+	//printf("                                ");
 	//set cursor to beginning
 	putchar(254);
 	putchar(128);
