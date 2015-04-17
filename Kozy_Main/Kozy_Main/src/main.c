@@ -80,11 +80,12 @@ static void configure_console(void)
 
 void updateDisplay()
 {
+	char degree = 0xDF;
 	//clear the display
 	printf("                                ");
 	//set cursor to beginning
 	putchar(254);
 	putchar(128);
 	//update info
-	printf("Mode:%s  Rm:%2dTarget:%2d  %2d  %s", mode, roomSelection, targetTemp, roomTemp, ventStatus);
+	printf("Mode:%s  Rm:%2dTarget:%2d%c %2d%c %s", mode, roomSelection, targetTemp, degree, roomTemp, degree, ventStatus);
 }
