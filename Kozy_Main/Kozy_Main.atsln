@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Atmel Studio Solution File, Format Version 11.00
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "Kozy_Main", "Kozy_Main\Kozy_Main.cproj", "{DD4A87AD-A52A-4A13-BCB0-0A56896A7182}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|ARM = Debug|ARM
+		Release|ARM = Release|ARM
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DD4A87AD-A52A-4A13-BCB0-0A56896A7182}.Debug|ARM.ActiveCfg = Debug|ARM
+		{DD4A87AD-A52A-4A13-BCB0-0A56896A7182}.Debug|ARM.Build.0 = Debug|ARM
+		{DD4A87AD-A52A-4A13-BCB0-0A56896A7182}.Release|ARM.ActiveCfg = Release|ARM
+		{DD4A87AD-A52A-4A13-BCB0-0A56896A7182}.Release|ARM.Build.0 = Release|ARM
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

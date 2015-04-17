@@ -812,6 +812,7 @@
     <Compile Include="src\ASF\thirdparty\wireless\services\trx_access\trx_access.c">
       <SubType>compile</SubType>
     </Compile>
+<<<<<<< HEAD
     <Compile Include="src\lcd.c">
       <SubType>compile</SubType>
     </Compile>
@@ -819,9 +820,12 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Wireless.c">
+=======
+    <Compile Include="src\wireless.c">
+>>>>>>> JJ's_Branch
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Wireless.h">
+    <Compile Include="src\wireless.h">
       <SubType>compile</SubType>
     </Compile>
     <None Include="src\config\conf_trx_access.h">

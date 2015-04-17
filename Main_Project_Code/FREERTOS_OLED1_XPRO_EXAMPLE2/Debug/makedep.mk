@@ -18,9 +18,13 @@ src\ASF\thirdparty\wireless\services\sal\at86rf2xx\src\sal.c
 
 src\ASF\thirdparty\wireless\services\trx_access\trx_access.c
 
+<<<<<<< HEAD
 src\lcd.c
 
 Wireless.c
+=======
+src\wireless.c
+>>>>>>> JJ's_Branch
 
 src\ASF\thirdparty\wireless\services\common_hw_timer\sam0\hw_timer.c
 

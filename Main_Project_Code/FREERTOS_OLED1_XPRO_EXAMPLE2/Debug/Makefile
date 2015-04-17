@@ -158,8 +158,12 @@ C_SRCS +=  \
 ../src/ASF/thirdparty/wireless/addons/sio2host/uart/sio2host.c \
 ../src/ASF/thirdparty/wireless/services/sal/at86rf2xx/src/sal.c \
 ../src/ASF/thirdparty/wireless/services/trx_access/trx_access.c \
+<<<<<<< HEAD
 ../src/lcd.c \
 ../Wireless.c \
+=======
+../src/wireless.c \
+>>>>>>> JJ's_Branch
 ../src/ASF/thirdparty/wireless/services/common_hw_timer/sam0/hw_timer.c \
 ../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/sys/src/sys.c \
 ../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/sys/src/sysEncrypt.c \
@@ -228,8 +232,12 @@ src/ASF/sam0/utils/stdio/write.o \
 src/ASF/thirdparty/wireless/addons/sio2host/uart/sio2host.o \
 src/ASF/thirdparty/wireless/services/sal/at86rf2xx/src/sal.o \
 src/ASF/thirdparty/wireless/services/trx_access/trx_access.o \
+<<<<<<< HEAD
 src/lcd.o \
 Wireless.o \
+=======
+src/wireless.o \
+>>>>>>> JJ's_Branch
 src/ASF/thirdparty/wireless/services/common_hw_timer/sam0/hw_timer.o \
 src/ASF/thirdparty/wireless/avr2130_lwmesh/source/sys/src/sys.o \
 src/ASF/thirdparty/wireless/avr2130_lwmesh/source/sys/src/sysEncrypt.o \
@@ -291,8 +299,12 @@ src/ASF/sam0/utils/stdio/write.o \
 src/ASF/thirdparty/wireless/addons/sio2host/uart/sio2host.o \
 src/ASF/thirdparty/wireless/services/sal/at86rf2xx/src/sal.o \
 src/ASF/thirdparty/wireless/services/trx_access/trx_access.o \
+<<<<<<< HEAD
 src/lcd.o \
 Wireless.o \
+=======
+src/wireless.o \
+>>>>>>> JJ's_Branch
 src/ASF/thirdparty/wireless/services/common_hw_timer/sam0/hw_timer.o \
 src/ASF/thirdparty/wireless/avr2130_lwmesh/source/sys/src/sys.o \
 src/ASF/thirdparty/wireless/avr2130_lwmesh/source/sys/src/sysEncrypt.o \
@@ -354,8 +366,12 @@ src/ASF/sam0/utils/stdio/write.d \
 src/ASF/thirdparty/wireless/addons/sio2host/uart/sio2host.d \
 src/ASF/thirdparty/wireless/services/sal/at86rf2xx/src/sal.d \
 src/ASF/thirdparty/wireless/services/trx_access/trx_access.d \
+<<<<<<< HEAD
 src/lcd.d \
 Wireless.d \
+=======
+src/wireless.d \
+>>>>>>> JJ's_Branch
 src/ASF/thirdparty/wireless/services/common_hw_timer/sam0/hw_timer.d \
 src/ASF/thirdparty/wireless/avr2130_lwmesh/source/sys/src/sys.d \
 src/ASF/thirdparty/wireless/avr2130_lwmesh/source/sys/src/sysEncrypt.d \
@@ -417,8 +433,12 @@ src/ASF/sam0/utils/stdio/write.d \
 src/ASF/thirdparty/wireless/addons/sio2host/uart/sio2host.d \
 src/ASF/thirdparty/wireless/services/sal/at86rf2xx/src/sal.d \
 src/ASF/thirdparty/wireless/services/trx_access/trx_access.d \
+<<<<<<< HEAD
 src/lcd.d \
 Wireless.d \
+=======
+src/wireless.d \
+>>>>>>> JJ's_Branch
 src/ASF/thirdparty/wireless/services/common_hw_timer/sam0/hw_timer.d \
 src/ASF/thirdparty/wireless/avr2130_lwmesh/source/sys/src/sys.d \
 src/ASF/thirdparty/wireless/avr2130_lwmesh/source/sys/src/sysEncrypt.d \
@@ -659,6 +679,7 @@ src/ASF/thirdparty/wireless/services/trx_access/%.o: ../src/ASF/thirdparty/wirel
 	
 
 src/%.o: ../src/%.c
+<<<<<<< HEAD
 	@echo Building file: $<
 	@echo Invoking: ARM/GNU C Compiler : 4.8.4
 	$(QUOTE)C:\Program Files (x86)\Atmel\Atmel Toolchain\ARM GCC\Native\4.8.1443\arm-gnu-toolchain\bin\arm-none-eabi-gcc.exe$(QUOTE)  -x c -mthumb -D__SAMR21G18A__ -DDEBUG -DBOARD=SAMR21_XPLAINED_PRO -DGFX_MONO_UG_2832HSWEG04=1 -DARM_MATH_CM0=true -D__FREERTOS__ -D__SAMR21G18A__ -DGFX_MONO_LCD_HEIGHT=64 -DSPI_CALLBACK_MODE=true -DUSART_CALLBACK_MODE=true -DSYSTICK_MODE -DAC_CALLBACK_MODE=true -DEXTINT_CALLBACK_MODE=true -DTC_ASYNC=true -DPHY_AT86RF231 -DSAL_TYPE=AT86RF2xx  -I"../thirdparty/freertos/demo/oled1_xpro_example/samr21_xplained_pro" -I"../src/ASF/common2/components/display/ssd1306" -I"../src/ASF/sam0/utils/header_files" -I"../src/ASF/sam0/drivers/system/power/power_sam_d_r" -I"../src/ASF/common/utils" -I"../src/ASF/thirdparty/freertos/demo/oled1_xpro_example" -I"../src/ASF/sam0/drivers/system/pinmux" -I"../src/ASF/sam0/drivers/system/power" -I"../src/ASF/sam0/drivers/system/interrupt/system_interrupt_samr21" -I"../src/ASF/sam0/utils/cmsis/samr21/include" -I"../src/ASF/common2/services/delay/sam0" -I"../src/ASF/sam0/drivers/system/reset/reset_sam_d_r" -I"../src/ASF/common/boards" -I"../src/ASF/sam0/drivers/sercom/spi" -I"../src/ASF/sam0/utils/cmsis/samr21/source" -I"../src/ASF/sam0/drivers/port" -I"../src/ASF/sam0/drivers/system/clock/clock_samd21_r21" -I"../src/ASF/common2/services/delay" -I"../src/ASF/sam0/boards" -I"../src/ASF/sam0/drivers/sercom/usart" -I"../src/ASF/thirdparty/freertos/freertos-8.0.1/Source/include" -I"../src/ASF/thirdparty/CMSIS/Include" -I"../src/ASF/sam0/utils" -I"../src/config" -I"../src/ASF/thirdparty/CMSIS/Lib/GCC" -I"../src/ASF/sam0/drivers/system/reset" -I"../src" -I"../src/ASF/thirdparty/freertos/freertos-8.0.1/Source/portable/GCC/ARM_CM0" -I"../src/ASF/sam0/boards/samr21_xplained_pro" -I"../src/ASF/sam0/drivers/sercom" -I"../src/ASF/sam0/utils/preprocessor" -I"../src/ASF/sam0/drivers/system" -I"../src/ASF/common2/services/gfx_mono" -I"../src/ASF/sam0/drivers/system/clock" -I"../src/ASF/sam0/drivers/system/interrupt" -I"../src/ASF/sam0/utils/stdio/stdio_serial" -I"../src/ASF/common/services/serial" -I"../src/ASF/sam0/drivers/ac" -I"../src/ASF/sam0/drivers/ac/ac_sam_d_r" -I"../src/ASF/sam0/drivers/extint" -I"../src/ASF/sam0/drivers/extint/extint_sam_d_r" -I"../src/ASF/sam0/drivers/tc" -I"../src/ASF/sam0/drivers/tc/tc_sam_d_r" -I"../src/ASF/thirdparty/wireless/addons/sio2host/uart" -I"../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/inc" -I"../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/phy/at86rf231/inc" -I"../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/sys/inc" -I"../src/ASF/thirdparty/wireless/services/common_hw_timer" -I"../src/ASF/thirdparty/wireless/services/common_hw_timer/sam0" -I"../src/ASF/thirdparty/wireless/services/sal/inc" -I"../src/ASF/thirdparty/wireless/services/trx_access"  -O1 -fdata-sections -ffunction-sections -mlong-calls -g3 -Wall -mcpu=cortex-m0plus -c -pipe -fno-strict-aliasing -Wall -Wstrict-prototypes -Wmissing-prototypes -Werror-implicit-function-declaration -Wpointer-arith -std=gnu99 -ffunction-sections -fdata-sections -Wchar-subscripts -Wcomment -Wformat=2 -Wimplicit-int -Wmain -Wparentheses -Wsequence-point -Wreturn-type -Wswitch -Wtrigraphs -Wunused -Wuninitialized -Wunknown-pragmas -Wfloat-equal -Wundef -Wshadow -Wbad-function-cast -Wwrite-strings -Wsign-compare -Waggregate-return  -Wmissing-declarations -Wformat -Wmissing-format-attribute -Wno-deprecated-declarations -Wpacked -Wredundant-decls -Wnested-externs -Wlong-long -Wunreachable-code -Wcast-align --param max-inline-insns-single=500 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
@@ -666,6 +687,8 @@ src/%.o: ../src/%.c
 	
 
 ./%.o: .././%.c
+=======
+>>>>>>> JJ's_Branch
 	@echo Building file: $<
 	@echo Invoking: ARM/GNU C Compiler : 4.8.4
 	$(QUOTE)C:\Program Files (x86)\Atmel\Atmel Toolchain\ARM GCC\Native\4.8.1443\arm-gnu-toolchain\bin\arm-none-eabi-gcc.exe$(QUOTE)  -x c -mthumb -D__SAMR21G18A__ -DDEBUG -DBOARD=SAMR21_XPLAINED_PRO -DGFX_MONO_UG_2832HSWEG04=1 -DARM_MATH_CM0=true -D__FREERTOS__ -D__SAMR21G18A__ -DGFX_MONO_LCD_HEIGHT=64 -DSPI_CALLBACK_MODE=true -DUSART_CALLBACK_MODE=true -DSYSTICK_MODE -DAC_CALLBACK_MODE=true -DEXTINT_CALLBACK_MODE=true -DTC_ASYNC=true -DPHY_AT86RF231 -DSAL_TYPE=AT86RF2xx  -I"../thirdparty/freertos/demo/oled1_xpro_example/samr21_xplained_pro" -I"../src/ASF/common2/components/display/ssd1306" -I"../src/ASF/sam0/utils/header_files" -I"../src/ASF/sam0/drivers/system/power/power_sam_d_r" -I"../src/ASF/common/utils" -I"../src/ASF/thirdparty/freertos/demo/oled1_xpro_example" -I"../src/ASF/sam0/drivers/system/pinmux" -I"../src/ASF/sam0/drivers/system/power" -I"../src/ASF/sam0/drivers/system/interrupt/system_interrupt_samr21" -I"../src/ASF/sam0/utils/cmsis/samr21/include" -I"../src/ASF/common2/services/delay/sam0" -I"../src/ASF/sam0/drivers/system/reset/reset_sam_d_r" -I"../src/ASF/common/boards" -I"../src/ASF/sam0/drivers/sercom/spi" -I"../src/ASF/sam0/utils/cmsis/samr21/source" -I"../src/ASF/sam0/drivers/port" -I"../src/ASF/sam0/drivers/system/clock/clock_samd21_r21" -I"../src/ASF/common2/services/delay" -I"../src/ASF/sam0/boards" -I"../src/ASF/sam0/drivers/sercom/usart" -I"../src/ASF/thirdparty/freertos/freertos-8.0.1/Source/include" -I"../src/ASF/thirdparty/CMSIS/Include" -I"../src/ASF/sam0/utils" -I"../src/config" -I"../src/ASF/thirdparty/CMSIS/Lib/GCC" -I"../src/ASF/sam0/drivers/system/reset" -I"../src" -I"../src/ASF/thirdparty/freertos/freertos-8.0.1/Source/portable/GCC/ARM_CM0" -I"../src/ASF/sam0/boards/samr21_xplained_pro" -I"../src/ASF/sam0/drivers/sercom" -I"../src/ASF/sam0/utils/preprocessor" -I"../src/ASF/sam0/drivers/system" -I"../src/ASF/common2/services/gfx_mono" -I"../src/ASF/sam0/drivers/system/clock" -I"../src/ASF/sam0/drivers/system/interrupt" -I"../src/ASF/sam0/utils/stdio/stdio_serial" -I"../src/ASF/common/services/serial" -I"../src/ASF/sam0/drivers/ac" -I"../src/ASF/sam0/drivers/ac/ac_sam_d_r" -I"../src/ASF/sam0/drivers/extint" -I"../src/ASF/sam0/drivers/extint/extint_sam_d_r" -I"../src/ASF/sam0/drivers/tc" -I"../src/ASF/sam0/drivers/tc/tc_sam_d_r" -I"../src/ASF/thirdparty/wireless/addons/sio2host/uart" -I"../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/inc" -I"../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/phy/at86rf231/inc" -I"../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/sys/inc" -I"../src/ASF/thirdparty/wireless/services/common_hw_timer" -I"../src/ASF/thirdparty/wireless/services/common_hw_timer/sam0" -I"../src/ASF/thirdparty/wireless/services/sal/inc" -I"../src/ASF/thirdparty/wireless/services/trx_access"  -O1 -fdata-sections -ffunction-sections -mlong-calls -g3 -Wall -mcpu=cortex-m0plus -c -pipe -fno-strict-aliasing -Wall -Wstrict-prototypes -Wmissing-prototypes -Werror-implicit-function-declaration -Wpointer-arith -std=gnu99 -ffunction-sections -fdata-sections -Wchar-subscripts -Wcomment -Wformat=2 -Wimplicit-int -Wmain -Wparentheses -Wsequence-point -Wreturn-type -Wswitch -Wtrigraphs -Wunused -Wuninitialized -Wunknown-pragmas -Wfloat-equal -Wundef -Wshadow -Wbad-function-cast -Wwrite-strings -Wsign-compare -Waggregate-return  -Wmissing-declarations -Wformat -Wmissing-format-attribute -Wno-deprecated-declarations -Wpacked -Wredundant-decls -Wnested-externs -Wlong-long -Wunreachable-code -Wcast-align --param max-inline-insns-single=500 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 

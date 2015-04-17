@@ -2,6 +2,8 @@
 #include "demotasks.h"
 //#include "trcUser.h"
 
+uint8_t* TEMP_QUEUE;
+uint8_t* REGISTER_QUEUE;
 
 int main (void)
 {

@@ -5,7 +5,7 @@
 
 //Some defines for our tasks
 
-#define LCD_TASK_PRIORITY				(tskIDLE_PRIORITY + 1)
+#define LCD_TASK_PRIORITY				(tskIDLE_PRIORITY + 20)
 #define LCD_TASK_DELAY					(50 / portTICK_RATE_MS)
 
 #define NEW_SENSOR_TASK_PRIORITY		(tskIDLE_PRIORITY + 1)
@@ -102,6 +102,7 @@ void tasks_init(void)
 
 static void lcd_task(void *params)
 {
+<<<<<<< HEAD
 	putchar(254);
 	putchar(128);
 	
@@ -115,6 +116,11 @@ static void lcd_task(void *params)
 	printf("  ");
 	printf(selected_room_temp);
 	
+=======
+	//putchar(128);
+	//putchar(256);
+	printf("lcd_task");
+>>>>>>> JJ's_Branch
 	vTaskDelay(LCD_TASK_DELAY);
 }
 
