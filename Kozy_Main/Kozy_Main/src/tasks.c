@@ -39,12 +39,12 @@
 //static EventGroupHandle_t event_group = NULL;
 
  ///Globals
- //LCD
- char mode[4] = "cool";
- int roomSelection = 1;
- int targetTemp = 70;
- int roomTemp = 70;
- int ventStatus = "X"
+ ////LCD
+ //char mode[4] = "cool";
+ //int roomSelection = 1;
+ //int targetTemp = 70;
+ //int roomTemp = 70;
+ //int ventStatus = "X";
 
 //name the tasks
 static void lcd_task(void *params);
@@ -141,19 +141,19 @@ static void lcd_task(void *params)
 //}
 
 //functions
-void updateDisplay()
-{
-	putchar(128);
-	putchar(256);
-	printf("Mode:");
-	printf(mode);
-	printf("  ");
-	printf("Rm:");
-	printf("%2d",roomSelection);
-	printf("Target:");
-	printf("%2d",targetTemp);
-	printf("  ");
-	printf("%2d",roomTemp);
-	printf("  ");
-	printf(ventStatus);
-}
+//void updateDisplay()
+//{
+	//putchar(128);
+	//putchar(256);
+	//printf("Mode:");
+	//printf(mode);
+	//printf("  ");
+	//printf("Rm:");
+	//printf("%2d",roomSelection);
+	//printf("Target:");
+	//printf("%2d",targetTemp);
+	//printf("  ");
+	//printf("%2d",roomTemp);
+	//printf("  ");
+	//printf(ventStatus);
+//}

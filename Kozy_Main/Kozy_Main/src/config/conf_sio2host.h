@@ -44,8 +44,6 @@
 #define CONF_SIO2HOST_H_INCLUDED
  #define SERIAL_RX_BUF_SIZE_HOST    156
 
-extern struct usart_module cdc_uart_module;
-
 #define USART_HOST                 EDBG_CDC_MODULE
 #define HOST_SERCOM_MUX_SETTING    EDBG_CDC_SERCOM_MUX_SETTING
 #define HOST_SERCOM_PINMUX_PAD0	   EDBG_CDC_SERCOM_PINMUX_PAD0

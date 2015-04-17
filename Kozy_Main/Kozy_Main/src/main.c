@@ -8,36 +8,26 @@
 uint8_t* TEMP_QUEUE;
 uint8_t* REGISTER_QUEUE;
 
+#define HEAT "heat"
+#define COOL "cool"
+
+//globals
+ //LCD
+ char mode[5] = COOL;
+ int roomSelection = 1;
+ int targetTemp = 70;
+ int roomTemp = 70;
+ int ventStatus = "X";
+
 static struct usart_module cdc_uart_module;
 
+//tasks
 static void lcd_task(void *params);
 
-static void lcd_task(void *params)
-{
-	while(1){
-		putchar(128);
-		putchar(256);
-		printf("lcd_task");
-		vTaskDelay(20);
-	}
-}
+//functions
+static void configure_console(void);
+void updateDisplay();
 
-
-static void configure_console(void)
-{
-	struct usart_config usart_conf;
-
-	usart_get_config_defaults(&usart_conf);
-	usart_conf.mux_setting = HOST_SERCOM_MUX_SETTING;
-	usart_conf.pinmux_pad0 = HOST_SERCOM_PINMUX_PAD0;
-	usart_conf.pinmux_pad1 = HOST_SERCOM_PINMUX_PAD1;
-	usart_conf.pinmux_pad2 = HOST_SERCOM_PINMUX_PAD2;
-	usart_conf.pinmux_pad3 = HOST_SERCOM_PINMUX_PAD3;
-	usart_conf.baudrate    = 9600;
-
-	stdio_serial_init(&cdc_uart_module, USART_HOST, &usart_conf);
-	usart_enable(&cdc_uart_module);
-}
 
 int main (void)
 {
@@ -60,4 +50,41 @@ int main (void)
 	
 	while(1){}
 
+}
+
+//Tasks
+
+static void lcd_task(void *params)
+{
+	updateDisplay();
+	vTaskDelay(20);
+}
+
+//functions
+
+static void configure_console(void)
+{
+	struct usart_config usart_conf;
+
+	usart_get_config_defaults(&usart_conf);
+	usart_conf.mux_setting = HOST_SERCOM_MUX_SETTING;
+	usart_conf.pinmux_pad0 = HOST_SERCOM_PINMUX_PAD0;
+	usart_conf.pinmux_pad1 = HOST_SERCOM_PINMUX_PAD1;
+	usart_conf.pinmux_pad2 = HOST_SERCOM_PINMUX_PAD2;
+	usart_conf.pinmux_pad3 = HOST_SERCOM_PINMUX_PAD3;
+	usart_conf.baudrate    = 9600;
+
+	stdio_serial_init(&cdc_uart_module, USART_HOST, &usart_conf);
+	usart_enable(&cdc_uart_module);
+}
+
+void updateDisplay()
+{
+	//clear the display
+	printf("                                ");
+	//set cursor to beginning
+	putchar(254);
+	putchar(128);
+	//update info
+	printf("Mode:%s  Rm:%2dTarget:%2d  %2d  %s", mode, roomSelection, targetTemp, roomTemp, ventStatus);
 }

@@ -150,8 +150,8 @@ src/main.d src/main.o: ../src/main.c ../src/asf.h \
  ../src/ASF/common/services/serial/sam0_usart/usart_serial.h \
  ../src/ASF/sam0/drivers/tc/tc.h \
  ../src/ASF/sam0/drivers/tc/tc_interrupt.h \
- ../src/ASF/sam0/drivers/tc/tc.h ../src/config/lcd.h ../src/wireless.h \
- ../src/config/config.h ../src/asf.h \
+ ../src/ASF/sam0/drivers/tc/tc.h ../src/wireless.h ../src/config/config.h \
+ ../src/asf.h \
  ../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/inc/nwkRx.h \
  ../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/inc/nwkFrame.h \
  ../src/Wireless.h \
@@ -477,8 +477,6 @@ c:\program\ files\ (x86)\atmel\atmel\ toolchain\arm\ gcc\native\4.8.1443\arm-gnu
 ../src/ASF/sam0/drivers/tc/tc_interrupt.h:
 
 ../src/ASF/sam0/drivers/tc/tc.h:
-
-../src/config/lcd.h:
 
 ../src/wireless.h:
 
