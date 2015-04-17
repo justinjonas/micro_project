@@ -100,15 +100,15 @@ static void lcd_task(void *params)
 static void test_task(void *params)
 {
 	//period
-	const uint16_t xDelay = 1000;
+	const uint16_t xDelay = 50;
 	
-	roomTemp = 0;
+	struct wireless_packet packet_received;
 
 	while(1)
 	{
-		roomTemp++;
-		roomTemp%=99;
-
+		if(xQueueReceive(TEMP_QUEUE, &packet_received, 100))
+			roomTemp = packet_received.data;
+		
 		/* Block for xDelay ms */
 		vTaskDelay(xDelay);
 	}
@@ -183,11 +183,11 @@ bool receive_packet(NWK_DataInd_t *ind)
 	{
 		case TEMP_ADDR:
 			//memcpy(ind->data,TEMP_QUEUE, ind->size);
-			xQueueSendToBackFromISR(TEMP_QUEUE, ind->data);
+			xQueueSendToBackFromISR(TEMP_QUEUE, ind->data, NULL);
 			break;
 		case REGISTER_ADDR:
 			//memcpy(ind->data,REGISTER_QUEUE, ind->size);
-			xQueueSendToBackFromISR(REGISTER_QUEUE, ind->data);
+			xQueueSendToBackFromISR(REGISTER_QUEUE, ind->data, NULL);
 			break;
 		default:
 			return false;

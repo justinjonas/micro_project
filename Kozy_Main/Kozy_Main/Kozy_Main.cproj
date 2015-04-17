@@ -1057,12 +1057,6 @@
     <Compile Include="src\config\lcd.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="src\wireless.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="src\wireless.h">
-      <SubType>compile</SubType>
-    </Compile>
     <None Include="src\asf.h">
       <SubType>compile</SubType>
     </None>

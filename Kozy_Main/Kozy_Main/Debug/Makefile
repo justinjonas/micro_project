@@ -180,7 +180,6 @@ C_SRCS +=  \
 ../src/ASF/sam0/drivers/extint/extint_callback.c \
 ../src/ASF/common2/services/delay/sam0/systick_counter.c \
 ../src/config/lcd.c \
-../src/wireless.c \
 ../src/ASF/common/utils/interrupt/interrupt_sam_nvic.c \
 ../src/ASF/sam0/boards/samr21_xplained_pro/board_init.c \
 ../src/ASF/sam0/drivers/port/port.c \
@@ -242,7 +241,6 @@ src/ASF/sam0/drivers/sercom/sercom_interrupt.o \
 src/ASF/sam0/drivers/extint/extint_callback.o \
 src/ASF/common2/services/delay/sam0/systick_counter.o \
 src/config/lcd.o \
-src/wireless.o \
 src/ASF/common/utils/interrupt/interrupt_sam_nvic.o \
 src/ASF/sam0/boards/samr21_xplained_pro/board_init.o \
 src/ASF/sam0/drivers/port/port.o \
@@ -297,7 +295,6 @@ src/ASF/sam0/drivers/sercom/sercom_interrupt.o \
 src/ASF/sam0/drivers/extint/extint_callback.o \
 src/ASF/common2/services/delay/sam0/systick_counter.o \
 src/config/lcd.o \
-src/wireless.o \
 src/ASF/common/utils/interrupt/interrupt_sam_nvic.o \
 src/ASF/sam0/boards/samr21_xplained_pro/board_init.o \
 src/ASF/sam0/drivers/port/port.o \
@@ -352,7 +349,6 @@ src/ASF/sam0/drivers/sercom/sercom_interrupt.d \
 src/ASF/sam0/drivers/extint/extint_callback.d \
 src/ASF/common2/services/delay/sam0/systick_counter.d \
 src/config/lcd.d \
-src/wireless.d \
 src/ASF/common/utils/interrupt/interrupt_sam_nvic.d \
 src/ASF/sam0/boards/samr21_xplained_pro/board_init.d \
 src/ASF/sam0/drivers/port/port.d \
@@ -407,7 +403,6 @@ src/ASF/sam0/drivers/sercom/sercom_interrupt.d \
 src/ASF/sam0/drivers/extint/extint_callback.d \
 src/ASF/common2/services/delay/sam0/systick_counter.d \
 src/config/lcd.d \
-src/wireless.d \
 src/ASF/common/utils/interrupt/interrupt_sam_nvic.d \
 src/ASF/sam0/boards/samr21_xplained_pro/board_init.d \
 src/ASF/sam0/drivers/port/port.d \
@@ -436,8 +431,6 @@ LINKER_SCRIPT_DEP+=  \
 
 
 # AVR32/GNU C Compiler
-
-
 
 
 

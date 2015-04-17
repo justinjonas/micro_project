@@ -150,22 +150,19 @@ src/main.d src/main.o: ../src/main.c ../src/asf.h \
  ../src/ASF/common/services/serial/sam0_usart/usart_serial.h \
  ../src/ASF/sam0/drivers/tc/tc.h \
  ../src/ASF/sam0/drivers/tc/tc_interrupt.h \
- ../src/ASF/sam0/drivers/tc/tc.h ../src/wireless.h ../src/config/config.h \
- ../src/asf.h \
- ../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/inc/nwkRx.h \
- ../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/inc/nwkFrame.h \
- ../src/Wireless.h \
+ ../src/ASF/sam0/drivers/tc/tc.h ../src/tasks.h \
+ ../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/sys/inc/sys.h \
+ ../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/sys/inc/sysConfig.h \
+ ../src/config/config.h \
+ ../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/phy/at86rf231/inc/phy.h \
  ../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/inc/nwk.h \
  ../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/sys/inc/sysConfig.h \
  ../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/inc/nwkRoute.h \
  ../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/inc/nwkRx.h \
+ ../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/inc/nwkFrame.h \
  ../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/inc/nwkGroup.h \
  ../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/inc/nwkSecurity.h \
  ../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/inc/nwkDataReq.h \
- ../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/phy/at86rf231/inc/phy.h \
- ../src/tasks.h \
- ../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/sys/inc/sys.h \
- ../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/sys/inc/sysConfig.h \
  ../src/config/conf_sio2host.h
 
 ../src/asf.h:
@@ -478,17 +475,15 @@ c:\program\ files\ (x86)\atmel\atmel\ toolchain\arm\ gcc\native\4.8.1443\arm-gnu
 
 ../src/ASF/sam0/drivers/tc/tc.h:
 
-../src/wireless.h:
+../src/tasks.h:
+
+../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/sys/inc/sys.h:
+
+../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/sys/inc/sysConfig.h:
 
 ../src/config/config.h:
 
-../src/asf.h:
-
-../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/inc/nwkRx.h:
-
-../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/inc/nwkFrame.h:
-
-../src/Wireless.h:
+../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/phy/at86rf231/inc/phy.h:
 
 ../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/inc/nwk.h:
 
@@ -498,18 +493,12 @@ c:\program\ files\ (x86)\atmel\atmel\ toolchain\arm\ gcc\native\4.8.1443\arm-gnu
 
 ../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/inc/nwkRx.h:
 
+../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/inc/nwkFrame.h:
+
 ../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/inc/nwkGroup.h:
 
 ../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/inc/nwkSecurity.h:
 
 ../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/inc/nwkDataReq.h:
-
-../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/phy/at86rf231/inc/phy.h:
-
-../src/tasks.h:
-
-../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/sys/inc/sys.h:
-
-../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/sys/inc/sysConfig.h:
 
 ../src/config/conf_sio2host.h:
