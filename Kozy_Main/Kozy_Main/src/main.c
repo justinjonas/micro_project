@@ -12,17 +12,19 @@ uint8_t* REGISTER_QUEUE;
 #define COOL "cool"
 
 //globals
- //LCD
- char mode[5] = COOL;
- int roomSelection = 1;
- int targetTemp = 70;
- int roomTemp = 70;
- int ventStatus = "X";
+//LCD
+char degree = 0xDF;
+char mode[5] = COOL;
+int roomSelection = 1;
+int targetTemp = 70;
+int roomTemp = 70;
+int ventStatus = "X";
 
 static struct usart_module cdc_uart_module;
 
 //tasks
 static void lcd_task(void *params);
+static void test_task(void *params);
 
 //functions
 static void configure_console(void);
@@ -45,6 +47,13 @@ int main (void)
 		NULL,
 		2,
 		NULL);
+
+	xTaskCreate(test_task,
+		(const char *)"test",
+		1024,
+		NULL,
+		2,
+		NULL);
 	
 	vTaskStartScheduler();
 	
@@ -56,8 +65,33 @@ int main (void)
 
 static void lcd_task(void *params)
 {
-	updateDisplay();
-	vTaskDelay(20);
+	uint16_t xLastWakeTime = xTaskGetTickCount();
+	//period
+	const uint16_t xWakePeriod = 1000;
+
+	while(1)
+	{
+		updateDisplay();
+
+		/* Block until xWakePeriod ticks since previous call */
+        vTaskDelayUntil(&xLastWakeTime, xWakePeriod);
+	}
+}
+
+static void test_task(void *params)
+{
+	uint16_t xLastWakeTime = xTaskGetTickCount();
+	//period
+	const uint16_t xWakePeriod = 5000;
+	roomTemp = 0;
+
+	while(1)
+	{
+		roomTemp++;
+
+		/* Block until xWakePeriod ticks since previous call */
+        vTaskDelayUntil(&xLastWakeTime, xWakePeriod);
+	}
 }
 
 //functions
@@ -80,12 +114,11 @@ static void configure_console(void)
 
 void updateDisplay()
 {
-	char degree = 0xDF;
 	//clear the display
 	printf("                                ");
 	//set cursor to beginning
 	putchar(254);
 	putchar(128);
-	//update info
+	//update display
 	printf("Mode:%s  Rm:%2dTarget:%2d%c %2d%c %s", mode, roomSelection, targetTemp, degree, roomTemp, degree, ventStatus);
 }
