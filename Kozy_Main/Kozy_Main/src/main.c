@@ -14,9 +14,6 @@ typedef struct wireless_packet
 	uint8_t sender_addr;
 };
 
-uint8_t* TEMP_QUEUE;
-uint8_t* REGISTER_QUEUE;
-
 #define HEAT "heat"
 #define COOL "cool"
 
@@ -33,8 +30,10 @@ static struct usart_module cdc_uart_module;
 
 //semaphores
 static xSemaphoreHandle wireless_mutex;
-static xSemaphoreHandle temp_queue_mutex;
-static xSemaphoreHandle new_sensor_queue_mutex;
+
+//Queues
+xQueueHandle TEMP_QUEUE;
+xQueueHandle REGISTER_QUEUE;
 
 //tasks
 static void lcd_task(void *params);
@@ -56,7 +55,9 @@ int main (void)
 	//wireless_sys_init();
 	
 	configure_console();
-	puts("It works to here!");
+	TEMP_QUEUE = xQueueCreate( 15, sizeof(struct wireless_packet) );
+	REGISTER_QUEUE = xQueueCreate( 15, sizeof(struct wireless_packet) );
+
 	
 	xTaskCreate(lcd_task,
 		(const char *)"LCD",
@@ -181,10 +182,12 @@ bool receive_packet(NWK_DataInd_t *ind)
 	switch(ind->srcAddr)
 	{
 		case TEMP_ADDR:
-			memcpy(ind->data,TEMP_QUEUE, ind->size);
+			//memcpy(ind->data,TEMP_QUEUE, ind->size);
+			xQueueSendToBackFromISR(TEMP_QUEUE, ind->data);
 			break;
 		case REGISTER_ADDR:
-			memcpy(ind->data,REGISTER_QUEUE, ind->size);
+			//memcpy(ind->data,REGISTER_QUEUE, ind->size);
+			xQueueSendToBackFromISR(REGISTER_QUEUE, ind->data);
 			break;
 		default:
 			return false;
