@@ -23,7 +23,7 @@ void assert_triggered( const char * file, uint32_t line );
 /* configTOTAL_HEAP_SIZE is not used when heap_3.c is used. */
 #define configTOTAL_HEAP_SIZE                   ( ( size_t ) ( 15000 ) )
 #define configMAX_TASK_NAME_LEN                 ( 8 )
-#define configUSE_TRACE_FACILITY                0
+#define configUSE_TRACE_FACILITY                1
 #define configUSE_16_BIT_TICKS                  0
 #define configIDLE_SHOULD_YIELD                 1
 #define configUSE_MUTEXES                       1

@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Atmel Studio Solution File, Format Version 11.00
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "I2C_QUICK_START_MASTER_INTERRUPT1", "I2C_QUICK_START_MASTER_INTERRUPT1\I2C_QUICK_START_MASTER_INTERRUPT1.cproj", "{DA847ADF-9B92-4B43-93C4-8CAE2CEE550D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|ARM = Debug|ARM
+		Release|ARM = Release|ARM
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DA847ADF-9B92-4B43-93C4-8CAE2CEE550D}.Debug|ARM.ActiveCfg = Debug|ARM
+		{DA847ADF-9B92-4B43-93C4-8CAE2CEE550D}.Debug|ARM.Build.0 = Debug|ARM
+		{DA847ADF-9B92-4B43-93C4-8CAE2CEE550D}.Release|ARM.ActiveCfg = Release|ARM
+		{DA847ADF-9B92-4B43-93C4-8CAE2CEE550D}.Release|ARM.Build.0 = Release|ARM
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
