@@ -5,6 +5,21 @@
 #include "config.h"
 #include "nwk.h"
 #include "phy.h"
+#include "trcUser.h"
+
+//trace notes
+// make sure to include trcUser.h
+// in main: vTraceInitTraceData();
+//			vTraceStart;
+// Important settings in trcConfig.h
+// #define SELECTED_PORT PORT_ARM_CortexM
+// #define FREERTOS_VERSION BLAHBLAH
+// #define EVENT_BUFFER_SIZE 5000
+// #define TRACE_RECORDER_STORE_MODE __STOP_WHEN_FULL
+
+//freeRTOS trace program
+// J-Link->read trace
+
 
 //custom data structures
 typedef struct wireless_packet
@@ -74,6 +89,8 @@ int main (void)
 	TEMP_QUEUE = xQueueCreate( 15, sizeof(struct wireless_packet) );
 	REGISTER_QUEUE = xQueueCreate( 15, sizeof(struct wireless_packet) );
 
+	vTraceInitTraceData();
+	vTraceStart;
 	
 	xTaskCreate(lcd_task,
 		(const char *)"LCD",
