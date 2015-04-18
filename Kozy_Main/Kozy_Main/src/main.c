@@ -6,12 +6,22 @@
 #include "nwk.h"
 #include "phy.h"
 
+//custom data structures
 typedef struct wireless_packet
 {
 	uint8_t* data;
 	uint8_t size;
 	uint8_t dst_addr;
 	uint8_t sender_addr;
+};
+
+typedef struct room
+{
+	uint8_t tempSensorAddress;
+	uint8_t registerAddress;
+	int roomNumber;
+	int registerStatus;
+	int temp;
 };
 
 #define HEAT "heat"
@@ -25,6 +35,10 @@ int roomSelection = 1;
 int targetTemp = 70;
 int roomTemp = 70;
 int ventStatus = "X";
+
+//temp data
+int numberOfRooms = 0;
+struct room[30] rooms;
 
 static struct usart_module cdc_uart_module;
 
@@ -66,11 +80,25 @@ int main (void)
 		2,
 		NULL);
 
-	xTaskCreate(test_task,
-		(const char *)"test",
+	xTaskCreate(analyze_temp_data,
+		(const char *)"Analyze Temp Data",
 		1024,
 		NULL,
 		1,
+		NULL);
+
+	// xTaskCreate(new_sensor_task,
+	// 	(const char *)"new sensor",
+	// 	1024,
+	// 	NULL,
+	// 	1,
+	// 	NULL);
+
+	xTaskCreate(wireless_refresh,
+		(const char *)"Analyze Temp Data",
+		1024,
+		NULL,
+		10,
 		NULL);
 	
 	vTaskStartScheduler();
@@ -97,7 +125,7 @@ static void lcd_task(void *params)
 	}
 }
 
-static void test_task(void *params)
+static void analyze_temp_data(void *params)
 {
 	//period
 	const uint16_t xDelay = 1000;
@@ -110,6 +138,28 @@ static void test_task(void *params)
 		roomTemp%=99;
 
 		/* Block for xDelay ms */
+		vTaskDelay(xDelay);
+	}
+}
+
+static void new_sensor_task(void *params)
+{
+	//this task will periodically run and add any new temperature sensors that get connected
+	const uint16_t xDelay = 1000;
+
+	while(1)
+	{
+		vTaskDelay(xDelay);
+	}
+}
+
+static void wireless_refresh(void *params)
+{
+	const uint16_t xDelay = 5;
+
+	while(1)
+	{
+		SYS_TaskHandler();	//needs to run as often as possible for wireless stuffs
 		vTaskDelay(xDelay);
 	}
 }
