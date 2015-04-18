@@ -128,27 +128,16 @@ int main (void)
 	 	1,
 	 	NULL);
 
-	xTaskCreate(wireless_refresh,
-		(const char *)"Wireless Refresh",
-		512,
-		NULL,
-		1,
-		NULL);
+	// xTaskCreate(wireless_refresh,
+	// 	(const char *)"Wireless Refresh",
+	// 	512,
+	// 	NULL,
+	// 	1,
+	// 	NULL);
 	
-	//vTaskStartScheduler();
+	vTaskStartScheduler();
 	
-	struct wireless_packet dataToSend;
-	
-	dataToSend.data = 1;
-	dataToSend.dst_addr = REGISTER_ADDR;
-	dataToSend.sender_addr = APP_ADDR;
-	dataToSend.size = sizeof(char);
-	send_packet(dataToSend);
-	
-	while(1){
-		SYS_TaskHandler();
-			
-	}
+	while(1){}
 
 }
 
