@@ -354,9 +354,9 @@ src/ASF/thirdparty/wireless/services/sal/at86rf2xx/src/sal.d \
 src/ASF/thirdparty/wireless/services/trx_access/trx_access.d \
 src/Peer2Peer.d
 
-OUTPUT_FILE_PATH +=APPS_PEER2PEER2.elf
+OUTPUT_FILE_PATH +=register.elf
 
-OUTPUT_FILE_PATH_AS_ARGS +=APPS_PEER2PEER2.elf
+OUTPUT_FILE_PATH_AS_ARGS +=register.elf
 
 ADDITIONAL_DEPENDENCIES:=
 
@@ -666,14 +666,14 @@ all: $(OUTPUT_FILE_PATH) $(ADDITIONAL_DEPENDENCIES)
 $(OUTPUT_FILE_PATH): $(OBJS) $(USER_OBJS) $(OUTPUT_FILE_DEP) $(LIB_DEP) $(LINKER_SCRIPT_DEP)
 	@echo Building target: $@
 	@echo Invoking: ARM/GNU Linker : 4.8.4
-	$(QUOTE)C:\Program Files (x86)\Atmel\Atmel Toolchain\ARM GCC\Native\4.8.1443\arm-gnu-toolchain\bin\arm-none-eabi-gcc.exe$(QUOTE) -o$(OUTPUT_FILE_PATH_AS_ARGS) $(OBJS_AS_ARGS) $(USER_OBJS) $(LIBS) -mthumb -Wl,-Map="APPS_PEER2PEER2.map" --specs=nano.specs -Wl,--start-group -lsam0_lib_hw_timer -larm_cortexM0l_math -lm  -Wl,--end-group -L"../cmsis/linkerScripts" -L"../src/ASF/thirdparty/CMSIS/Lib/GCC" -L"../src/ASF/thirdparty/wireless/services/common_hw_timer/sam0/lib"  -Wl,--gc-sections -mcpu=cortex-m0plus -Wl,--entry=Reset_Handler -Wl,--cref -mthumb -T../src/ASF/sam0/utils/linker_scripts/samr21/gcc/samr21g18a_flash.ld  
+	$(QUOTE)C:\Program Files (x86)\Atmel\Atmel Toolchain\ARM GCC\Native\4.8.1443\arm-gnu-toolchain\bin\arm-none-eabi-gcc.exe$(QUOTE) -o$(OUTPUT_FILE_PATH_AS_ARGS) $(OBJS_AS_ARGS) $(USER_OBJS) $(LIBS) -mthumb -Wl,-Map="register.map" --specs=nano.specs -Wl,--start-group -lsam0_lib_hw_timer -larm_cortexM0l_math -lm  -Wl,--end-group -L"../cmsis/linkerScripts" -L"../src/ASF/thirdparty/CMSIS/Lib/GCC" -L"../src/ASF/thirdparty/wireless/services/common_hw_timer/sam0/lib"  -Wl,--gc-sections -mcpu=cortex-m0plus -Wl,--entry=Reset_Handler -Wl,--cref -mthumb -T../src/ASF/sam0/utils/linker_scripts/samr21/gcc/samr21g18a_flash.ld  
 	@echo Finished building target: $@
-	"C:\Program Files (x86)\Atmel\Atmel Toolchain\ARM GCC\Native\4.8.1443\arm-gnu-toolchain\bin\arm-none-eabi-objcopy.exe" -O binary "APPS_PEER2PEER2.elf" "APPS_PEER2PEER2.bin"
-	"C:\Program Files (x86)\Atmel\Atmel Toolchain\ARM GCC\Native\4.8.1443\arm-gnu-toolchain\bin\arm-none-eabi-objcopy.exe" -O ihex -R .eeprom -R .fuse -R .lock -R .signature  "APPS_PEER2PEER2.elf" "APPS_PEER2PEER2.hex"
-	"C:\Program Files (x86)\Atmel\Atmel Toolchain\ARM GCC\Native\4.8.1443\arm-gnu-toolchain\bin\arm-none-eabi-objcopy.exe" -j .eeprom --set-section-flags=.eeprom=alloc,load --change-section-lma .eeprom=0 --no-change-warnings -O binary "APPS_PEER2PEER2.elf" "APPS_PEER2PEER2.eep" || exit 0
-	"C:\Program Files (x86)\Atmel\Atmel Toolchain\ARM GCC\Native\4.8.1443\arm-gnu-toolchain\bin\arm-none-eabi-objdump.exe" -h -S "APPS_PEER2PEER2.elf" > "APPS_PEER2PEER2.lss"
-	"C:\Program Files (x86)\Atmel\Atmel Toolchain\ARM GCC\Native\4.8.1443\arm-gnu-toolchain\bin\arm-none-eabi-objcopy.exe" -O srec -R .eeprom -R .fuse -R .lock -R .signature  "APPS_PEER2PEER2.elf" "APPS_PEER2PEER2.srec"
-	"C:\Program Files (x86)\Atmel\Atmel Toolchain\ARM GCC\Native\4.8.1443\arm-gnu-toolchain\bin\arm-none-eabi-size.exe" "APPS_PEER2PEER2.elf"
+	"C:\Program Files (x86)\Atmel\Atmel Toolchain\ARM GCC\Native\4.8.1443\arm-gnu-toolchain\bin\arm-none-eabi-objcopy.exe" -O binary "register.elf" "register.bin"
+	"C:\Program Files (x86)\Atmel\Atmel Toolchain\ARM GCC\Native\4.8.1443\arm-gnu-toolchain\bin\arm-none-eabi-objcopy.exe" -O ihex -R .eeprom -R .fuse -R .lock -R .signature  "register.elf" "register.hex"
+	"C:\Program Files (x86)\Atmel\Atmel Toolchain\ARM GCC\Native\4.8.1443\arm-gnu-toolchain\bin\arm-none-eabi-objcopy.exe" -j .eeprom --set-section-flags=.eeprom=alloc,load --change-section-lma .eeprom=0 --no-change-warnings -O binary "register.elf" "register.eep" || exit 0
+	"C:\Program Files (x86)\Atmel\Atmel Toolchain\ARM GCC\Native\4.8.1443\arm-gnu-toolchain\bin\arm-none-eabi-objdump.exe" -h -S "register.elf" > "register.lss"
+	"C:\Program Files (x86)\Atmel\Atmel Toolchain\ARM GCC\Native\4.8.1443\arm-gnu-toolchain\bin\arm-none-eabi-objcopy.exe" -O srec -R .eeprom -R .fuse -R .lock -R .signature  "register.elf" "register.srec"
+	"C:\Program Files (x86)\Atmel\Atmel Toolchain\ARM GCC\Native\4.8.1443\arm-gnu-toolchain\bin\arm-none-eabi-size.exe" "register.elf"
 	
 	
 
@@ -685,5 +685,5 @@ $(OUTPUT_FILE_PATH): $(OBJS) $(USER_OBJS) $(OUTPUT_FILE_DEP) $(LIB_DEP) $(LINKER
 clean:
 	-$(RM) $(OBJS_AS_ARGS) $(EXECUTABLES)  
 	-$(RM) $(C_DEPS_AS_ARGS)   
-	rm -rf "APPS_PEER2PEER2.elf" "APPS_PEER2PEER2.a" "APPS_PEER2PEER2.hex" "APPS_PEER2PEER2.bin" "APPS_PEER2PEER2.lss" "APPS_PEER2PEER2.eep" "APPS_PEER2PEER2.map" "APPS_PEER2PEER2.srec"
+	rm -rf "register.elf" "register.a" "register.hex" "register.bin" "register.lss" "register.eep" "register.map" "register.srec"
 	

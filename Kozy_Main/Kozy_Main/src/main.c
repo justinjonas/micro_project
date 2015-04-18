@@ -34,11 +34,11 @@ char mode[5] = COOL;
 int roomSelection = 1;
 int targetTemp = 70;
 int roomTemp = 70;
-int ventStatus = "X";
+char ventStatus = 'X';
 
 //temp data
 int numberOfRooms = 0;
-struct room[30] rooms;
+//struct room rooms[30];
 
 static struct usart_module cdc_uart_module;
 static NWK_DataReq_t appDataReq;
@@ -52,18 +52,28 @@ xQueueHandle REGISTER_QUEUE;
 
 //tasks
 static void lcd_task(void *params);
-static void test_task(void *params);
+static void new_sensor_task(void *params);
+static void wireless_refresh(void *params);
+static void analyze_temp_data(void *params);
+
+//! Handle for about screen task
+static xTaskHandle wireless_task_handle;
+
 
 //functions
 static void configure_console(void);
 void updateDisplay(void);
 void wireless_init(void);
 void send_packet(struct wireless_packet packet);	//Sends data based on the struct passed in with packet
-bool receive_packet(NWK_DataInd_t *ind);			//Callback function when a packet is received
+static bool appDataInd(NWK_DataInd_t *ind);			//Callback function when a packet is received
 void send_packet_conf(NWK_DataReq_t *req);			//Callback function for a confirmed sent packet
+static void configure_eic_callback(void);			//button press stuff
+static void extint_callback(void);					//button press stuff
+static void configure_extint(void);					//button press stuff
 
 int main (void)
 {
+	irq_initialize_vectors();
 	system_init();
 	delay_init();
 	//board_init();
@@ -71,13 +81,18 @@ int main (void)
 	SYS_Init();
 	wireless_init();
 	configure_console();
+	configure_extint();
+	configure_eic_callback();
+	system_interrupt_enable_global();
 	TEMP_QUEUE = xQueueCreate( 15, sizeof(struct wireless_packet) );
 	REGISTER_QUEUE = xQueueCreate( 15, sizeof(struct wireless_packet) );
+	taskENABLE_INTERRUPTS();
+	cpu_irq_enable();
 
 	
 	xTaskCreate(lcd_task,
 		(const char *)"LCD",
-		1024,
+		512,
 		NULL,
 		2,
 		NULL);
@@ -89,23 +104,34 @@ int main (void)
 		1,
 		NULL);
 
-	// xTaskCreate(new_sensor_task,
-	// 	(const char *)"new sensor",
-	// 	1024,
-	// 	NULL,
-	// 	1,
-	// 	NULL);
+	 xTaskCreate(new_sensor_task,
+	 	(const char *)"new sensor",
+	 	512,
+	 	NULL,
+	 	1,
+	 	NULL);
 
 	xTaskCreate(wireless_refresh,
-		(const char *)"Analyze Temp Data",
-		1024,
+		(const char *)"Wireless Refresh",
+		512,
 		NULL,
-		10,
+		1,
 		NULL);
 	
-	vTaskStartScheduler();
+	//vTaskStartScheduler();
 	
-	while(1){}
+	struct wireless_packet dataToSend;
+	
+	dataToSend.data = 1;
+	dataToSend.dst_addr = REGISTER_ADDR;
+	dataToSend.sender_addr = APP_ADDR;
+	dataToSend.size = sizeof(char);
+	send_packet(dataToSend);
+	
+	while(1){
+		SYS_TaskHandler();
+			
+	}
 
 }
 
@@ -113,24 +139,19 @@ int main (void)
 
 static void lcd_task(void *params)
 {
-	uint16_t xLastWakeTime = xTaskGetTickCount();
-	//period
-	const uint16_t xWakePeriod = 1000;
-
+	const uint16_t xDelay = 250;
 	while(1)
 	{
 		updateDisplay();
-
-		/* Block until xWakePeriod ticks since previous call */
-        //vTaskDelayUntil(&xLastWakeTime, xWakePeriod);
-		vTaskDelay(100);
+		
+		vTaskDelay(xDelay);
 	}
 }
 
 static void analyze_temp_data(void *params)
 {
 	//period
-	const uint16_t xDelay = 50;
+	const uint16_t xDelay = 500;
 	
 	struct wireless_packet packet_received;
 
@@ -138,6 +159,10 @@ static void analyze_temp_data(void *params)
 	{
 		if(xQueueReceive(TEMP_QUEUE, &packet_received, 100))
 			roomTemp = packet_received.data;
+			
+		//debugging
+		roomSelection++;
+		roomSelection%=99;
 		
 		/* Block for xDelay ms */
 		vTaskDelay(xDelay);
@@ -157,7 +182,7 @@ static void new_sensor_task(void *params)
 
 static void wireless_refresh(void *params)
 {
-	const uint16_t xDelay = 5;
+	const uint16_t xDelay = 10;
 
 	while(1)
 	{
@@ -187,12 +212,11 @@ static void configure_console(void)
 void updateDisplay(void)
 {
 	//clear the display
-	//printf("                                ");
 	//set cursor to beginning
 	putchar(254);
 	putchar(128);
 	//update display
-	printf("Mode:%s  Rm:%2dTarget:%2d%c %2d%c %s", mode, roomSelection, targetTemp, degree, roomTemp, degree, ventStatus);
+	printf("Mode:%s  Rm:%2dTarget:%2d%c %2d%c %c", mode, roomSelection, targetTemp, degree, roomTemp, degree, ventStatus);
 }
 
 void wireless_init(void)
@@ -207,7 +231,7 @@ void wireless_init(void)
 	PHY_SetRxState(true);
 	PHY_SetTxPower(0x23);
 	NWK_SetSecurityKey((uint8_t *)APP_SECURITY_KEY);
-	NWK_OpenEndpoint(APP_ENDPOINT, receive_packet);
+	//NWK_OpenEndpoint(APP_ENDPOINT, appDataInd);
 }
 
 //We will need to sent the struct of the payload and know where to send it to
@@ -228,27 +252,27 @@ void send_packet(struct wireless_packet packet)
 }
 
 
-//When a packet is received, parse the data into the correct queues
-bool receive_packet(NWK_DataInd_t *ind)
-{	
-	printf("received!");
-	switch(ind->srcAddr)
-	{
-		case TEMP_ADDR:
-			//memcpy(ind->data,TEMP_QUEUE, ind->size);
-			xQueueSendToBackFromISR(TEMP_QUEUE, ind->data, NULL);
-			break;
-		case REGISTER_ADDR:
-			//memcpy(ind->data,REGISTER_QUEUE, ind->size);
-			xQueueSendToBackFromISR(REGISTER_QUEUE, ind->data, NULL);
-			break;
-		default:
-			return false;
+////When a packet is received, parse the data into the correct queues
+//static bool appDataInd(NWK_DataInd_t *ind)
+//{	
+	//printf("received!");
+	//switch(ind->srcAddr)
+	//{
+		//case TEMP_ADDR:
+			////memcpy(ind->data,TEMP_QUEUE, ind->size);
+			////xQueueSendToBackFromISR(TEMP_QUEUE, ind->data, NULL);
 			//break;
-			//Call a function to add a new temp sensor and register to the network		
-	}
-	return true;
-}
+		//case REGISTER_ADDR:
+			////memcpy(ind->data,REGISTER_QUEUE, ind->size);
+			////xQueueSendToBackFromISR(REGISTER_QUEUE, ind->data, NULL);
+			//break;
+		//default:
+			//return false;
+			////break;
+			////Call a function to add a new temp sensor and register to the network		
+	//}
+	//return true;
+//}
 
 
 void send_packet_conf(NWK_DataReq_t *req)
@@ -257,4 +281,47 @@ void send_packet_conf(NWK_DataReq_t *req)
 		LED_Toggle(LED0);
 		//release the semaphore ;
 	}
+}
+
+/** Configures the External Interrupt Controller to detect changes in the board
+ *  button state.
+ */
+static void configure_extint(void)
+{
+	struct extint_chan_conf eint_chan_conf;
+	extint_chan_get_config_defaults(&eint_chan_conf);
+
+	eint_chan_conf.gpio_pin           = BUTTON_0_EIC_PIN;
+	eint_chan_conf.gpio_pin_mux       = BUTTON_0_EIC_MUX;
+	eint_chan_conf.detection_criteria = EXTINT_DETECT_BOTH;
+	eint_chan_conf.filter_input_signal = true;
+	extint_chan_set_config(BUTTON_0_EIC_LINE, &eint_chan_conf);
+}
+
+/** Callback function for the EXTINT driver, called when an external interrupt
+ *  detection occurs.
+ */
+static void extint_callback(void)
+{
+	roomTemp++;
+	//struct wireless_packet dataToSend;
+	//
+	//dataToSend.data = 1;
+	//dataToSend.dst_addr = REGISTER_ADDR;
+	//dataToSend.sender_addr = APP_ADDR;
+	//dataToSend.size = sizeof(char);
+	//send_packet(dataToSend);
+	printf("button");
+}
+
+/** Configures and registers the External Interrupt callback function with the
+ *  driver.
+ */
+static void configure_eic_callback(void)
+{
+	extint_register_callback(extint_callback,
+			BUTTON_0_EIC_LINE,
+			EXTINT_CALLBACK_TYPE_DETECT);
+	extint_chan_enable_callback(BUTTON_0_EIC_LINE,
+			EXTINT_CALLBACK_TYPE_DETECT);
 }
