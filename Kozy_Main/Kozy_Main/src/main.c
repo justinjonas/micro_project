@@ -27,6 +27,7 @@ int roomTemp = 70;
 int ventStatus = "X";
 
 static struct usart_module cdc_uart_module;
+static NWK_DataReq_t appDataReq;
 
 //semaphores
 static xSemaphoreHandle wireless_mutex;
@@ -41,7 +42,7 @@ static void test_task(void *params);
 
 //functions
 static void configure_console(void);
-void updateDisplay();
+void updateDisplay(void);
 void wireless_init(void);
 void send_packet(struct wireless_packet packet);	//Sends data based on the struct passed in with packet
 bool receive_packet(NWK_DataInd_t *ind);			//Callback function when a packet is received
@@ -53,7 +54,8 @@ int main (void)
 	delay_init();
 	//board_init();
 	//wireless_sys_init();
-	
+	SYS_Init();
+	wireless_init();
 	configure_console();
 	TEMP_QUEUE = xQueueCreate( 15, sizeof(struct wireless_packet) );
 	REGISTER_QUEUE = xQueueCreate( 15, sizeof(struct wireless_packet) );
@@ -132,7 +134,7 @@ static void configure_console(void)
 	usart_enable(&cdc_uart_module);
 }
 
-void updateDisplay()
+void updateDisplay(void)
 {
 	//clear the display
 	//printf("                                ");
@@ -162,7 +164,7 @@ void wireless_init(void)
 // TODO: Change the endpoint, destination addr, and the data payload to send
 void send_packet(struct wireless_packet packet)
 {
-	NWK_DataReq_t appDataReq;
+	//NWK_DataReq_t appDataReq;
 
 	appDataReq.dstAddr = packet.dst_addr;
 	appDataReq.dstEndpoint = packet.dst_addr;
@@ -179,6 +181,7 @@ void send_packet(struct wireless_packet packet)
 //When a packet is received, parse the data into the correct queues
 bool receive_packet(NWK_DataInd_t *ind)
 {	
+	printf("received!");
 	switch(ind->srcAddr)
 	{
 		case TEMP_ADDR:
