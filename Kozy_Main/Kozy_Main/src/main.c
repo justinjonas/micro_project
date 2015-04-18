@@ -41,6 +41,7 @@ int numberOfRooms = 0;
 struct room[30] rooms;
 
 static struct usart_module cdc_uart_module;
+static NWK_DataReq_t appDataReq;
 
 //semaphores
 static xSemaphoreHandle wireless_mutex;
@@ -55,7 +56,7 @@ static void test_task(void *params);
 
 //functions
 static void configure_console(void);
-void updateDisplay();
+void updateDisplay(void);
 void wireless_init(void);
 void send_packet(struct wireless_packet packet);	//Sends data based on the struct passed in with packet
 bool receive_packet(NWK_DataInd_t *ind);			//Callback function when a packet is received
@@ -67,7 +68,8 @@ int main (void)
 	delay_init();
 	//board_init();
 	//wireless_sys_init();
-	
+	SYS_Init();
+	wireless_init();
 	configure_console();
 	TEMP_QUEUE = xQueueCreate( 15, sizeof(struct wireless_packet) );
 	REGISTER_QUEUE = xQueueCreate( 15, sizeof(struct wireless_packet) );
@@ -128,15 +130,15 @@ static void lcd_task(void *params)
 static void analyze_temp_data(void *params)
 {
 	//period
-	const uint16_t xDelay = 1000;
+	const uint16_t xDelay = 50;
 	
-	roomTemp = 0;
+	struct wireless_packet packet_received;
 
 	while(1)
 	{
-		roomTemp++;
-		roomTemp%=99;
-
+		if(xQueueReceive(TEMP_QUEUE, &packet_received, 100))
+			roomTemp = packet_received.data;
+		
 		/* Block for xDelay ms */
 		vTaskDelay(xDelay);
 	}
@@ -182,7 +184,7 @@ static void configure_console(void)
 	usart_enable(&cdc_uart_module);
 }
 
-void updateDisplay()
+void updateDisplay(void)
 {
 	//clear the display
 	//printf("                                ");
@@ -212,7 +214,7 @@ void wireless_init(void)
 // TODO: Change the endpoint, destination addr, and the data payload to send
 void send_packet(struct wireless_packet packet)
 {
-	NWK_DataReq_t appDataReq;
+	//NWK_DataReq_t appDataReq;
 
 	appDataReq.dstAddr = packet.dst_addr;
 	appDataReq.dstEndpoint = packet.dst_addr;
@@ -229,15 +231,16 @@ void send_packet(struct wireless_packet packet)
 //When a packet is received, parse the data into the correct queues
 bool receive_packet(NWK_DataInd_t *ind)
 {	
+	printf("received!");
 	switch(ind->srcAddr)
 	{
 		case TEMP_ADDR:
 			//memcpy(ind->data,TEMP_QUEUE, ind->size);
-			xQueueSendToBackFromISR(TEMP_QUEUE, ind->data);
+			xQueueSendToBackFromISR(TEMP_QUEUE, ind->data, NULL);
 			break;
 		case REGISTER_ADDR:
 			//memcpy(ind->data,REGISTER_QUEUE, ind->size);
-			xQueueSendToBackFromISR(REGISTER_QUEUE, ind->data);
+			xQueueSendToBackFromISR(REGISTER_QUEUE, ind->data, NULL);
 			break;
 		default:
 			return false;
