@@ -2,11 +2,13 @@
 # Automatically-generated file. Do not edit or delete the file
 ################################################################################
 
+src\ASF\sam0\drivers\adc\adc_sam_d_r\adc.c
+
+src\ASF\sam0\drivers\adc\adc_sam_d_r\adc_callback.c
+
 src\ASF\sam0\drivers\extint\extint_sam_d_r\extint.c
 
 src\ASF\sam0\drivers\sercom\sercom.c
-
-src\ASF\sam0\drivers\tc\tc_sam_d_r\tc.c
 
 src\ASF\sam0\utils\stdio\read.c
 
@@ -22,39 +24,9 @@ src\ASF\thirdparty\freertos\freertos-8.0.1\Source\portable\MemMang\heap_1.c
 
 src\ASF\thirdparty\wireless\addons\sio2host\uart\sio2host.c
 
-src\ASF\thirdparty\wireless\services\sal\at86rf2xx\src\sal.c
-
-src\ASF\thirdparty\wireless\services\trx_access\trx_access.c
-
 src\tasks.c
 
-src\ASF\thirdparty\wireless\services\common_hw_timer\sam0\hw_timer.c
-
-src\ASF\thirdparty\wireless\avr2130_lwmesh\source\sys\src\sys.c
-
-src\ASF\thirdparty\wireless\avr2130_lwmesh\source\sys\src\sysEncrypt.c
-
-src\ASF\thirdparty\wireless\avr2130_lwmesh\source\sys\src\sysTimer.c
-
-src\ASF\thirdparty\wireless\avr2130_lwmesh\source\phy\at86rf231\src\phy.c
-
-src\ASF\thirdparty\wireless\avr2130_lwmesh\source\nwk\src\nwk.c
-
-src\ASF\thirdparty\wireless\avr2130_lwmesh\source\nwk\src\nwkDataReq.c
-
-src\ASF\thirdparty\wireless\avr2130_lwmesh\source\nwk\src\nwkFrame.c
-
-src\ASF\thirdparty\wireless\avr2130_lwmesh\source\nwk\src\nwkGroup.c
-
-src\ASF\thirdparty\wireless\avr2130_lwmesh\source\nwk\src\nwkRoute.c
-
-src\ASF\thirdparty\wireless\avr2130_lwmesh\source\nwk\src\nwkRouteDiscovery.c
-
-src\ASF\thirdparty\wireless\avr2130_lwmesh\source\nwk\src\nwkRx.c
-
-src\ASF\thirdparty\wireless\avr2130_lwmesh\source\nwk\src\nwkSecurity.c
-
-src\ASF\thirdparty\wireless\avr2130_lwmesh\source\nwk\src\nwkTx.c
+trcRecorder.c
 
 src\ASF\thirdparty\freertos\freertos-8.0.1\Source\list.c
 
@@ -64,15 +36,9 @@ src\ASF\thirdparty\freertos\freertos-8.0.1\Source\tasks.c
 
 src\ASF\thirdparty\freertos\freertos-8.0.1\Source\timers.c
 
-src\ASF\sam0\drivers\tc\tc_interrupt.c
-
 src\ASF\sam0\drivers\sercom\usart\usart.c
 
 src\ASF\sam0\drivers\sercom\usart\usart_interrupt.c
-
-src\ASF\sam0\drivers\sercom\spi\spi.c
-
-src\ASF\sam0\drivers\sercom\spi\spi_interrupt.c
 
 src\ASF\sam0\drivers\sercom\sercom_interrupt.c
 

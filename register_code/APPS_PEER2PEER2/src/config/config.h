@@ -49,7 +49,7 @@
 #define APP_ADDR                  3
 #define APP_PANID                 0x4567
 #define APP_ENDPOINT              3
-#define APP_DST_ENDPOINT		  1
+#define APP_DST_ENDPOINT		  2
 #define APP_SECURITY_KEY          "TestSecurityKey0"
 #define APP_FLUSH_TIMER_INTERVAL  20
 

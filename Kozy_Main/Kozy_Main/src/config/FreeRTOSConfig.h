@@ -18,7 +18,7 @@ void assert_triggered( const char * file, uint32_t line );
 #define configPRIO_BITS                         2
 #define configCPU_CLOCK_HZ                      ( 8000000 )
 #define configTICK_RATE_HZ                      ( ( TickType_t ) 1000 )
-#define configMAX_PRIORITIES                    ( ( uint32_t ) 5 )
+#define configMAX_PRIORITIES                    ( ( uint32_t ) 8 )
 #define configMINIMAL_STACK_SIZE                ( ( uint16_t ) 100 )
 /* configTOTAL_HEAP_SIZE is not used when heap_3.c is used. */
 #define configTOTAL_HEAP_SIZE                   ( ( size_t ) ( 15000 ) )
@@ -89,5 +89,7 @@ PRIORITY THAN THIS! (higher priorities are lower numeric values. */
 to all Cortex-M ports, and do not rely on any particular library functions. */
 #define configKERNEL_INTERRUPT_PRIORITY 		( configLIBRARY_LOWEST_INTERRUPT_PRIORITY << (8 - configPRIO_BITS) )
 #define configMAX_SYSCALL_INTERRUPT_PRIORITY 	( configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY << (8 - configPRIO_BITS) )
+
+//#include "trcKernelPort.h"
 
 #endif /* FREERTOS_CONFIG_H */

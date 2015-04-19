@@ -1,68 +1,17 @@
-/**
- * \file Peer2Peer.c
- *
- * \brief Peer2Peer application implementation
- *
- * Copyright (C) 2014-2015 Atmel Corporation. All rights reserved.
- *
- * \asf_license_start
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
- *
- * 3. The name of Atmel may not be used to endorse or promote products derived
- *    from this software without specific prior written permission.
- *
- * 4. This software may only be redistributed and used in connection with an
- *    Atmel microcontroller product.
- *
- * THIS SOFTWARE IS PROVIDED BY ATMEL "AS IS" AND ANY EXPRESS OR IMPLIED
- * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT ARE
- * EXPRESSLY AND SPECIFICALLY DISCLAIMED. IN NO EVENT SHALL ATMEL BE LIABLE FOR
- * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
- * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
- * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
- * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- *
- * \asf_license_stop
- *
- *
- */
-
-/**
- * \mainpage
- * \section preface Preface
- * This is the reference manual for the LWMesh Peer2Peer Application
- * //TODO
- */
 /*- Includes ---------------------------------------------------------------*/
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include "config.h"
 #include "sys.h"
-#if SAMD || SAMR21
 #include "system.h"
-#else
-#include "led.h"
-#include "sysclk.h"
-#endif
 #include "phy.h"
 #include "nwk.h"
 #include "sysTimer.h"
 #include "sio2host.h"
-#include "asf.h"
+#include <asf.h>
+#include "conf_sio2host.h"
+#include "adc.h"
 
 /*- Definitions ------------------------------------------------------------*/
 #ifdef NWK_ENABLE_SECURITY
@@ -83,15 +32,21 @@ typedef enum AppState_t {
 static void appSendData(void);
 static void appInit(void);
 static void APP_TaskHandler(void);
+void configure_adc(void);
+static void configure_console(void);
+void timer_init(void);
+void timer_callback(void);
 
 /*- Variables --------------------------------------------------------------*/
-static AppState_t appState = APP_STATE_INITIAL;
-static SYS_Timer_t appTimer;
+static SYS_Timer_t timer;
 static NWK_DataReq_t appDataReq;
 static bool appDataReqBusy = false;
 static uint8_t appDataReqBuffer[APP_BUFFER_SIZE];
 static uint8_t appUartBuffer[APP_BUFFER_SIZE];
 static uint8_t appUartBufferPtr = 0;
+static struct usart_module cdc_uart_module;
+
+struct adc_module adc_instance;
 /*- Implementations --------------------------------------------------------*/
 
 /*************************************************************************//**
@@ -114,7 +69,7 @@ static void appSendData(void)
 
 	memcpy(appDataReqBuffer, appUartBuffer, appUartBufferPtr);
 
-	appDataReq.dstAddr = 2;
+	appDataReq.dstAddr = 0;
 	appDataReq.dstEndpoint = APP_DST_ENDPOINT;
 	appDataReq.srcEndpoint = APP_ENDPOINT;
 	appDataReq.options = NWK_OPT_ENABLE_SECURITY;
@@ -125,15 +80,6 @@ static void appSendData(void)
 
 	appUartBufferPtr = 0;
 	appDataReqBusy = true;
-	//LED_Toggle(LED0);
-}
-
-/*************************************************************************//**
-*****************************************************************************/
-static void appTimerHandler(SYS_Timer_t *timer)
-{
-	appSendData();
-	(void)timer;
 }
 
 /*************************************************************************//**
@@ -157,11 +103,6 @@ static void APP_TaskHandler(void)
 		}
 		appSendData();
 	}
-	//delay_ms(200);
-	
-		
-	//SYS_TimerStop(&appTimer);
-	//SYS_TimerStart(&appTimer);
 }
 
 /*************************************************************************//**
@@ -171,7 +112,7 @@ static bool appDataInd(NWK_DataInd_t *ind)
 	for (uint8_t i = 0; i < ind->size; i++) {
 		rx_data[i] = ind->data[i];
 	}
-	APP_TaskHandler();
+	//APP_TaskHandler();
 	return true;
 }
 
@@ -190,29 +131,89 @@ static void appInit(void)
 	PHY_SetTxPower(0x23);
 	NWK_SetSecurityKey((uint8_t *)APP_SECURITY_KEY);
 	NWK_OpenEndpoint(APP_ENDPOINT, appDataInd);
-
-	appTimer.interval = APP_FLUSH_TIMER_INTERVAL;
-	appTimer.mode = SYS_TIMER_INTERVAL_MODE;
-	appTimer.handler = appTimerHandler;
 }
 
+
+void configure_adc(void)
+{
+	struct adc_config config_adc;
+
+	adc_get_config_defaults(&config_adc);
+
+	config_adc.reference = ADC_REFERENCE_INT1V;		//ADC_REFERENCE_INTVCC0;	//reference voltage on pin 9: PA04
+	config_adc.resolution = ADC_RESOLUTION_12BIT;			//12 bit resolution
+	config_adc.divide_result = ADC_DIVIDE_RESULT_DISABLE;	//Don't divide result register after accumulation
+	config_adc.positive_input = ADC_POSITIVE_INPUT_PIN10;	//voltage positive input on pin 10: PB02
+	config_adc.negative_input = ADC_NEGATIVE_INPUT_PIN7;	//voltage negative input as internal ground : PA07
+
+	adc_init(&adc_instance, ADC, &config_adc);
+
+	adc_enable(&adc_instance);
+}
+
+
+static void configure_console(void)
+{
+	struct usart_config usart_conf;
+
+	usart_get_config_defaults(&usart_conf);
+	usart_conf.mux_setting = HOST_SERCOM_MUX_SETTING;
+	usart_conf.pinmux_pad0 = HOST_SERCOM_PINMUX_PAD0;
+	usart_conf.pinmux_pad1 = HOST_SERCOM_PINMUX_PAD1;
+	usart_conf.pinmux_pad2 = HOST_SERCOM_PINMUX_PAD2;
+	usart_conf.pinmux_pad3 = HOST_SERCOM_PINMUX_PAD3;
+	usart_conf.baudrate    = USART_HOST_BAUDRATE;
+
+	stdio_serial_init(&cdc_uart_module, USART_HOST, &usart_conf);
+	usart_enable(&cdc_uart_module);
+}
+
+//void timer_init(void)
+//{
+	//appTimer.interval = APP_FLUSH_TIMER_INTERVAL;
+	//appTimer.mode = SYS_TIMER_INTERVAL_MODE;
+	//appTimer.handler = timer_callback;
+//}
+
+void timer_callback(void)
+{
+	uint16_t result;
+	adc_start_conversion(&adc_instance);
+	delay_ms(200);
+	do {
+		/* Wait for conversion to be done and read out result */
+	} while (adc_read(&adc_instance, &result) == STATUS_BUSY);
+	adc_clear_status(&adc_instance,adc_get_status(&adc_instance));
+	uint32_t far;
+	far = 9.0/5.0*((float)result*.0002441406*6.0/.01)+32.0;
+	
+	memcpy(appUartBuffer,&far, sizeof(far));
+	appUartBufferPtr = sizeof(far);
+	
+	appSendData();
+	delay_ms(500);
+	printf("The temp is %d     ",far);
+	printf("The result is %d     ",result);
+			
+	
+	
+}
 int main(void)
 {
-	irq_initialize_vectors();
-	#if SAMD || SAMR21
+	//irq_initialize_vectors();
 	system_init();
 	delay_init();
-	#else
-	sysclk_init();
-	board_init();
-	#endif
+	configure_adc();
 	SYS_Init();
-	//sio2host_init();
+	configure_console();
+	
+	appInit();
 	cpu_irq_enable();
 	LED_On(LED0);
-	appInit();
+	
+	//adc_start_conversion(&adc_instance);
 	while (1) {
 		SYS_TaskHandler();
-		//APP_TaskHandler();
+		timer_callback();
 	}
 }

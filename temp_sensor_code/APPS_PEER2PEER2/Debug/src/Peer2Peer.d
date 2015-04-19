@@ -117,7 +117,12 @@ src/Peer2Peer.d src/Peer2Peer.o: ../src/Peer2Peer.c \
  ../src/ASF/sam0/drivers/system/reset/reset_sam_d_r/reset.h \
  ../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/sys/inc/sysTimer.h \
  ../src/ASF/thirdparty/wireless/addons/sio2host/uart/sio2host.h \
- ../src/asf.h ../src/ASF/common2/services/delay/delay.h \
+ ../src/asf.h ../src/ASF/sam0/drivers/adc/adc.h \
+ ../src/ASF/sam0/drivers/adc/adc_sam_d_r/adc_feature.h \
+ ../src/ASF/sam0/drivers/system/interrupt/system_interrupt.h \
+ ../src/ASF/sam0/drivers/system/interrupt/system_interrupt_samr21/system_interrupt_features.h \
+ ../src/ASF/sam0/drivers/adc/adc_callback.h \
+ ../src/ASF/common2/services/delay/delay.h \
  ../src/ASF/common2/services/delay/sam0/systick_counter.h \
  ../src/ASF/sam0/drivers/extint/extint.h \
  ../src/ASF/sam0/drivers/extint/extint_callback.h \
@@ -126,8 +131,6 @@ src/Peer2Peer.d src/Peer2Peer.o: ../src/Peer2Peer.c \
  ../src/ASF/sam0/boards/samr21_xplained_pro/samr21_xplained_pro.h \
  ../src/config/conf_board.h ../src/ASF/sam0/drivers/port/port.h \
  ../src/ASF/sam0/drivers/sercom/sercom.h \
- ../src/ASF/sam0/drivers/system/interrupt/system_interrupt.h \
- ../src/ASF/sam0/drivers/system/interrupt/system_interrupt_samr21/system_interrupt_features.h \
  ../src/ASF/sam0/drivers/sercom/sercom_pinout.h \
  ../src/ASF/sam0/drivers/sercom/sercom_interrupt.h \
  ../src/ASF/sam0/drivers/sercom/sercom.h \
@@ -140,7 +143,7 @@ src/Peer2Peer.d src/Peer2Peer.o: ../src/Peer2Peer.c \
  ../src/ASF/common/services/serial/sam0_usart/usart_serial.h \
  ../src/ASF/sam0/drivers/tc/tc.h \
  ../src/ASF/sam0/drivers/tc/tc_interrupt.h \
- ../src/ASF/sam0/drivers/tc/tc.h
+ ../src/ASF/sam0/drivers/tc/tc.h ../src/config/conf_sio2host.h
 
 c:\program\ files\ (x86)\atmel\atmel\ toolchain\arm\ gcc\native\4.8.1443\arm-gnu-toolchain\arm-none-eabi\include\stdlib.h:
 
@@ -382,6 +385,16 @@ c:\program\ files\ (x86)\atmel\atmel\ toolchain\arm\ gcc\native\4.8.1443\arm-gnu
 
 ../src/asf.h:
 
+../src/ASF/sam0/drivers/adc/adc.h:
+
+../src/ASF/sam0/drivers/adc/adc_sam_d_r/adc_feature.h:
+
+../src/ASF/sam0/drivers/system/interrupt/system_interrupt.h:
+
+../src/ASF/sam0/drivers/system/interrupt/system_interrupt_samr21/system_interrupt_features.h:
+
+../src/ASF/sam0/drivers/adc/adc_callback.h:
+
 ../src/ASF/common2/services/delay/delay.h:
 
 ../src/ASF/common2/services/delay/sam0/systick_counter.h:
@@ -401,10 +414,6 @@ c:\program\ files\ (x86)\atmel\atmel\ toolchain\arm\ gcc\native\4.8.1443\arm-gnu
 ../src/ASF/sam0/drivers/port/port.h:
 
 ../src/ASF/sam0/drivers/sercom/sercom.h:
-
-../src/ASF/sam0/drivers/system/interrupt/system_interrupt.h:
-
-../src/ASF/sam0/drivers/system/interrupt/system_interrupt_samr21/system_interrupt_features.h:
 
 ../src/ASF/sam0/drivers/sercom/sercom_pinout.h:
 
@@ -433,3 +442,5 @@ c:\program\ files\ (x86)\atmel\atmel\ toolchain\arm\ gcc\native\4.8.1443\arm-gnu
 ../src/ASF/sam0/drivers/tc/tc_interrupt.h:
 
 ../src/ASF/sam0/drivers/tc/tc.h:
+
+../src/config/conf_sio2host.h:

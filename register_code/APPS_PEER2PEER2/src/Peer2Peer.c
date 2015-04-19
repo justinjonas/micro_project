@@ -1,63 +1,10 @@
-/**
- * \file Peer2Peer.c
- *
- * \brief Peer2Peer application implementation
- *
- * Copyright (C) 2014-2015 Atmel Corporation. All rights reserved.
- *
- * \asf_license_start
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
- *
- * 3. The name of Atmel may not be used to endorse or promote products derived
- *    from this software without specific prior written permission.
- *
- * 4. This software may only be redistributed and used in connection with an
- *    Atmel microcontroller product.
- *
- * THIS SOFTWARE IS PROVIDED BY ATMEL "AS IS" AND ANY EXPRESS OR IMPLIED
- * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT ARE
- * EXPRESSLY AND SPECIFICALLY DISCLAIMED. IN NO EVENT SHALL ATMEL BE LIABLE FOR
- * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
- * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
- * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
- * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- *
- * \asf_license_stop
- *
- *
- */
 
-/**
- * \mainpage
- * \section preface Preface
- * This is the reference manual for the LWMesh Peer2Peer Application
- * //TODO
- */
-/*- Includes ---------------------------------------------------------------*/
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include "config.h"
 #include "sys.h"
-#if SAMD || SAMR21
 #include "system.h"
-#else
-#include "led.h"
-#include "sysclk.h"
-#endif
 #include "phy.h"
 #include "nwk.h"
 #include "sysTimer.h"
@@ -65,6 +12,9 @@
 #include "asf.h"
 
 /*- Definitions ------------------------------------------------------------*/
+#define OPEN	1
+#define CLOSE	0
+
 #ifdef NWK_ENABLE_SECURITY
   #define APP_BUFFER_SIZE     (NWK_MAX_PAYLOAD_SIZE - NWK_SECURITY_MIC_SIZE)
 #else
@@ -82,16 +32,18 @@ typedef enum AppState_t {
 /*- Prototypes -------------------------------------------------------------*/
 static void appSendData(void);
 static void appInit(void);
-static void APP_TaskHandler(void);
+void pin_init(void);
+void open_register(void);
+void close_register(void);
 
 /*- Variables --------------------------------------------------------------*/
-static AppState_t appState = APP_STATE_INITIAL;
-static SYS_Timer_t appTimer;
 static NWK_DataReq_t appDataReq;
 static bool appDataReqBusy = false;
 static uint8_t appDataReqBuffer[APP_BUFFER_SIZE];
 static uint8_t appUartBuffer[APP_BUFFER_SIZE];
 static uint8_t appUartBufferPtr = 0;
+//Always start with register closed
+bool register_status = 0;
 /*- Implementations --------------------------------------------------------*/
 
 /*************************************************************************//**
@@ -125,54 +77,56 @@ static void appSendData(void)
 
 	appUartBufferPtr = 0;
 	appDataReqBusy = true;
-	//LED_Toggle(LED0);
 }
 
-/*************************************************************************//**
-*****************************************************************************/
-static void appTimerHandler(SYS_Timer_t *timer)
-{
-	appSendData();
-	(void)timer;
-}
-
-/*************************************************************************//**
-*****************************************************************************/
-static void APP_TaskHandler(void)
-{
-
-	const char* tx_data = "You Rock";
-	
-	if(!appDataReqBusy){
-		if(!strcmp((const char*)rx_data, "this rocks"))
-			LED_Toggle(LED0);
-		for (uint16_t i = 0; i < sizeof("You Rock"); i++) {
-			if (appUartBufferPtr == sizeof(appUartBuffer)) {
-				appSendData();
-			}
-
-			if (appUartBufferPtr < sizeof(appUartBuffer)) {
-				appUartBuffer[appUartBufferPtr++] = tx_data[i];
-			}
-		}
-		appSendData();
-	}
-	//delay_ms(200);
-	
-		
-	//SYS_TimerStop(&appTimer);
-	//SYS_TimerStart(&appTimer);
-}
 
 /*************************************************************************//**
 *****************************************************************************/
 static bool appDataInd(NWK_DataInd_t *ind)
 {
+	LED_Toggle(LED0);
 	for (uint8_t i = 0; i < ind->size; i++) {
 		rx_data[i] = ind->data[i];
 	}
-	APP_TaskHandler();
+	
+	switch(rx_data[0])
+	{
+		case OPEN:
+			if(register_status)
+				break;
+			else
+				open_register();
+			break;
+		case CLOSE:
+			if(!register_status)
+				break;
+			else
+				close_register();
+			break;			
+	}
+	rx_data[0]=0;
 	return true;
+}
+
+
+void open_register(void)
+{
+	port_pin_set_output_level(EXT1_PIN_3, false);
+	port_pin_set_output_level(EXT1_PIN_4, true);
+	delay_s(1);
+	port_pin_set_output_level(EXT1_PIN_3, false);
+	port_pin_set_output_level(EXT1_PIN_4, false);
+	register_status = 1;
+}
+
+void close_register(void)
+{
+	port_pin_set_output_level(EXT1_PIN_3, true);
+	port_pin_set_output_level(EXT1_PIN_4, false);
+	delay_s(1);
+	port_pin_set_output_level(EXT1_PIN_3, false);
+	port_pin_set_output_level(EXT1_PIN_4, false);
+	register_status = 0;
 }
 
 /*************************************************************************//**
@@ -190,29 +144,36 @@ static void appInit(void)
 	PHY_SetTxPower(0x23);
 	NWK_SetSecurityKey((uint8_t *)APP_SECURITY_KEY);
 	NWK_OpenEndpoint(APP_ENDPOINT, appDataInd);
+}
 
-	appTimer.interval = APP_FLUSH_TIMER_INTERVAL;
-	appTimer.mode = SYS_TIMER_INTERVAL_MODE;
-	appTimer.handler = appTimerHandler;
+void pin_init(void)
+{
+		struct port_config config_port_pin;
+
+		port_get_config_defaults(&config_port_pin);
+
+		config_port_pin.direction  = PORT_PIN_DIR_OUTPUT;
+		config_port_pin.input_pull = PORT_PIN_PULL_DOWN;
+
+		port_pin_set_config(EXT1_PIN_3, &config_port_pin);
+
+		port_pin_set_config(EXT1_PIN_4, &config_port_pin);
 }
 
 int main(void)
 {
 	irq_initialize_vectors();
-	#if SAMD || SAMR21
 	system_init();
 	delay_init();
-	#else
-	sysclk_init();
-	board_init();
-	#endif
 	SYS_Init();
-	//sio2host_init();
+	
 	cpu_irq_enable();
-	LED_On(LED0);
+	
 	appInit();
+	pin_init();
+	LED_On(LED0);
+	
 	while (1) {
 		SYS_TaskHandler();
-		//APP_TaskHandler();
 	}
 }
