@@ -15,6 +15,9 @@
 #define OPEN	1
 #define CLOSE	0
 
+#define GPIO_1 EXT1_PIN_7//PA18
+#define GPIO_2 EXT1_PIN_8//PA19
+
 #ifdef NWK_ENABLE_SECURITY
   #define APP_BUFFER_SIZE     (NWK_MAX_PAYLOAD_SIZE - NWK_SECURITY_MIC_SIZE)
 #else
@@ -111,21 +114,21 @@ static bool appDataInd(NWK_DataInd_t *ind)
 
 void open_register(void)
 {
-	port_pin_set_output_level(EXT1_PIN_3, false);
-	port_pin_set_output_level(EXT1_PIN_4, true);
-	delay_s(1);
-	port_pin_set_output_level(EXT1_PIN_3, false);
-	port_pin_set_output_level(EXT1_PIN_4, false);
+	port_pin_set_output_level(GPIO_1, false);
+	port_pin_set_output_level(GPIO_2, true);
+	delay_ms(300);
+	port_pin_set_output_level(GPIO_1, false);
+	port_pin_set_output_level(GPIO_2, false);
 	register_status = 1;
 }
 
 void close_register(void)
 {
-	port_pin_set_output_level(EXT1_PIN_3, true);
-	port_pin_set_output_level(EXT1_PIN_4, false);
-	delay_s(1);
-	port_pin_set_output_level(EXT1_PIN_3, false);
-	port_pin_set_output_level(EXT1_PIN_4, false);
+	port_pin_set_output_level(GPIO_1, true);
+	port_pin_set_output_level(GPIO_2, false);
+	delay_ms(300);
+	port_pin_set_output_level(GPIO_1, false);
+	port_pin_set_output_level(GPIO_2, false);
 	register_status = 0;
 }
 
@@ -155,9 +158,12 @@ void pin_init(void)
 		config_port_pin.direction  = PORT_PIN_DIR_OUTPUT;
 		config_port_pin.input_pull = PORT_PIN_PULL_DOWN;
 
-		port_pin_set_config(EXT1_PIN_3, &config_port_pin);
+		port_pin_set_config(GPIO_1, &config_port_pin);
 
-		port_pin_set_config(EXT1_PIN_4, &config_port_pin);
+		port_pin_set_config(GPIO_2, &config_port_pin);
+		
+		port_pin_set_output_level(GPIO_1, false);
+		port_pin_set_output_level(GPIO_2, false);
 }
 
 int main(void)
