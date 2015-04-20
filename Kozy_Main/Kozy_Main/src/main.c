@@ -7,7 +7,6 @@
 //#include "sys.h"
 //#include "config.h"
 
-
 //custom data structures
 typedef struct wireless_packet
 {
@@ -32,6 +31,7 @@ typedef struct room
 #define GPIO_2 EXT1_PIN_8//PA19
 
 //globals
+int tick = 0;
 //LCD
 char degree = 0xDF;
 char* mode = COOL;
@@ -77,7 +77,7 @@ int main (void)
 	//board_init();
 	//wireless_sys_init();
 	//SYS_Init();
-	//wireless_init();
+	wireless_init();
 	irq_initialize_vectors();
 	system_init();
 	delay_init();
@@ -93,31 +93,40 @@ int main (void)
 	pin_init();
 	configure_adc();
 	
-	while(1){}
-
+	while(1)
+	{
+		SYS_TaskHandler();
+		update_register_task();
+		read_temp_task();
+		cycle_room_task();
+		updateDisplay();
+		tick++;
+	}
 }
 
 //Functions
 
 static void cycle_room_task(void *params)
 {	
-	int i = 0;
-		
-	roomTemp=rooms[i].temp;
-	ventStatus=rooms[i].registerStatus;
-	roomSelection=rooms[i].roomNumber;
+	if( tick % 1000 == 0 )
+	{
+		int i = 0;
+			
+		roomTemp=rooms[i].temp;
+		ventStatus=rooms[i].registerStatus;
+		roomSelection=rooms[i].roomNumber;
 
-	if( i < numberOfRooms-1)
-		i++;
-	else
-		i = 0;
+		if( i < numberOfRooms-1)
+			i++;
+		else
+			i = 0;
+	}
 }
 
 static void new_sensor_task(void *params)
 {
 	//dosome stuff
 }
-
 
 static void read_temp_task(void *params)
 {
@@ -142,7 +151,6 @@ static void read_temp_task(void *params)
 	rooms[0].temp = avg_temp/5;
 	avg_temp = 0;
 }
-
 
 static void update_register_task(void *params)
 {	
@@ -219,15 +227,17 @@ static void extint_callback(void)
 	}
 }
 
-
 void updateDisplay(void)
 {
-	//clear the display
-	//set cursor to beginning
-	putchar(254);
-	putchar(128);
-	//update display
-	printf("Mode:%s  Rm:%2dTarget:%2d%c %2d%c %c", mode, roomSelection, targetTemp, degree, roomTemp, degree, ventStatus);
+	if( tick % 100 == 0 )
+	{
+		//clear the display
+		//set cursor to beginning
+		putchar(254);
+		putchar(128);
+		//update display
+		printf("Mode:%s  Rm:%2dTarget:%2d%c %2d%c %c", mode, roomSelection, targetTemp, degree, roomTemp, degree, ventStatus);
+		}
 }
 
 
@@ -320,17 +330,6 @@ static void configure_eic_callback(void)
 			EXTINT_CALLBACK_TYPE_DETECT);
 }
 
-static void wireless_refresh(void *params)
-{
-	const uint16_t xDelay = 10;
-
-	while(1)
-	{
-		//SYS_TaskHandler();	//needs to run as often as possible for wireless stuffs
-		vTaskDelay(xDelay);
-	}
-}
-
 void wireless_init(void)
 {
 	NWK_SetAddr(APP_ADDR);
@@ -362,7 +361,6 @@ void send_packet(struct wireless_packet packet)
 
 }
 
-
 //When a packet is received, parse the data into the correct queues
 static bool appDataInd(NWK_DataInd_t *ind)
 {
@@ -370,21 +368,16 @@ static bool appDataInd(NWK_DataInd_t *ind)
 	switch(ind->srcAddr)
 	{
 	case TEMP_ADDR:
-		//memcpy(ind->data,TEMP_QUEUE, ind->size);
-		//xQueueSendToBackFromISR(TEMP_QUEUE, ind->data, NULL);
+		//stuff
 		break;
 	case REGISTER_ADDR:
-		//memcpy(ind->data,REGISTER_QUEUE, ind->size);
-		//xQueueSendToBackFromISR(REGISTER_QUEUE, ind->data, NULL);
+		//stuff
 		break;
 	default:
 		return false;
-	//break;
-	//Call a function to add a new temp sensor and register to the network
 	}
 	return true;
 }
-
 
 void send_packet_conf(NWK_DataReq_t *req)
 {
