@@ -67,20 +67,6 @@
 #include <extint.h>
 #include <extint_callback.h>
 
-// From module: FreeRTOS - kernel 8.0.1
-#include <FreeRTOS.h>
-#include <StackMacros.h>
-#include <croutine.h>
-#include <event_groups.h>
-#include <list.h>
-#include <mpu_wrappers.h>
-#include <portable.h>
-#include <projdefs.h>
-#include <queue.h>
-#include <semphr.h>
-#include <task.h>
-#include <timers.h>
-
 // From module: Generic board support
 #include <board.h>
 
@@ -96,6 +82,10 @@
 // From module: SERCOM Callback API
 #include <sercom.h>
 #include <sercom_interrupt.h>
+
+// From module: SERCOM SPI - Serial Peripheral Interface (Callback APIs)
+#include <spi.h>
+#include <spi_interrupt.h>
 
 // From module: SERCOM USART - Serial Communications (Callback APIs)
 #include <usart.h>
@@ -122,6 +112,10 @@
 
 // From module: Standard serial I/O (stdio)
 #include <stdio_serial.h>
+
+// From module: TC - Timer Counter (Callback APIs)
+#include <tc.h>
+#include <tc_interrupt.h>
 
 // From module: USART - Serial interface- SAM implementation for devices with only USART
 #include <serial.h>

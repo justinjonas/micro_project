@@ -1,11 +1,10 @@
 #include <asf.h>
-#include "tasks.h"
 #include "conf_sio2host.h"
 #include <string.h>
-//#include "nwk.h"
-//#include "phy.h"
-//#include "sys.h"
-//#include "config.h"
+#include "nwk.h"
+#include "phy.h"
+#include "sys.h"
+#include "config.h"
 
 //custom data structures
 typedef struct wireless_packet
@@ -49,10 +48,10 @@ static struct usart_module cdc_uart_module;
 struct adc_module adc_instance;
 
 //functions
-static void new_sensor_task(void *params);
-static void read_temp_task(void *params);
-static void update_register_task(void *params);
-static void cycle_room_task(void *params);
+static void new_sensor_task(void);
+static void read_temp_task(void);
+static void update_register_task(void);
+static void cycle_room_task(void);
 static void configure_console(void);
 static void updateDisplay(void);
 static void rooms_init(void);
@@ -74,20 +73,17 @@ void send_packet_conf(NWK_DataReq_t *req);			//Callback function for a confirmed
 
 int main (void)
 {
-	//board_init();
-	//wireless_sys_init();
-	//SYS_Init();
-	wireless_init();
-	irq_initialize_vectors();
 	system_init();
 	delay_init();
-
+	board_init();
+	SYS_Init();
 	configure_console();
+	wireless_init();
+	irq_initialize_vectors();
 	configure_extint();
 	configure_eic_callback();
 	system_interrupt_enable_global();
 	
-	taskENABLE_INTERRUPTS();
 	cpu_irq_enable();
 	rooms_init();
 	pin_init();
@@ -106,34 +102,31 @@ int main (void)
 
 //Functions
 
-static void cycle_room_task(void *params)
+static void cycle_room_task(void)
 {	
-	if( tick % 1000 == 0 )
-	{
-		int i = 0;
-			
-		roomTemp=rooms[i].temp;
-		ventStatus=rooms[i].registerStatus;
-		roomSelection=rooms[i].roomNumber;
+	if( tick % 100 == 0 )
+	{		
+		roomTemp=rooms[roomSelection-1].temp;
+		ventStatus=rooms[roomSelection-1].registerStatus;
+		roomSelection=rooms[roomSelection-1].roomNumber;
 
-		if( i < numberOfRooms-1)
-			i++;
+		if( roomSelection-1 < numberOfRooms)
+			roomSelection++;
 		else
-			i = 0;
+			roomSelection = 0;
 	}
 }
 
-static void new_sensor_task(void *params)
+static void new_sensor_task(void)
 {
 	//dosome stuff
 }
 
-static void read_temp_task(void *params)
+static void read_temp_task(void)
 {
 	uint16_t result=0;
 	uint32_t avg_temp=0;
 	//read adc 5 times and average temp to update temperature
-	read_temp_task_runs++;
 	
 	for(int i =0; i > 5; i++)
 	{
@@ -152,7 +145,7 @@ static void read_temp_task(void *params)
 	avg_temp = 0;
 }
 
-static void update_register_task(void *params)
+static void update_register_task(void)
 {	
 	for(int i = 0; i < numberOfRooms-1; i++)
 	{
@@ -229,7 +222,7 @@ static void extint_callback(void)
 
 void updateDisplay(void)
 {
-	if( tick % 100 == 0 )
+	if( tick % 10 == 0 )
 	{
 		//clear the display
 		//set cursor to beginning
@@ -348,7 +341,7 @@ void wireless_init(void)
 //We will need to sent the struct of the payload and know where to send it to
 void send_packet(struct wireless_packet packet)
 {
-	//NWK_DataReq_t appDataReq;
+	NWK_DataReq_t appDataReq;
 
 	appDataReq.dstAddr = packet.dst_addr;
 	appDataReq.dstEndpoint = packet.dst_addr;
@@ -367,14 +360,14 @@ static bool appDataInd(NWK_DataInd_t *ind)
 	printf("received!");
 	switch(ind->srcAddr)
 	{
-	case TEMP_ADDR:
-		//stuff
-		break;
-	case REGISTER_ADDR:
-		//stuff
-		break;
-	default:
-		return false;
+	//case TEMP_ADDR:
+		////stuff
+		//break;
+	//case REGISTER_ADDR:
+		////stuff
+		//break;
+	//default:
+		//return false;
 	}
 	return true;
 }

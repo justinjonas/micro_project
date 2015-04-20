@@ -110,27 +110,6 @@ src/config/lcd.d src/config/lcd.o: ../src/config/lcd.c \
  ../src/ASF/sam0/drivers/extint/extint.h \
  ../src/ASF/sam0/drivers/extint/extint_callback.h \
  ../src/ASF/sam0/drivers/extint/extint_callback.h \
- ../src/ASF/thirdparty/freertos/freertos-8.0.1/Source/include/FreeRTOS.h \
- ../src/ASF/thirdparty/freertos/freertos-8.0.1/Source/include/projdefs.h \
- ../src/config/FreeRTOSConfig.h \
- ../src/ASF/thirdparty/freertos/freertos-8.0.1/Source/include/portable.h \
- ../src/ASF/thirdparty/freertos/freertos-8.0.1/Source/portable/GCC/ARM_CM0/portmacro.h \
- ../src/ASF/thirdparty/freertos/freertos-8.0.1/Source/include/mpu_wrappers.h \
- ../src/ASF/thirdparty/freertos/freertos-8.0.1/Source/include/StackMacros.h \
- ../src/ASF/thirdparty/freertos/freertos-8.0.1/Source/include/croutine.h \
- ../src/ASF/thirdparty/freertos/freertos-8.0.1/Source/include/list.h \
- ../src/ASF/thirdparty/freertos/freertos-8.0.1/Source/include/event_groups.h \
- ../src/ASF/thirdparty/freertos/freertos-8.0.1/Source/include/timers.h \
- ../src/ASF/thirdparty/freertos/freertos-8.0.1/Source/include/task.h \
- ../src/ASF/thirdparty/freertos/freertos-8.0.1/Source/include/list.h \
- ../src/ASF/thirdparty/freertos/freertos-8.0.1/Source/include/mpu_wrappers.h \
- ../src/ASF/thirdparty/freertos/freertos-8.0.1/Source/include/portable.h \
- ../src/ASF/thirdparty/freertos/freertos-8.0.1/Source/include/projdefs.h \
- ../src/ASF/thirdparty/freertos/freertos-8.0.1/Source/include/queue.h \
- ../src/ASF/thirdparty/freertos/freertos-8.0.1/Source/include/semphr.h \
- ../src/ASF/thirdparty/freertos/freertos-8.0.1/Source/include/queue.h \
- ../src/ASF/thirdparty/freertos/freertos-8.0.1/Source/include/task.h \
- ../src/ASF/thirdparty/freertos/freertos-8.0.1/Source/include/timers.h \
  ../src/ASF/common/boards/board.h \
  ../src/ASF/sam0/boards/samr21_xplained_pro/samr21_xplained_pro.h \
  ../src/config/conf_board.h ../src/ASF/sam0/drivers/port/port.h \
@@ -138,12 +117,22 @@ src/config/lcd.d src/config/lcd.o: ../src/config/lcd.c \
  ../src/ASF/sam0/drivers/sercom/sercom_pinout.h \
  ../src/ASF/sam0/drivers/sercom/sercom_interrupt.h \
  ../src/ASF/sam0/drivers/sercom/sercom.h \
+ ../src/ASF/sam0/drivers/sercom/spi/spi.h \
+ c:\program\ files\ (x86)\atmel\atmel\ toolchain\arm\ gcc\native\4.8.1443\arm-gnu-toolchain\arm-none-eabi\include\string.h \
+ c:\program\ files\ (x86)\atmel\atmel\ toolchain\arm\ gcc\native\4.8.1443\arm-gnu-toolchain\lib\gcc\arm-none-eabi\4.8.4\include-fixed\sys\cdefs.h \
+ c:\program\ files\ (x86)\atmel\atmel\ toolchain\arm\ gcc\native\4.8.1443\arm-gnu-toolchain\arm-none-eabi\include\sys\string.h \
+ ../src/config/conf_spi.h \
+ ../src/ASF/sam0/drivers/sercom/spi/spi_interrupt.h \
+ ../src/ASF/sam0/drivers/sercom/spi/spi.h \
  ../src/ASF/sam0/drivers/sercom/usart/usart.h \
  ../src/ASF/sam0/drivers/sercom/usart/usart_interrupt.h \
  ../src/ASF/sam0/drivers/sercom/usart/usart.h \
  ../src/ASF/sam0/utils/stdio/stdio_serial/stdio_serial.h \
  ../src/ASF/common/services/serial/serial.h \
- ../src/ASF/common/services/serial/sam0_usart/usart_serial.h
+ ../src/ASF/common/services/serial/sam0_usart/usart_serial.h \
+ ../src/ASF/sam0/drivers/tc/tc.h \
+ ../src/ASF/sam0/drivers/tc/tc_interrupt.h \
+ ../src/ASF/sam0/drivers/tc/tc.h
 
 ../src/config/conf_sio2host.h:
 
@@ -375,48 +364,6 @@ c:\program\ files\ (x86)\atmel\atmel\ toolchain\arm\ gcc\native\4.8.1443\arm-gnu
 
 ../src/ASF/sam0/drivers/extint/extint_callback.h:
 
-../src/ASF/thirdparty/freertos/freertos-8.0.1/Source/include/FreeRTOS.h:
-
-../src/ASF/thirdparty/freertos/freertos-8.0.1/Source/include/projdefs.h:
-
-../src/config/FreeRTOSConfig.h:
-
-../src/ASF/thirdparty/freertos/freertos-8.0.1/Source/include/portable.h:
-
-../src/ASF/thirdparty/freertos/freertos-8.0.1/Source/portable/GCC/ARM_CM0/portmacro.h:
-
-../src/ASF/thirdparty/freertos/freertos-8.0.1/Source/include/mpu_wrappers.h:
-
-../src/ASF/thirdparty/freertos/freertos-8.0.1/Source/include/StackMacros.h:
-
-../src/ASF/thirdparty/freertos/freertos-8.0.1/Source/include/croutine.h:
-
-../src/ASF/thirdparty/freertos/freertos-8.0.1/Source/include/list.h:
-
-../src/ASF/thirdparty/freertos/freertos-8.0.1/Source/include/event_groups.h:
-
-../src/ASF/thirdparty/freertos/freertos-8.0.1/Source/include/timers.h:
-
-../src/ASF/thirdparty/freertos/freertos-8.0.1/Source/include/task.h:
-
-../src/ASF/thirdparty/freertos/freertos-8.0.1/Source/include/list.h:
-
-../src/ASF/thirdparty/freertos/freertos-8.0.1/Source/include/mpu_wrappers.h:
-
-../src/ASF/thirdparty/freertos/freertos-8.0.1/Source/include/portable.h:
-
-../src/ASF/thirdparty/freertos/freertos-8.0.1/Source/include/projdefs.h:
-
-../src/ASF/thirdparty/freertos/freertos-8.0.1/Source/include/queue.h:
-
-../src/ASF/thirdparty/freertos/freertos-8.0.1/Source/include/semphr.h:
-
-../src/ASF/thirdparty/freertos/freertos-8.0.1/Source/include/queue.h:
-
-../src/ASF/thirdparty/freertos/freertos-8.0.1/Source/include/task.h:
-
-../src/ASF/thirdparty/freertos/freertos-8.0.1/Source/include/timers.h:
-
 ../src/ASF/common/boards/board.h:
 
 ../src/ASF/sam0/boards/samr21_xplained_pro/samr21_xplained_pro.h:
@@ -433,6 +380,20 @@ c:\program\ files\ (x86)\atmel\atmel\ toolchain\arm\ gcc\native\4.8.1443\arm-gnu
 
 ../src/ASF/sam0/drivers/sercom/sercom.h:
 
+../src/ASF/sam0/drivers/sercom/spi/spi.h:
+
+c:\program\ files\ (x86)\atmel\atmel\ toolchain\arm\ gcc\native\4.8.1443\arm-gnu-toolchain\arm-none-eabi\include\string.h:
+
+c:\program\ files\ (x86)\atmel\atmel\ toolchain\arm\ gcc\native\4.8.1443\arm-gnu-toolchain\lib\gcc\arm-none-eabi\4.8.4\include-fixed\sys\cdefs.h:
+
+c:\program\ files\ (x86)\atmel\atmel\ toolchain\arm\ gcc\native\4.8.1443\arm-gnu-toolchain\arm-none-eabi\include\sys\string.h:
+
+../src/config/conf_spi.h:
+
+../src/ASF/sam0/drivers/sercom/spi/spi_interrupt.h:
+
+../src/ASF/sam0/drivers/sercom/spi/spi.h:
+
 ../src/ASF/sam0/drivers/sercom/usart/usart.h:
 
 ../src/ASF/sam0/drivers/sercom/usart/usart_interrupt.h:
@@ -444,3 +405,9 @@ c:\program\ files\ (x86)\atmel\atmel\ toolchain\arm\ gcc\native\4.8.1443\arm-gnu
 ../src/ASF/common/services/serial/serial.h:
 
 ../src/ASF/common/services/serial/sam0_usart/usart_serial.h:
+
+../src/ASF/sam0/drivers/tc/tc.h:
+
+../src/ASF/sam0/drivers/tc/tc_interrupt.h:
+
+../src/ASF/sam0/drivers/tc/tc.h:
