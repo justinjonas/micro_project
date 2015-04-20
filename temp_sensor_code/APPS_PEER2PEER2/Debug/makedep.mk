@@ -8,6 +8,10 @@ src\ASF\common\utils\interrupt\interrupt_sam_nvic.c
 
 src\ASF\sam0\boards\samr21_xplained_pro\board_init.c
 
+src\ASF\sam0\drivers\adc\adc_sam_d_r\adc.c
+
+src\ASF\sam0\drivers\adc\adc_sam_d_r\adc_callback.c
+
 src\ASF\sam0\drivers\extint\extint_callback.c
 
 src\ASF\sam0\drivers\extint\extint_sam_d_r\extint.c

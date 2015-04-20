@@ -38,6 +38,13 @@
 ////! The event group used.
 //static EventGroupHandle_t event_group = NULL;
 
+ ///Globals
+ ////LCD
+ //char mode[4] = "cool";
+ //int roomSelection = 1;
+ //int targetTemp = 70;
+ //int roomTemp = 70;
+ //int ventStatus = "X";
 
 //name the tasks
 static void lcd_task(void *params);
@@ -46,6 +53,9 @@ static void lcd_task(void *params);
 //static void sample_temp_task(void *params);
 //static void open_close_task(void *params);
 //static void systask_handler(void *params);
+
+//Forward declarations for functions
+void updateDisplay();
 
 //initialize the tasks
 void tasks_init(void)
@@ -101,9 +111,7 @@ void tasks_init(void)
 
 static void lcd_task(void *params)
 {
-	//putchar(128);
-	//putchar(256);
-	printf("lcd_task");
+	updateDisplay();
 	vTaskDelay(20);
 }
 
@@ -132,3 +140,20 @@ static void lcd_task(void *params)
 	//vTaskDelay(SYSTASK_HANDLER_DELAY);
 //}
 
+//functions
+//void updateDisplay()
+//{
+	//putchar(128);
+	//putchar(256);
+	//printf("Mode:");
+	//printf(mode);
+	//printf("  ");
+	//printf("Rm:");
+	//printf("%2d",roomSelection);
+	//printf("Target:");
+	//printf("%2d",targetTemp);
+	//printf("  ");
+	//printf("%2d",roomTemp);
+	//printf("  ");
+	//printf(ventStatus);
+//}

@@ -118,6 +118,9 @@ src/ASF/thirdparty/wireless/services/trx_access/trx_access.d \
  ../src/ASF/sam0/drivers/extint/extint_callback.h \
  ../src/ASF/common2/services/delay/delay.h \
  ../src/ASF/common2/services/delay/sam0/systick_counter.h ../src/asf.h \
+ ../src/ASF/sam0/drivers/adc/adc.h \
+ ../src/ASF/sam0/drivers/adc/adc_sam_d_r/adc_feature.h \
+ ../src/ASF/sam0/drivers/adc/adc_callback.h \
  ../src/ASF/sam0/drivers/extint/extint_callback.h \
  ../src/ASF/sam0/drivers/sercom/sercom_interrupt.h \
  ../src/ASF/sam0/drivers/sercom/sercom.h \
@@ -374,6 +377,12 @@ c:\program\ files\ (x86)\atmel\atmel\ toolchain\arm\ gcc\native\4.8.1443\arm-gnu
 ../src/ASF/common2/services/delay/sam0/systick_counter.h:
 
 ../src/asf.h:
+
+../src/ASF/sam0/drivers/adc/adc.h:
+
+../src/ASF/sam0/drivers/adc/adc_sam_d_r/adc_feature.h:
+
+../src/ASF/sam0/drivers/adc/adc_callback.h:
 
 ../src/ASF/sam0/drivers/extint/extint_callback.h:
 
