@@ -634,7 +634,7 @@ is included as it is used by the port layer. */
 #endif /* configGENERATE_RUN_TIME_STATS */
 
 #ifndef portCONFIGURE_TIMER_FOR_RUN_TIME_STATS
-	#define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS()
+	#define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS() 10000
 #endif
 
 #ifndef configUSE_MALLOC_FAILED_HOOK

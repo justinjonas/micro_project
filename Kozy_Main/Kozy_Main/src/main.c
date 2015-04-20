@@ -53,10 +53,19 @@ int roomSelection = 1;
 int targetTemp = 70;
 int roomTemp = 70;
 char ventStatus = 'X';
-
+char report[160];
 //temp data
 int numberOfRooms = 0;
 struct room rooms[30];
+//run data
+TickType_t xTotalStart;
+TickType_t xTaskRunTime;
+int lcd_task_runs = 0;
+int new_sensor_task_runs = 0;
+int read_temp_task_runs = 0;
+int update_register_task_runs = 0;
+int cycle_room_task_runs = 0;
+int stats_task_runs = 0;
 
 static struct usart_module cdc_uart_module;
 //static NWK_DataReq_t appDataReq;
@@ -65,6 +74,9 @@ struct adc_module adc_instance;
 
 //semaphores
 static xSemaphoreHandle wireless_mutex;
+static xSemaphoreHandle task_run_time_mutex;
+
+#define TIME_TO_WAIT 100000
 
 //Queues
 xQueueHandle TEMP_QUEUE;
@@ -76,6 +88,7 @@ static void new_sensor_task(void *params);
 static void read_temp_task(void *params);
 static void update_register_task(void *params);
 static void cycle_room_task(void *params);
+static void stats_task(void *params);
 
 //static void wireless_refresh(void *params);
 //! Handle for about screen task
@@ -93,7 +106,6 @@ static void configure_extint(void);					//button press stuff
 
 void configure_adc(void);
 void pin_init(void);
-void configure_adc(void);
 
 void open_register(void);
 void close_register(void);
@@ -158,7 +170,15 @@ int main (void)
 	 	NULL,
 	 	4,
 	 	NULL);
-	
+		 
+	xTaskCreate(stats_task,
+		 (const char *)"Stats",
+		 512,
+		 NULL,
+		 1,
+		 NULL);	 
+		 
+	xTotalStart = xTaskGetTickCount();
 	vTaskStartScheduler();
 	
 	while(1){}
@@ -169,10 +189,19 @@ int main (void)
 
 static void lcd_task(void *params)
 {
+	TickType_t xStart, xEnd;
 	const uint16_t xDelay = 250;
 	while(1)
 	{
+		xStart = xTaskGetTickCount();
+		lcd_task_runs++;
+		
 		updateDisplay();
+		
+		xEnd = xTaskGetTickCount();
+		//xSemaphoreTake( task_run_time_mutex, TIME_TO_WAIT );
+		xTaskRunTime += xEnd-xStart;
+		//xSemaphoreGive( task_run_time_mutex );
 		
 		vTaskDelay(xDelay);
 	}
@@ -182,11 +211,14 @@ static void cycle_room_task(void *params)
 {
 	//period
 	const uint16_t xDelay = 2000;
+	TickType_t xEnd, xStart;
 	
 	int i = 0;
 	
 	while(1)
 	{
+		xStart = xTaskGetTickCount();
+		cycle_room_task_runs++;
 		
 		roomTemp=rooms[i].temp;
 		ventStatus=rooms[i].registerStatus;
@@ -197,19 +229,59 @@ static void cycle_room_task(void *params)
 		else
 			i = 0;
 		
-		updateDisplay();
+		xEnd = xTaskGetTickCount();
+		//xSemaphoreTake( task_run_time_mutex, TIME_TO_WAIT );
+		xTaskRunTime += xEnd-xStart;
+		//xSemaphoreGive( task_run_time_mutex );
 		/* Block for xDelay ms */
 		vTaskDelay(xDelay);
 	}
 }
 
+static void stats_task(void *params)
+{
+	const uint16_t xDelay = 10000;
+	TickType_t xEnd, xStart, xUtilization, xTotalEnd;
+		
+	while(1)
+	{	
+		xStart = xTaskGetTickCount();
+		stats_task_runs++;
+		
+		xTotalEnd = xTaskGetTickCount();
+		
+		xUtilization = xTaskRunTime/( xTotalEnd - xTotalStart );
+		printf("%d",xUtilization);
+		
+		xEnd = xTaskGetTickCount();
+		//xSemaphoreTake( task_run_time_mutex, TIME_TO_WAIT );
+		xTaskRunTime += xEnd-xStart;
+		//xSemaphoreGive( task_run_time_mutex );
+		vTaskDelay(xDelay);
+	}
+}
+
+
 static void new_sensor_task(void *params)
 {
 	//this task will periodically run and add any new temperature sensors that get connected
 	const uint16_t xDelay = 1000;
+	TickType_t xEnd, xStart;
 
 	while(1)
 	{
+		xStart = xTaskGetTickCount();
+		new_sensor_task_runs++;
+		
+		//dosome stuff
+		for(int i = 0; i < sizeof(numberOfRooms); i++)
+		{
+			int n = i;
+		}
+		xEnd = xTaskGetTickCount();
+		//xSemaphoreTake( task_run_time_mutex, TIME_TO_WAIT );
+		xTaskRunTime += xEnd-xStart;
+		//xSemaphoreGive( task_run_time_mutex );
 		vTaskDelay(xDelay);
 	}
 }
@@ -218,11 +290,16 @@ static void new_sensor_task(void *params)
 static void read_temp_task(void *params)
 {
 	const uint16_t xDelay = 1000;
+	TickType_t xStart;
+	TickType_t xEnd;
 	uint16_t result=0;
 	uint32_t avg_temp=0;
 	//read adc 5 times and average temp to update temperature
 	while(1)
 	{
+		xStart = xTaskGetTickCount();
+		read_temp_task_runs++;
+		
 		for(int i =0; i > 5; i++)
 		{
 			adc_start_conversion(&adc_instance);
@@ -238,7 +315,11 @@ static void read_temp_task(void *params)
 		}
 		rooms[0].temp = avg_temp/5;
 		avg_temp = 0;
-
+	
+		xEnd = xTaskGetTickCount();
+		//xSemaphoreTake( task_run_time_mutex, TIME_TO_WAIT );
+		xTaskRunTime += xEnd-xStart;
+		//xSemaphoreGive( task_run_time_mutex );
 		vTaskDelay(xDelay);
 	}
 }
@@ -247,9 +328,13 @@ static void read_temp_task(void *params)
 static void update_register_task(void *params)
 {
 	const uint16_t xDelay = 1500;
+	TickType_t xEnd, xStart;
 
 	while(1)
 	{
+		xStart = xTaskGetTickCount();
+		update_register_task_runs++;
+		
 		for(int i = 0; i < numberOfRooms-1; i++)
 		{
 			if(!strcmp(mode,COOL)){
@@ -271,7 +356,10 @@ static void update_register_task(void *params)
 				}					
 			}
 		}
-
+		xEnd = xTaskGetTickCount();
+		//xSemaphoreTake( task_run_time_mutex, TIME_TO_WAIT );
+		xTaskRunTime += xEnd-xStart;
+		//xSemaphoreGive( task_run_time_mutex );
 		vTaskDelay(xDelay);
 	}
 }
