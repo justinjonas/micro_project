@@ -63,8 +63,8 @@ static void configure_extint(void);					//button press stuff
 void configure_adc(void);
 void pin_init(void);
 
-void open_register(void);
-void close_register(void);
+// open_register(void);
+//void close_register(void);
 
 void wireless_init(void);
 void send_packet(struct wireless_packet packet);	//Sends data based on the struct passed in with packet
@@ -86,17 +86,16 @@ int main (void)
 	
 	cpu_irq_enable();
 	rooms_init();
-	pin_init();
-	configure_adc();
 	
 	while(1)
 	{
 		SYS_TaskHandler();
-		update_register_task();
-		read_temp_task();
-		cycle_room_task();
-		updateDisplay();
+		//update_register_task();
+		//read_temp_task();
+		//cycle_room_task();
+		//updateDisplay();
 		tick++;
+		delay_ms(5);
 	}
 }
 
@@ -122,70 +121,37 @@ static void new_sensor_task(void)
 	//dosome stuff
 }
 
-static void read_temp_task(void)
-{
-	uint16_t result=0;
-	uint32_t avg_temp=0;
-	//read adc 5 times and average temp to update temperature
-	
-	for(int i =0; i > 5; i++)
-	{
-		adc_start_conversion(&adc_instance);
-		do {
-			/* Wait for conversion to be done and read out result */
-		} while (adc_read(&adc_instance, &result) == STATUS_BUSY);
-
-		uint32_t far = 9.0/5.0*((float)result*.0002441406*6.0/.01)+32.0;
-
-		adc_clear_status(&adc_instance,adc_get_status(&adc_instance));
-		adc_start_conversion(&adc_instance);
-		avg_temp += far;
-	}
-	rooms[0].temp = avg_temp/5;
-	avg_temp = 0;
-}
-
 static void update_register_task(void)
 {	
 	for(int i = 0; i < numberOfRooms-1; i++)
 	{
-		if(!strcmp(mode,COOL)){
-			if(rooms[i].temp > targetTemp && rooms[i].registerStatus == 'X'){
+		if(!strcmp(mode,COOL))
+		{
+			if(rooms[i].temp > targetTemp && rooms[i].registerStatus == 'X')
+			{
 				rooms[i].registerStatus = 'O';
-				open_register();
-			}else if(rooms[i].temp < targetTemp && rooms[i].registerStatus == 'O'){
+				//send open to register with address i
+			}
+			else if(rooms[i].temp < targetTemp && rooms[i].registerStatus == 'O')
+			{
 				rooms[i].registerStatus = 'X';
-				close_register();
+				//close_register();
 			}
 		}
-		else if(!strcmp(mode,HEAT)){
-			if(rooms[i].temp < targetTemp && rooms[i].registerStatus == 'X'){
+		else if(!strcmp(mode,HEAT))
+		{
+			if(rooms[i].temp < targetTemp && rooms[i].registerStatus == 'X')
+			{
 				rooms[i].registerStatus = 'O';
-				open_register();
-			}else if(rooms[i].temp > targetTemp && rooms[i].registerStatus == 'O'){
+				//open_register();
+			}
+			else if(rooms[i].temp > targetTemp && rooms[i].registerStatus == 'O')
+			{
 				rooms[i].registerStatus = 'X';
-				close_register();
+				//close_register();
 			}					
 		}
 	}
-}
-
-void open_register(void)
-{
-	port_pin_set_output_level(GPIO_1, false);
-	port_pin_set_output_level(GPIO_2, true);
-	delay_ms(300);
-	port_pin_set_output_level(GPIO_1, false);
-	port_pin_set_output_level(GPIO_2, false);
-}
-
-void close_register(void)
-{
-	port_pin_set_output_level(GPIO_1, true);
-	port_pin_set_output_level(GPIO_2, false);
-	delay_ms(300);
-	port_pin_set_output_level(GPIO_1, false);
-	port_pin_set_output_level(GPIO_2, false);
 }
 
 static void rooms_init(void)
@@ -222,7 +188,7 @@ static void extint_callback(void)
 
 void updateDisplay(void)
 {
-	if( tick % 10 == 0 )
+	if( tick % 80000 == 0 )
 	{
 		//clear the display
 		//set cursor to beginning
@@ -233,51 +199,6 @@ void updateDisplay(void)
 		}
 }
 
-
-void configure_adc(void)
-{
-	//! [setup_config]
-	struct adc_config config_adc;
-	//! [setup_config]
-
-
-	//! [setup_config_defaults]
-	adc_get_config_defaults(&config_adc);
-	//! [setup_config_defaults]
-
-	config_adc.reference =  ADC_REFERENCE_INT1V;	//ADC_REFERENCE_INTVCC0;		//reference voltage on pin 9: PA04
-	config_adc.resolution = ADC_RESOLUTION_12BIT;			//12 bit resolution
-	config_adc.divide_result = ADC_DIVIDE_RESULT_DISABLE;	//Don't divide result register after accumulation
-	config_adc.positive_input = ADC_POSITIVE_INPUT_PIN10;	//voltage positive input on pin 10: PA05
-	config_adc.negative_input = ADC_NEGATIVE_INPUT_PIN7;	//voltage negative input as internal ground : PA06
-
-	//! [setup_set_config]
-	adc_init(&adc_instance, ADC, &config_adc);
-	//! [setup_set_config]
-
-
-	//! [setup_enable]
-	adc_enable(&adc_instance);
-	//! [setup_enable]
-}
-
-
-void pin_init(void)
-{
-	struct port_config config_port_pin;
-
-	port_get_config_defaults(&config_port_pin);
-
-	config_port_pin.direction  = PORT_PIN_DIR_OUTPUT;
-	config_port_pin.input_pull = PORT_PIN_PULL_DOWN;
-
-	port_pin_set_config(GPIO_1, &config_port_pin);
-
-	port_pin_set_config(GPIO_2, &config_port_pin);
-		
-	port_pin_set_output_level(GPIO_1, false);
-	port_pin_set_output_level(GPIO_2, false);
-}
 
 static void configure_console(void)
 {
@@ -328,14 +249,10 @@ void wireless_init(void)
 	NWK_SetAddr(APP_ADDR);
 	NWK_SetPanId(APP_PANID);
 	PHY_SetChannel(APP_CHANNEL);
-	#ifdef PHY_AT86RF212
-	PHY_SetBand(APP_BAND);
-	PHY_SetModulation(APP_MODULATION);
-	#endif
 	PHY_SetRxState(true);
 	PHY_SetTxPower(0x23);
 	NWK_SetSecurityKey((uint8_t *)APP_SECURITY_KEY);
-	//NWK_OpenEndpoint(APP_ENDPOINT, appDataInd);
+	NWK_OpenEndpoint(APP_ENDPOINT, appDataInd);
 }
 
 //We will need to sent the struct of the payload and know where to send it to
@@ -351,7 +268,6 @@ void send_packet(struct wireless_packet packet)
 	appDataReq.size = packet.size;
 	appDataReq.confirm = send_packet_conf;
 	NWK_DataReq(&appDataReq);
-
 }
 
 //When a packet is received, parse the data into the correct queues

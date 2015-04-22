@@ -9401,7 +9401,7 @@ OUTPUT(register.elf elf32-littlearm)
  .comment       0x0000005b       0x33 ../src/ASF/thirdparty/wireless/services/common_hw_timer/sam0/lib\libsam0_lib_hw_timer.a(common_hw_timer.o)
                                  0x34 (size before relaxing)
 
-.debug_info     0x00000000    0x295f9
+.debug_info     0x00000000    0x295ef
  .debug_info    0x00000000      0x269 src/ASF/common2/services/delay/sam0/systick_counter.o
  .debug_info    0x00000269      0x1ec src/ASF/common/utils/interrupt/interrupt_sam_nvic.o
  .debug_info    0x00000455     0x14c2 src/ASF/sam0/boards/samr21_xplained_pro/board_init.o
@@ -9433,10 +9433,10 @@ OUTPUT(register.elf elf32-littlearm)
  .debug_info    0x0001e8a8     0x1c9d src/ASF/thirdparty/wireless/services/common_hw_timer/sam0/hw_timer.o
  .debug_info    0x00020545      0x517 src/ASF/thirdparty/wireless/services/sal/at86rf2xx/src/sal.o
  .debug_info    0x00020a5c     0x6e16 src/ASF/thirdparty/wireless/services/trx_access/trx_access.o
- .debug_info    0x00027872     0x1a7f src/Peer2Peer.o
- .debug_info    0x000292f1      0x308 ../src/ASF/thirdparty/wireless/services/common_hw_timer/sam0/lib\libsam0_lib_hw_timer.a(common_hw_timer.o)
+ .debug_info    0x00027872     0x1a75 src/Peer2Peer.o
+ .debug_info    0x000292e7      0x308 ../src/ASF/thirdparty/wireless/services/common_hw_timer/sam0/lib\libsam0_lib_hw_timer.a(common_hw_timer.o)
 
-.debug_abbrev   0x00000000     0x54c6
+.debug_abbrev   0x00000000     0x54cf
  .debug_abbrev  0x00000000      0x13c src/ASF/common2/services/delay/sam0/systick_counter.o
  .debug_abbrev  0x0000013c       0xf6 src/ASF/common/utils/interrupt/interrupt_sam_nvic.o
  .debug_abbrev  0x00000232      0x25f src/ASF/sam0/boards/samr21_xplained_pro/board_init.o
@@ -9468,8 +9468,8 @@ OUTPUT(register.elf elf32-littlearm)
  .debug_abbrev  0x0000454f      0x3e9 src/ASF/thirdparty/wireless/services/common_hw_timer/sam0/hw_timer.o
  .debug_abbrev  0x00004938      0x171 src/ASF/thirdparty/wireless/services/sal/at86rf2xx/src/sal.o
  .debug_abbrev  0x00004aa9      0x52f src/ASF/thirdparty/wireless/services/trx_access/trx_access.o
- .debug_abbrev  0x00004fd8      0x3c0 src/Peer2Peer.o
- .debug_abbrev  0x00005398      0x12e ../src/ASF/thirdparty/wireless/services/common_hw_timer/sam0/lib\libsam0_lib_hw_timer.a(common_hw_timer.o)
+ .debug_abbrev  0x00004fd8      0x3c9 src/Peer2Peer.o
+ .debug_abbrev  0x000053a1      0x12e ../src/ASF/thirdparty/wireless/services/common_hw_timer/sam0/lib\libsam0_lib_hw_timer.a(common_hw_timer.o)
 
 .debug_loc      0x00000000     0xabb9
  .debug_loc     0x00000000       0xe4 src/ASF/common2/services/delay/sam0/systick_counter.o

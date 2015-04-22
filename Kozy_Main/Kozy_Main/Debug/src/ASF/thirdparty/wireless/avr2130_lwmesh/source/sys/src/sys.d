@@ -105,6 +105,9 @@ src/ASF/thirdparty/wireless/avr2130_lwmesh/source/sys/src/sys.d \
  ../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/inc/nwkGroup.h \
  ../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/inc/nwkSecurity.h \
  ../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/inc/nwkDataReq.h \
+ ../src/ASF/thirdparty/wireless/services/sal/inc/sal.h \
+ ../src/ASF/thirdparty/wireless/services/sal/inc/sal_types.h \
+ ../src/ASF/thirdparty/wireless/services/sal/inc/sal_generic.h \
  ../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/sys/inc/sys.h \
  ../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/sys/inc/sysConfig.h \
  ../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/sys/inc/sysTimer.h \
@@ -358,6 +361,12 @@ c:\program\ files\ (x86)\atmel\atmel\ toolchain\arm\ gcc\native\4.8.1443\arm-gnu
 ../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/inc/nwkSecurity.h:
 
 ../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/nwk/inc/nwkDataReq.h:
+
+../src/ASF/thirdparty/wireless/services/sal/inc/sal.h:
+
+../src/ASF/thirdparty/wireless/services/sal/inc/sal_types.h:
+
+../src/ASF/thirdparty/wireless/services/sal/inc/sal_generic.h:
 
 ../src/ASF/thirdparty/wireless/avr2130_lwmesh/source/sys/inc/sys.h:
 

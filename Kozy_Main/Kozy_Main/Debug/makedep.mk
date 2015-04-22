@@ -66,8 +66,6 @@ src\ASF\thirdparty\wireless\services\sal\at86rf2xx\src\sal.c
 
 src\ASF\thirdparty\wireless\services\trx_access\trx_access.c
 
-src\config\lcd.c
-
 src\ASF\common\utils\interrupt\interrupt_sam_nvic.c
 
 src\ASF\sam0\boards\samr21_xplained_pro\board_init.c

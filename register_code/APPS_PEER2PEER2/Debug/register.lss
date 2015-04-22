@@ -15,23 +15,23 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
   5 .comment      0000008e  00000000  00000000  00010098  2**0
                   CONTENTS, READONLY
-  6 .debug_info   000295f9  00000000  00000000  00010126  2**0
+  6 .debug_info   000295ef  00000000  00000000  00010126  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 000054c6  00000000  00000000  0003971f  2**0
+  7 .debug_abbrev 000054cf  00000000  00000000  00039715  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_loc    0000abb9  00000000  00000000  0003ebe5  2**0
+  8 .debug_loc    0000abb9  00000000  00000000  0003ebe4  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_aranges 00000a28  00000000  00000000  0004979e  2**0
+  9 .debug_aranges 00000a28  00000000  00000000  0004979d  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_ranges 00000ee8  00000000  00000000  0004a1c6  2**0
+ 10 .debug_ranges 00000ee8  00000000  00000000  0004a1c5  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_macro  0001de49  00000000  00000000  0004b0ae  2**0
+ 11 .debug_macro  0001de49  00000000  00000000  0004b0ad  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_line   0001655e  00000000  00000000  00068ef7  2**0
+ 12 .debug_line   0001655e  00000000  00000000  00068ef6  2**0
                   CONTENTS, READONLY, DEBUGGING
- 13 .debug_str    00084ef4  00000000  00000000  0007f455  2**0
+ 13 .debug_str    00084ef4  00000000  00000000  0007f454  2**0
                   CONTENTS, READONLY, DEBUGGING
- 14 .debug_frame  00001b2c  00000000  00000000  0010434c  2**2
+ 14 .debug_frame  00001b2c  00000000  00000000  00104348  2**2
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -9339,7 +9339,7 @@ void open_register(void)
 		port_base->OUTCLR.reg = pin_mask;
     3c96:	4c08      	ldr	r4, [pc, #32]	; (3cb8 <open_register+0x24>)
     3c98:	2680      	movs	r6, #128	; 0x80
-    3c9a:	02f6      	lsls	r6, r6, #11
+    3c9a:	01b6      	lsls	r6, r6, #6
     3c9c:	6166      	str	r6, [r4, #20]
 	PortGroup *const port_base = port_get_group_from_gpio_pin(gpio_pin);
 	uint32_t pin_mask  = (1UL << (gpio_pin % 32));
@@ -9348,7 +9348,7 @@ void open_register(void)
 	if (level) {
 		port_base->OUTSET.reg = pin_mask;
     3c9e:	2580      	movs	r5, #128	; 0x80
-    3ca0:	032d      	lsls	r5, r5, #12
+    3ca0:	056d      	lsls	r5, r5, #21
     3ca2:	61a5      	str	r5, [r4, #24]
 	port_pin_set_output_level(GPIO_1, false);
 	port_pin_set_output_level(GPIO_2, true);
@@ -9386,12 +9386,12 @@ void close_register(void)
 		port_base->OUTSET.reg = pin_mask;
     3cc6:	4c08      	ldr	r4, [pc, #32]	; (3ce8 <close_register+0x24>)
     3cc8:	2680      	movs	r6, #128	; 0x80
-    3cca:	02f6      	lsls	r6, r6, #11
+    3cca:	01b6      	lsls	r6, r6, #6
     3ccc:	61a6      	str	r6, [r4, #24]
 	} else {
 		port_base->OUTCLR.reg = pin_mask;
     3cce:	2580      	movs	r5, #128	; 0x80
-    3cd0:	032d      	lsls	r5, r5, #12
+    3cd0:	056d      	lsls	r5, r5, #21
     3cd2:	6165      	str	r5, [r4, #20]
 	port_pin_set_output_level(GPIO_1, true);
 	port_pin_set_output_level(GPIO_2, false);
@@ -9535,13 +9535,13 @@ void pin_init(void)
     3d6c:	7063      	strb	r3, [r4, #1]
 
 		port_pin_set_config(GPIO_1, &config_port_pin);
-    3d6e:	2012      	movs	r0, #18
+    3d6e:	200d      	movs	r0, #13
     3d70:	1c21      	adds	r1, r4, #0
     3d72:	4d07      	ldr	r5, [pc, #28]	; (3d90 <pin_init+0x34>)
     3d74:	47a8      	blx	r5
 
 		port_pin_set_config(GPIO_2, &config_port_pin);
-    3d76:	2013      	movs	r0, #19
+    3d76:	201c      	movs	r0, #28
     3d78:	1c21      	adds	r1, r4, #0
     3d7a:	47a8      	blx	r5
 
@@ -9552,10 +9552,10 @@ void pin_init(void)
 		port_base->OUTCLR.reg = pin_mask;
     3d7c:	4b05      	ldr	r3, [pc, #20]	; (3d94 <pin_init+0x38>)
     3d7e:	2280      	movs	r2, #128	; 0x80
-    3d80:	02d2      	lsls	r2, r2, #11
+    3d80:	0192      	lsls	r2, r2, #6
     3d82:	615a      	str	r2, [r3, #20]
     3d84:	2280      	movs	r2, #128	; 0x80
-    3d86:	0312      	lsls	r2, r2, #12
+    3d86:	0552      	lsls	r2, r2, #21
     3d88:	615a      	str	r2, [r3, #20]
 		
 		port_pin_set_output_level(GPIO_1, false);

@@ -15,8 +15,8 @@
 #define OPEN	1
 #define CLOSE	0
 
-#define GPIO_1 EXT1_PIN_7//PA18
-#define GPIO_2 EXT1_PIN_8//PA19
+#define GPIO_1 EXT1_PIN_5//PA13
+#define GPIO_2 EXT1_PIN_6//PA28
 
 #ifdef NWK_ENABLE_SECURITY
   #define APP_BUFFER_SIZE     (NWK_MAX_PAYLOAD_SIZE - NWK_SECURITY_MIC_SIZE)
@@ -88,7 +88,7 @@ static void appSendData(void)
 static bool appDataInd(NWK_DataInd_t *ind)
 {
 	LED_Toggle(LED0);
-	for (uint8_t i = 0; i < ind->size; i++) {
+		for (uint8_t i = 0; i < ind->size; i++) {
 		rx_data[i] = ind->data[i];
 	}
 	

@@ -63,6 +63,7 @@
 #include "sysTimer.h"
 #include "sio2host.h"
 #include "asf.h"
+#include "conf_sio2host.h"
 
 /*- Definitions ------------------------------------------------------------*/
 #ifdef NWK_ENABLE_SECURITY
@@ -72,6 +73,7 @@
 #endif
 
 static uint8_t rx_data[APP_RX_BUF_SIZE];
+static struct usart_module cdc_uart_module;
 
 /*- Types ------------------------------------------------------------------*/
 typedef enum AppState_t {
@@ -171,6 +173,7 @@ static bool appDataInd(NWK_DataInd_t *ind)
 	for (uint8_t i = 0; i < ind->size; i++) {
 		rx_data[i] = ind->data[i];
 	}
+	printf("received!");
 	APP_TaskHandler();
 	return true;
 }
@@ -196,6 +199,21 @@ static void appInit(void)
 	appTimer.handler = appTimerHandler;
 }
 
+static void configure_console(void)
+{
+	struct usart_config usart_conf;
+
+	usart_get_config_defaults(&usart_conf);
+	usart_conf.mux_setting = HOST_SERCOM_MUX_SETTING;
+	usart_conf.pinmux_pad0 = HOST_SERCOM_PINMUX_PAD0;
+	usart_conf.pinmux_pad1 = HOST_SERCOM_PINMUX_PAD1;
+	usart_conf.pinmux_pad2 = HOST_SERCOM_PINMUX_PAD2;
+	usart_conf.pinmux_pad3 = HOST_SERCOM_PINMUX_PAD3;
+	usart_conf.baudrate    = 9600;
+
+	stdio_serial_init(&cdc_uart_module, USART_HOST, &usart_conf);
+	usart_enable(&cdc_uart_module);
+}
 int main(void)
 {
 	irq_initialize_vectors();
@@ -208,6 +226,8 @@ int main(void)
 	#endif
 	SYS_Init();
 	//sio2host_init();
+	configure_console();
+	printf("we made it");
 	cpu_irq_enable();
 	LED_On(LED0);
 	appInit();
